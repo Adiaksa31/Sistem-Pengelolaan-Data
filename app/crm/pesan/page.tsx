@@ -1,8 +1,135 @@
 import Link from "next/link";
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
+import BtnData from "../components/btnData";
+import Table from "../components/table";
+import Aksi from "../components/aksi";
+import Pagination from "../components/pagination";
 
 export default function Pesan() {
+  const modalContent = (
+    <div className="p-4">
+      <h1 className="text-center font-bold text-xl">Tambah Data Pesan/Kontak</h1>
+      <br />
+      <form className="w-full max-w-lg">
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Nama Pelanggan
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama Pelanggan..." />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                  Keterangan
+                </label>
+                <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Kategori
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Kategori --</option>
+                    <option>Keluhan</option>
+                    <option>Booking Service</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+            </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Cabang
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Cabang --</option>
+                    <option>Kartini</option>
+                    <option>Tuban</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+            </div>
+            </div>
+      </form>
+    </div>
+  );
+  const mdlEditDataContent = (
+    <div className="p-4">
+      <h1 className="text-center font-bold text-xl">Edit Data Pesan/Kontak</h1>
+      <br />
+      <form className="w-full max-w-lg">
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Nama Pelanggan
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama Pelanggan..." />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                  Keterangan
+                </label>
+                <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Kategori
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Kategori --</option>
+                    <option>Keluhan</option>
+                    <option>Booking Service</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+            </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Cabang
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Cabang --</option>
+                    <option>Kartini</option>
+                    <option>Tuban</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+            </div>
+            </div>
+      </form>
+    </div>
+  );
+  const tableData = {
+    headers: ['No', 'Nama Pelanggan', 'Keterangan', 'Kategori', 'Cabang', 'Status', 'Action'],
+    rows: [
+      [1, ' Syahrul', 'Saya setelah service kenapa motor tarikan berasa jadi berat dan tidak bertenaga', 'Keluhan', 'Kartini', 'Pending', <div key="aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
+    
+    ],
+  };
   return (
   <>
     <NavAdmAts />
@@ -30,100 +157,18 @@ export default function Pesan() {
                   </svg>
               </div>
           </div>
-          <div className="flex space-x-1 items-center font-bold text-xs px-4 md:px-5 py-1.5 text-white rounded bg-green-600">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-              <Link href="#">data</Link>
-          </div>
+          <BtnData
+           content={modalContent}
+          ></BtnData>
         </div>
       </div>
-    <div className="relative overflow-x-auto shadow">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
-                <tr>
-                    <th scope="col" className="px-4 py-3">
-                        No
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Nama Pelanggan
-                    </th> 
-                    <th scope="col" className="px-6 py-3">
-                        Keteranagn
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Kategori
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Cabang
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Status
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Action
-                  </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr className="bg-white border-b">
-                    <th scope="row" className="px-4 py-4 font-medium text-black whitespace-nowrap ">
-                        1
-                    </th>
-                    <td className="px-6 py-4">
-                        Syahrul
-                    </td>
-                    <td className="px-6 py-4">
-                        Saya setelah service 
-                        kenapa motor tarikan
-                        berasa jadi berat
-                        dan tidak bertenaga
-                    </td>
-                    <td className="px-6 py-4">
-                        Keluhan
-                    </td>
-                    <td className="px-6 py-4">
-                        Tuban
-                    </td>
-                    <td className="px-6 py-4">
-                        <span  className="font-medium text-yellow-500">Pending</span>
-                    </td>
-                    <td className="px-6 py-4 space-x-4">
-                      <a href="#"><span className="bg-yellow-500 text-white text-sm font-medium me-2 px-2.5 py-1.5 rounded">Edit</span></a>
-                      <a href="#"><span className="bg-red-500 text-white text-sm font-medium me-2 px-2.5 py-1.5 rounded ">Delete</span></a>
-                      <br /><br />
-                      <a href="#"><span className="bg-blue-500 text-white text-sm font-medium me-2 px-2.5 py-1.5 rounded ">Lihat detail</span></a>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
+      <div>
+      <Table data={tableData} 
+      />
     </div>
     <br />
-    <div className="flex justify-center">
-        <nav aria-label="Page navigation example">
-        <ul className="flex items-center -space-x-px h-8 text-sm">
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-D32124 ">
-              <span className="sr-only">Previous</span>
-              <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a href="#" aria-current="page" className="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-D32124 dark:bg-D32124 dark:text-white">1</a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-D32124 ">
-              <span className="sr-only">Next</span>
-              <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-              </svg>
-            </a>
-          </li>
-        </ul>
-      </nav>  
-    </div>
+    <Pagination />
+        
         
     </div>
     </div>

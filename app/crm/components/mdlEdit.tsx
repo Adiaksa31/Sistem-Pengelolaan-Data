@@ -1,7 +1,7 @@
 import React from 'react'; 
 
 
-const Modal: React.FC<{ children: React.ReactNode; } & any> = ({ children, isOpen, onClose}) => {
+const MdlEdit: React.FC<{ children: React.ReactNode; } & any> = ({ children, isOpen, onClose}) => {
     if (!isOpen) return null;
   return (
     <>
@@ -33,4 +33,4 @@ const Modal: React.FC<{ children: React.ReactNode; } & any> = ({ children, isOpe
   );
 };
 
-export default Modal;
+export default MdlEdit;

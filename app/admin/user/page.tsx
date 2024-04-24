@@ -1,6 +1,7 @@
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import BtnData from "../components/btnData";
+import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
 
@@ -8,14 +9,143 @@ import Pagination from "../components/pagination";
 export default function User() {
   const modalContent = (
     <div className="p-4">
-      <h1 className="text-center font-bold">Tambah Data user</h1>
-      <form action="" method="post">
-      <div className="input-box">
-          <input type="text" name="name" placeholder="Name" required/>
-        </div>
+      <h1 className="text-center font-bold text-xl">Tambah Data user</h1>
+      <br />
+      <form className="w-full max-w-lg">
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Nama
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Username
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Username..." />
+                <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                  Password
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" />
+                <p className="text-gray-600 text-xs italic">Buat Password yang unik dan mudah diingat.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-2">
+            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Posisi
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Posisi --</option>
+                    <option>Administrator</option>
+                    <option>Kepala Mekanik</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Cabang
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Cabang --</option>
+                    <option>Kartini</option>
+                    <option>Tuban</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
       </form>
     </div>
   );
+  const mdlEditDataContent = (
+    <div className="p-4">
+      <h1 className="text-center font-bold text-xl">Edit Data user</h1>
+      <br />
+      <form className="w-full max-w-lg">
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Nama
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Username
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Username..." />
+                <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                  Password
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" />
+                <p className="text-gray-600 text-xs italic">Buat Password yang unik dan mudah diingat.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-2">
+            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Posisi
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Posisi --</option>
+                    <option>Administrator</option>
+                    <option>Kepala Mekanik</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Cabang
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                  <option disabled selected>-- Pilih Cabang --</option>
+                    <option>Kartini</option>
+                    <option>Tuban</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </form>
+    </div>
+  );
+  const tableData = {
+    headers: ['No', 'Nama', 'Email', 'Posisi', 'Cabang', 'Action'],
+    rows: [
+      [1, 'Ardibeni', 'ardibeni@gmail.com', 'Kepala Mekanik', 'Tuban', <div key="aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
+    
+    ],
+  };
   return (
   <>
     <NavAdmAts />
@@ -41,56 +171,9 @@ export default function User() {
           ></BtnData>
         </div>
       </div>
-    <div className="relative overflow-x-auto shadow">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                <tr>
-                    <th scope="col" className="px-4 py-3">
-                        No
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Nama
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Email
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Posisi
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Cabang
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Action
-                  </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr className="bg-white border-b">
-                    <th scope="row" className="px-4 py-4 font-medium text-black whitespace-nowrap ">
-                        1
-                    </th>
-                    <td className="px-6 py-4">
-                        Ardibeni
-                    </td>
-                    <td className="px-6 py-4">
-                        ardibeni@gmail.com
-                    </td>
-                    <td className="px-6 py-4">
-                        Kepala Mekanik
-                    </td>
-                    <td className="px-6 py-4">
-                        Tuban
-                    </td>
-                    <td className="px-6 py-4">
-                    <div className="container mx-auto">
-                      <Aksi>
-                      </Aksi>
-                    </div>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
+    <div>
+      <Table data={tableData} 
+      />
     </div>
     <br />
     <Pagination />
