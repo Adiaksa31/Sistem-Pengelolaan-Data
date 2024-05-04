@@ -12,7 +12,6 @@ export default function AddUser() {
   const [posisi_id, setPosisi_id] = useState("");
   const [cabang_id, setCabang_id] = useState("");
 
-
   async function addUser(e: SyntheticEvent) {
     e.preventDefault();
   

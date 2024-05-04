@@ -2,6 +2,7 @@
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import AddUser from "./addUser";
+import DeleteUser from "./deleteUser";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
@@ -30,6 +31,7 @@ async function getUsers() {
   return res;
 }
 type User = {
+  id: number;
   nama: string;
   email: string;
   nomor: number;
@@ -133,7 +135,8 @@ export default function User() {
       user.status,
     
       <div key={`aksi-${index}`} className="container mx-auto">
-        <Aksi content={mdlEditDataContent} />
+        <Aksi content={mdlEditDataContent} > 
+        <DeleteUser {...user} /> </Aksi>
       </div>
     ]),
   };
