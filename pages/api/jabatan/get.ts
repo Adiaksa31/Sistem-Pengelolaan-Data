@@ -29,9 +29,13 @@ export default async function handler(
                     limit: req.body.limit,
                 }
     
-                await schema.validate(dataRequest).catch((err) => {
-                    return res.status(400).json({ status: 'error', message: err.errors[0] });
+                const validation = await schema.validate(dataRequest).catch((err) => {
+                    return err.errors[0];
                 });
+
+                if (!validation) {
+                    return res.status(400).json({ status: 'error', message: validation });
+                }
     
                 const { nama_posisi, status, paginate, page, limit } = req.body;
 

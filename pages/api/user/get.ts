@@ -37,9 +37,13 @@ export default async function handler(
                     limit: req.body.limit,
                 }
     
-                await schema.validate(dataRequest).catch((err) => {
-                    return res.status(400).json({ status: 'error', message: err.errors[0] });
+                const validation = await schema.validate(dataRequest).catch((err) => {
+                    return err.errors[0];
                 });
+
+                if (!validation) {
+                    return res.status(400).json({ status: 'error', message: validation });
+                }
     
                 const { nama, nomor, email, posisi_id, cabang_id, status, paginate, page, limit } = req.body;
 

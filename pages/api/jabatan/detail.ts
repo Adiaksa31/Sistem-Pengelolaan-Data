@@ -21,9 +21,13 @@ export default async function handler(
                     id: req.body.id,
                 }
     
-                await schema.validate(dataRequest).catch((err) => {
-                    return res.status(400).json({ status: 'error', message: err.errors[0] });
+                const validation = await schema.validate(dataRequest).catch((err) => {
+                    return err.errors[0];
                 });
+
+                if (!validation) {
+                    return res.status(400).json({ status: 'error', message: validation });
+                }
     
                 const { id } = req.body;
 
