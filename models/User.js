@@ -153,7 +153,8 @@ class User {
   // Metode untuk mencari data pengguna berdasarkan ID
   static async findById(id) {
     return await excuteQuery({
-      query: "SELECT * FROM user WHERE user_id = ?",
+      query:
+        "SELECT user.* , cabang_dealer.nama_cabang, posisi_user.nama_posisi FROM user JOIN cabang_dealer ON user.cabang_id = cabang_dealer.cabang_id JOIN posisi_user ON user.posisi_id = posisi_user.posisi_id WHERE user.user_id = ?",
       values: [id],
     })
       .then((result) => {
@@ -162,17 +163,23 @@ class User {
           return null;
         }
 
-        return new User(
-          user.user_id,
-          user.nama_user,
-          user.email,
-          user.nomor,
-          user.posisi_id,
-          user.cabang_id,
-          user.status_user,
-          user.created_at,
-          user.updated_at
-        );
+        return {
+          id: user.user_id,
+          nama: user.nama_user,
+          email: user.email,
+          nomor: user.nomor,
+          posisi: {
+            id: user.posisi_id,
+            nama_posisi: user.nama_posisi,
+          },
+          cabang: {
+            id: user.cabang_id,
+            nama_cabang: user.nama_cabang,
+          },
+          status: user.status_user,
+          created_at: user.created_at,
+          updated_at: user.updated_at,
+        };
       })
       .catch((error) => {
         throw new Error(error);
@@ -182,7 +189,8 @@ class User {
   // Metode untuk mencari data pengguna berdasarkan email
   static async findByEmail(email) {
     return await excuteQuery({
-      query: "SELECT * FROM user WHERE email = ?",
+      query:
+        "SELECT user.* , cabang_dealer.nama_cabang, posisi_user.nama_posisi FROM user JOIN cabang_dealer ON user.cabang_id = cabang_dealer.cabang_id JOIN posisi_user ON user.posisi_id = posisi_user.posisi_id WHERE email = ?",
       values: [email],
     })
       .then((result) => {
@@ -191,17 +199,23 @@ class User {
           return null;
         }
 
-        return new User(
-          user.user_id,
-          user.nama_user,
-          user.email,
-          user.nomor,
-          user.posisi_id,
-          user.cabang_id,
-          user.status_user,
-          user.created_at,
-          user.updated_at
-        );
+        return {
+          id: user.user_id,
+          nama: user.nama_user,
+          email: user.email,
+          nomor: user.nomor,
+          posisi: {
+            id: user.posisi_id,
+            nama_posisi: user.nama_posisi,
+          },
+          cabang: {
+            id: user.cabang_id,
+            nama_cabang: user.nama_cabang,
+          },
+          status: user.status_user,
+          created_at: user.created_at,
+          updated_at: user.updated_at,
+        };
       })
       .catch((error) => {
         throw new Error(error);
@@ -279,21 +293,27 @@ class User {
     console.log(`SELECT * FROM user ${where} ${pagination}`);
 
     return await excuteQuery({
-      query: `SELECT * FROM user ${where} ${pagination}`,
+      query: `SELECT user.* , cabang_dealer.nama_cabang, posisi_user.nama_posisi FROM user JOIN cabang_dealer ON user.cabang_id = cabang_dealer.cabang_id JOIN posisi_user ON user.posisi_id = posisi_user.posisi_id ${where} ${pagination}`,
     })
       .then((result) => {
         return result.map((user) => {
-          return new User(
-            user.user_id,
-            user.nama_user,
-            user.email,
-            user.nomor,
-            user.posisi_id,
-            user.cabang_id,
-            user.status_user,
-            user.created_at,
-            user.updated_at
-          );
+          return {
+            id: user.user_id,
+            nama: user.nama_user,
+            email: user.email,
+            nomor: user.nomor,
+            posisi: {
+              id: user.posisi_id,
+              nama_posisi: user.nama_posisi,
+            },
+            cabang: {
+              id: user.cabang_id,
+              nama_cabang: user.nama_cabang,
+            },
+            status: user.status_user,
+            created_at: user.created_at,
+            updated_at: user.updated_at,
+          };
         });
       })
       .catch((error) => {

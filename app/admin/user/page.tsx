@@ -1,9 +1,11 @@
+"use client";
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import BtnData from "../components/btnData";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
+import { useState, useEffect } from 'react';
 
 // Ini masih cara manual ngeset token, nanti bakal diubah pake cara otomatis (biasanya kamu ambil dari session aplikasi)
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDgwNzEyNiwiZXhwIjoxNzE0ODkzNTI2fQ.FBvzueAqlaBKmS_WA9gMTUq9qFnG3IHFXWWobdii1vc';
@@ -31,8 +33,23 @@ type User = {
   nama: string;
   email: string;
 }
-export default async function User() {
-  const users: User[] = await getUsers();
+export default function User() {
+  const [users, setUsers] = useState([]);
+
+  const userType = users as User[];
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const userData = await getUsers();
+        setUsers(userData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const modalContent = (
     <div className="p-4">
@@ -168,7 +185,7 @@ export default async function User() {
   );
    const tableData = {
     headers: ['No', 'Nama', 'Email', 'Action'],
-    rows: users.map((user, index) => [
+    rows: userType.map((user, index) => [
       index + 1,
       user.nama,
       user.email,

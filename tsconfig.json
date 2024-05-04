@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "middlware/authenticate.js"
+    "middlware/authenticate.js",
+    "models/User.js"
   ],
   "exclude": ["node_modules"]
 }
