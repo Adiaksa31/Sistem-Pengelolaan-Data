@@ -236,6 +236,71 @@ class User {
     }
   }
 
+  // Metode untuk mengembalikan semua data pengguna dengan filter dan pagination
+  static async allWithFilter(filter, page, limit) {
+    // Filter data pengguna berdasarkan nama, nomor, email, posisi_id, cabang_id, status, paginate, page, limit
+    let where = "";
+
+    const { nama, nomor, email, posisi_id, cabang_id, status_user } = filter;
+    if (filter) {
+      // check if each filter exists
+      if (nama) {
+        where += `nama_user LIKE '%${nama}%' AND `;
+      }
+      if (nomor) {
+        where += `nomor LIKE '%${nomor}%' AND `;
+      }
+      if (email) {
+        where += `email LIKE '%${email}%' AND `;
+      }
+      if (posisi_id) {
+        where += `posisi_id = ${posisi_id} AND `;
+      }
+      if (cabang_id) {
+        where += `cabang_id = ${cabang_id} AND `;
+      }
+      if (status_user) {
+        where += `status_user = '${status_user}' AND `;
+      }
+    }
+
+    // Remove the last "AND" from the query
+    if (where) {
+      where = `WHERE ${where.slice(0, -5)}`;
+    }
+
+    // Pagination data pengguna
+    let pagination = "";
+    if (page && limit) {
+      const offset = (page - 1) * limit;
+      pagination = `LIMIT ${limit} OFFSET ${offset}`;
+    }
+
+    console.log(`SELECT * FROM user ${where} ${pagination}`);
+
+    return await excuteQuery({
+      query: `SELECT * FROM user ${where} ${pagination}`,
+    })
+      .then((result) => {
+        return result.map((user) => {
+          return new User(
+            user.user_id,
+            user.nama_user,
+            user.email,
+            user.nomor,
+            user.posisi_id,
+            user.cabang_id,
+            user.status_user,
+            user.created_at,
+            user.updated_at
+          );
+        });
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
+
   // Relasi
   // Metode untuk menghubungkan data pengguna dengan data posisi
   getPosisiName() {

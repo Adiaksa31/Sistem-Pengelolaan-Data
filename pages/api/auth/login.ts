@@ -35,7 +35,11 @@ export default async function handler(
 
             // check if userQueryRes has key error
             if ('error' in userQueryRes) {
-                throw new Error(userQueryRes.error.sqlMessage);
+                if (userQueryRes.sqlMessage) {
+                    throw new Error(userQueryRes.error.sqlMessage);
+                } else {
+                    throw new Error(userQueryRes.error);
+                }
             } else if (userQueryRes.length === 0) {
                 return res.status(401).json({ status: 'error', message: 'Email or password is incorrect'});
             }
@@ -57,16 +61,17 @@ export default async function handler(
 
             // Set Secret key
             const secretString = process.env.JWT_SECRET;
-            const exp = process.env.JWT_EXPIRES_IN || '1h';
-    
+            const exp = process.env.JWT_EXPIRES_IN;
+
             if (!secretString) {
                 return res.status(500).json({ status: 'error', message: 'Internal server error'});
             }
             const secret = secretString.toString();
-            const expiresIn = exp.toString();
+            const expiresIn = exp ? exp.toString() : '1h';
+
 
             // Update User Model
-            const UserModel = new User(user.user_id, user.name, user.email, user.nomor, user.posisi_id, user.cabang_id, user.status_user, user.created_at, user.updated_at);
+            const UserModel = new User(user.user_id, user.nama_user, user.email, user.nomor, user.posisi_id, user.cabang_id, user.status_user, user.created_at, user.updated_at);
     
             const token = jwt.sign({ user:UserModel }, secret, { expiresIn: expiresIn });
             
@@ -79,8 +84,10 @@ export default async function handler(
         }
     } catch (error) {
         if (error instanceof Error) {
+            // console.log(error);
             return res.status(500).json({ status: 'error', message: error.message });
         } else {
+            // console.log(error);
             return res.status(500).json({ status: 'error', message: 'An error occured' });
         }
     }
