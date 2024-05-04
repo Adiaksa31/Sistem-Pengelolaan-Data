@@ -79,7 +79,7 @@ class Jabatan {
     console.log(`SELECT * FROM posisi_user ${where} ${pagination}`);
 
     return await excuteQuery({
-      query: `SELECT * FROM posisi_user ${where} ${pagination}`,
+      query: `SELECT * FROM posisi_user ${where} ${pagination} ORDER BY posisi_id DESC`,
     })
       .then((result) => {
         if (result.length) {
