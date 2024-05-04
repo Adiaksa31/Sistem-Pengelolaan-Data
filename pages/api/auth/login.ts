@@ -57,16 +57,18 @@ export default async function handler(
 
             // Set Secret key
             const secretString = process.env.JWT_SECRET;
+            const exp = process.env.JWT_EXPIRES_IN || '1h';
     
             if (!secretString) {
                 return res.status(500).json({ status: 'error', message: 'Internal server error'});
             }
             const secret = secretString.toString();
+            const expiresIn = exp.toString();
 
             // Update User Model
             const UserModel = new User(user.user_id, user.name, user.email, user.nomor, user.posisi_id, user.cabang_id, user.status_user, user.created_at, user.updated_at);
     
-            const token = jwt.sign({ user:UserModel }, secret, { expiresIn: '1h' });
+            const token = jwt.sign({ user:UserModel }, secret, { expiresIn: expiresIn });
             
             return res.status(200).json({ status: 'success', message: 'Login success', data: {
                 token: token,
