@@ -2,6 +2,7 @@
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import AddUser from "./addUser";
+import UpdateUser from "./updateUser";
 import DeleteUser from "./deleteUser";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
@@ -35,6 +36,7 @@ type User = {
   nama: string;
   email: string;
   nomor: number;
+  password: any;
   posisi: any;
   cabang: any;
   status: string;
@@ -57,72 +59,6 @@ export default function User() {
     fetchData();
   }, []);
 
-  const mdlEditDataContent = (
-    <div className="p-4">
-      <h1 className="text-center font-bold text-xl">Edit Data user</h1>
-      <br />
-      <form className="w-full max-w-lg">
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Nama
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Username
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Username..." />
-                <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-              <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                  Password
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" />
-                <p className="text-gray-600 text-xs italic">Buat Password yang unik dan mudah diingat.</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-2">
-            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Posisi
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Posisi --</option>
-                    <option>Administrator</option>
-                    <option>Kepala Mekanik</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Cabang
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Cabang --</option>
-                    <option>Kartini</option>
-                    <option>Tuban</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-      </form>
-    </div>
-  );
    const tableData = {
     headers: ['No', 'Nama', 'Email', 'Nomor', 'Jabatan', 'Cabang', 'Status', 'Action'],
     rows: userType.map((user, index) => [
@@ -135,7 +71,8 @@ export default function User() {
       user.status,
     
       <div key={`aksi-${index}`} className="container mx-auto">
-        <Aksi content={mdlEditDataContent} > 
+        <Aksi>
+        <UpdateUser {...user} /> 
         <DeleteUser {...user} /> </Aksi>
       </div>
     ]),

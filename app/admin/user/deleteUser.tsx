@@ -43,7 +43,6 @@ type User = {
     }
   
     useEffect(() => {
-      // Optionally, update other components or UI elements based on isDeleted state
     }, [isDeleted]);
   
     return (

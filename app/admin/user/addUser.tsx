@@ -16,10 +16,6 @@ export default function AddUser() {
     e.preventDefault();
   
     try {
-      // 1. Validate User Data (optional but recommended)
-      // Add validation logic for nama, email, nomor, password, posisi_id, cabang_id
-      // to ensure they meet required criteria before sending the request.
-  
       const preparedData = {
         nama,
         email,
@@ -39,8 +35,8 @@ export default function AddUser() {
       });
   
       if (!response.ok) {
-        // 2. Handle Non-OK Responses
-        const errorData = await response.json(); // Parse error details
+  
+        const errorData = await response.json();
         throw new Error(`Gagal menambahkan data: ${errorData.message || 'Unknown error'}`);
       }
   
