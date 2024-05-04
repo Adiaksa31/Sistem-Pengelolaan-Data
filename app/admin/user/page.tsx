@@ -6,7 +6,22 @@ import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
 
 
-export default function User() {
+async function getUsers() {
+  const res = await fetch('http://localhost:3000/api/user/get',
+  { method: 'POST',
+    headers:{
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDgxNDYzNiwiZXhwIjoxNzE0OTAxMDM2fQ.5Tiz9uqhFNPFdMZ9gSf9gvXuCvrf8-ioaJjafHJ0yU4',
+    }});
+  console.log(res);
+  return res.json();
+}
+type User = {
+  nama: string;
+  email: string;
+}
+export default async function User() {
+  const users: User[] = await getUsers();
+
   const modalContent = (
     <div className="p-4">
       <h1 className="text-center font-bold text-xl">Tambah Data user</h1>
@@ -139,12 +154,17 @@ export default function User() {
       </form>
     </div>
   );
-  const tableData = {
-    headers: ['No', 'Nama', 'Email', 'jabatan', 'Cabang', 'Action'],
-    rows: [
-      [1, 'Ardibeni', 'ardibeni@gmail.com', 'Kepala Mekanik', 'Tuban', <div key="aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
+   const tableData = {
+    headers: ['No', 'Nama', 'Email', 'Action'],
+    rows: users.map((user, index) => [
+      index + 1,
+      user.nama,
+      user.email,
     
-    ],
+      <div key={`aksi-${index}`} className="container mx-auto">
+        <Aksi content={mdlEditDataContent} />
+      </div>
+    ]),
   };
   return (
   <>
