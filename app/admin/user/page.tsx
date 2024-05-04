@@ -5,15 +5,27 @@ import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
 
+// Ini masih cara manual ngeset token, nanti bakal diubah pake cara otomatis (biasanya kamu ambil dari session aplikasi)
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDgwNzEyNiwiZXhwIjoxNzE0ODkzNTI2fQ.FBvzueAqlaBKmS_WA9gMTUq9qFnG3IHFXWWobdii1vc';
 
+// fungsi ini bisa di taruh di lain file kalau kamu mau (misal: hooks/useUsers.ts)
 async function getUsers() {
-  const res = await fetch('http://localhost:3000/api/user/get',
-  { method: 'POST',
+  const res = await fetch('http://localhost:3000/api/user/get',{
+    method: 'POST',
     headers:{
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDgxNDYzNiwiZXhwIjoxNzE0OTAxMDM2fQ.5Tiz9uqhFNPFdMZ9gSf9gvXuCvrf8-ioaJjafHJ0yU4',
-    }});
-  console.log(res);
-  return res.json();
+      'Authorization': 'Bearer ' + token,
+    }}).then(response => response.json())
+		.then(response => {
+      if (response.status === 'error') {
+        // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
+      } else {
+        // console.log('DATA: ', response.data); // Buat ngecek datanya
+        return response.data;
+      }
+    })
+		.catch(err => console.error(err));
+
+  return res;
 }
 type User = {
   nama: string;
