@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Modal from "../components/modal";
 
 
-const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content }) => {
+const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content, formSubmit }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = () => setIsOpen(true);
@@ -19,7 +19,7 @@ const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content }) =>
   
       Data
     </button>
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
+      <Modal isOpen={isOpen} onClose={handleCloseModal} onSubmit={formSubmit}>
         {content}
       </Modal>
     </>

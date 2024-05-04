@@ -32,6 +32,10 @@ async function getUsers() {
 type User = {
   nama: string;
   email: string;
+  nomor: number;
+  posisi: any;
+  cabang: any;
+  status: string;
 }
 export default function User() {
   const [users, setUsers] = useState([]);
@@ -118,11 +122,15 @@ export default function User() {
     </div>
   );
    const tableData = {
-    headers: ['No', 'Nama', 'Email', 'Action'],
+    headers: ['No', 'Nama', 'Email', 'Nomor', 'Jabatan', 'Cabang', 'Status', 'Action'],
     rows: userType.map((user, index) => [
       index + 1,
       user.nama,
       user.email,
+      user.nomor,
+      user.posisi.nama_posisi,
+      user.cabang.nama_cabang,
+      user.status,
     
       <div key={`aksi-${index}`} className="container mx-auto">
         <Aksi content={mdlEditDataContent} />

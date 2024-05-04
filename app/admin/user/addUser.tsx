@@ -39,7 +39,7 @@ export default function AddUser() {
 
       if (response.ok) {
         console.log('Data berhasil ditambahkan');
-        router.push('/success'); 
+        router.push('/admin/dashboard'); 
       } else {
         throw new Error('Gagal menambahkan data');
       }
@@ -136,14 +136,13 @@ export default function AddUser() {
                     </div>
                   </div>
                 </div>
-                <button className="px-4 mt-5 py-1 bg-green-600 hover:bg-green-700 text-white rounded focus:outline-none" onClick={addUser}>Submit</button>
           </form>
         </div>
       );
     return (
         <>
         <BtnData
-           content={modalContent} 
+           content={modalContent} formSubmit={addUser}
           ></BtnData>
         </>
     )
