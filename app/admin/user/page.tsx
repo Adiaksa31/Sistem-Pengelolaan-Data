@@ -140,7 +140,7 @@ export default function User() {
     </div>
   );
   const tableData = {
-    headers: ['No', 'Nama', 'Email', 'Posisi', 'Cabang', 'Action'],
+    headers: ['No', 'Nama', 'Email', 'jabatan', 'Cabang', 'Action'],
     rows: [
       [1, 'Ardibeni', 'ardibeni@gmail.com', 'Kepala Mekanik', 'Tuban', <div key="aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
     
