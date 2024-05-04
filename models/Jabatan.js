@@ -12,37 +12,44 @@ class Jabatan {
   static async create(nama_posisi, status, created_at, updated_at) {
     return await excuteQuery({
       query:
-        "INSERT INTO jabatan (posisi_id, nama_posisi, status, created_at, updated_at) VALUES (null, ?, ?, ?, ?)",
+        "INSERT INTO posisi_user (posisi_id, nama_posisi, status, created_at, updated_at) VALUES (null, ?, ?, ?, ?)",
       values: [
         nama_posisi,
         status ?? "no",
         created_at ?? new Date(),
         updated_at ?? new Date(),
       ],
-    }).finally((result) => {
-      return new Jabatan(
-        result.posisi_id,
-        nama_posisi,
-        status,
-        created_at,
-        updated_at
-      );
-    });
+    })
+      .finally((result) => {
+        return true;
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   }
 
   static async findById(id) {
     return await excuteQuery({
-      query: "SELECT * FROM jabatan WHERE posisi_id = ?",
+      query: "SELECT * FROM posisi_user WHERE posisi_id = ?",
       values: [id],
-    }).then((result) => {
-      return new Jabatan(
-        result.posisi_id,
-        result.nama_posisi,
-        result.status,
-        result.created_at,
-        result.updated_at
-      );
-    });
+    })
+      .then((result) => {
+        const jabatan = result[0];
+        if (!jabatan) {
+          return null;
+        }
+
+        return {
+          id: jabatan.posisi_id,
+          nama_posisi: jabatan.nama_posisi,
+          status: jabatan.status,
+          created_at: jabatan.created_at,
+          updated_at: jabatan.updated_at,
+        };
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   }
 
   static async allWithFilter(filter, page, limit) {
@@ -59,7 +66,7 @@ class Jabatan {
 
     // Remove the last "AND" from the query
     if (where) {
-      where = `WHERE ${where.slice(0, -5)}`;
+      where = `WHERE ${where.slice(0, -4)}`;
     }
 
     // Pagination data posisi_user
@@ -69,53 +76,70 @@ class Jabatan {
       pagination = `LIMIT ${limit} OFFSET ${offset}`;
     }
 
+    console.log(`SELECT * FROM posisi_user ${where} ${pagination}`);
+
     return await excuteQuery({
-      query: `SELECT * FROM jabatan ${where} ${pagination}`,
+      query: `SELECT * FROM posisi_user ${where} ${pagination}`,
     })
       .then((result) => {
-        return result.map((jabatan) => {
-          return new Jabatan(
-            jabatan.posisi_id,
-            jabatan.nama_posisi,
-            jabatan.status,
-            jabatan.created_at,
-            jabatan.updated_at
-          );
-        });
+        if (result.length) {
+          return result.map((posisi) => {
+            return new Jabatan(
+              posisi.posisi_id,
+              posisi.nama_posisi,
+              posisi.status,
+              posisi.created_at,
+              posisi.updated_at
+            );
+          });
+        } else {
+          return [];
+        }
       })
       .catch((error) => {
-        console.log(error);
+        throw new Error(error);
       });
   }
 
-  async update() {
+  static async update(id, nama, status, created_at, updated_at) {
+    // Dapatkan data pengguna sebelum diperbarui
+    const jabatan = await Jabatan.findById(id);
+
+    // Ambil data kosong dari parameter yang tidak diisi
+    nama = nama ?? jabatan.nama;
+    status = status ?? jabatan.status;
+    created_at = created_at ?? jabatan.created_at;
+    updated_at = updated_at ?? new Date();
+
     return await excuteQuery({
       query:
-        "UPDATE jabatan SET nama_posisi = ?, status = ?, updated_at = ? WHERE posisi_id = ?",
-      values: [this.nama_posisi, this.status, new Date(), this.id],
-    }).finally((result) => {
-      return new Jabatan(
-        this.id,
-        this.nama_posisi,
-        this.status,
-        this.created_at,
-        this.updated_at
-      );
-    });
+        "UPDATE posisi_user SET nama_posisi = ?, status = ?, created_at = ?, updated_at = ? WHERE posisi_id = ?",
+      values: [nama, status, created_at, updated_at, id],
+    })
+      .finally((result) => {
+        return new Jabatan(id, nama, created_at, updated_at);
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   }
 
   async delete() {
     return await excuteQuery({
-      query: "DELETE FROM jabatan WHERE posisi_id = ?",
+      query: "DELETE FROM posisi_user WHERE posisi_id = ?",
       values: [this.id],
-    }).finally((result) => {
-      return result;
-    });
+    })
+      .finally((result) => {
+        return result;
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   }
 
   static async delete(id) {
     return await excuteQuery({
-      query: "DELETE FROM jabatan WHERE posisi_id = ?",
+      query: "DELETE FROM posisi_user WHERE posisi_id = ?",
       values: [id],
     }).finally((result) => {
       return result;

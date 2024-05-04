@@ -5,7 +5,7 @@ import authenticate from '../../../middlware/authenticate';
 import Jabatan from '../../../models/Jabatan';
 
 const schema = yup.object().shape({
-    nama_jabatan: yup.string().nullable(),
+    nama_posisi: yup.string().nullable(),
     status: yup.string().nullable(),
     paginate: yup.boolean().nullable(),
     page: yup.number().nullable(),
@@ -22,7 +22,7 @@ export default async function handler(
                 
                 // Validate request body
                 const dataRequest = {
-                    nama_jabatan: req.body.nama,
+                    nama_posisi: req.body.nama_posisi,
                     status: req.body.status,
                     paginate: req.body.paginate,
                     page: req.body.page,
@@ -33,10 +33,10 @@ export default async function handler(
                     return res.status(400).json({ status: 'error', message: err.errors[0] });
                 });
     
-                const { nama_jabatan, status, paginate, page, limit } = req.body;
+                const { nama_posisi, status, paginate, page, limit } = req.body;
 
                 const filters = {
-                    nama_jabatan,
+                    nama_posisi,
                     status,
                 }
 
