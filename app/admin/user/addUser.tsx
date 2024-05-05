@@ -1,7 +1,6 @@
 'use client'
 import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
-import { useRouter } from "next/navigation";
 
 const token2 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDgxNDYzNiwiZXhwIjoxNzE0OTAxMDM2fQ.5Tiz9uqhFNPFdMZ9gSf9gvXuCvrf8-ioaJjafHJ0yU4';
 
@@ -13,11 +12,9 @@ export default function AddUser() {
   const [posisi_id, setPosisi_id] = useState("");
   const [cabang_id, setCabang_id] = useState("");
 
-  const router = useRouter();
-
   async function addUser(e: SyntheticEvent) {
     e.preventDefault();
-
+  
     try {
       const preparedData = {
         nama,
@@ -27,26 +24,29 @@ export default function AddUser() {
         posisi_id,
         cabang_id,
       };
-
+  
       const response = await fetch('http://localhost:3000/api/user/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token2}`, 
+          'Authorization': `Bearer ${token2}`,
         },
         body: JSON.stringify(preparedData),
       });
-
-      if (response.ok) {
-        console.log('Data berhasil ditambahkan');
-        router.push('/success'); 
-      } else {
-        throw new Error('Gagal menambahkan data');
+  
+      if (!response.ok) {
+  
+        const errorData = await response.json();
+        throw new Error(`Gagal menambahkan data: ${errorData.message || 'Unknown error'}`);
       }
+  
+      console.log('Data berhasil ditambahkan');
+      window.location.reload();
+      return response;
     } catch (error) {
-        console.error('Error:', error as Error); 
+      console.error('Error:', error as Error);
     }
-  }
+  }  
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data user</h1>
@@ -136,14 +136,13 @@ export default function AddUser() {
                     </div>
                   </div>
                 </div>
-                <button className="px-4 mt-5 py-1 bg-green-600 hover:bg-green-700 text-white rounded focus:outline-none" onClick={addUser}>Submit</button>
           </form>
         </div>
       );
     return (
         <>
         <BtnData
-           content={modalContent} 
+           content={modalContent} formSubmit={addUser}
           ></BtnData>
         </>
     )

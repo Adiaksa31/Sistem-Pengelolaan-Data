@@ -1,14 +1,29 @@
 'use client'
 import React, { useState } from 'react';
-
+import { useRouter } from "next/navigation";
 import Modal from "../components/modal";
 
 
-const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content }) => {
+const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content, formSubmit }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => setIsOpen(false);
+
+    const handleformSubmit = async (data: any) => {
+      try {
+        // Perform form data submission logic here (API calls, etc.)
+        const response = await formSubmit(data); // Assuming formSubmit returns a response
+  
+        if (response.ok) {
+          handleCloseModal();
+        } else {
+        }
+      } catch (error) {
+        // Handle general errors
+        console.error('Error:', error);
+      }
+    };
   return (
     <>
     
@@ -19,7 +34,7 @@ const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content }) =>
   
       Data
     </button>
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
+      <Modal isOpen={isOpen} onClose={handleCloseModal} onSubmit={handleformSubmit}>
         {content}
       </Modal>
     </>
