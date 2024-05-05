@@ -2,11 +2,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Data from '../../../types/Data';
 import * as yup from 'yup';
 import authenticate from '../../../middlware/authenticate';
-import Jabatan from '../../../models/Jabatan';
+import Cabang from '../../../models/Cabang';
 
 const schema = yup.object().shape({
-    nama: yup.string().required(),
-    status: yup.string().nullable()
+    id: yup.number().required(),
+    nama_cabang: yup.string().required(),
+    alamat_cabang: yup.string().nullable(),
+    nomor: yup.string().nullable(),
+    status_cabang: yup.string().nullable()
 })
 
 export default async function handler(
@@ -19,8 +22,11 @@ export default async function handler(
                 
                 // Validate request body
                 const dataRequest = {
-                    nama: req.body.nama,
-                    status: req.body.status,
+                    id: req.body.id,
+                    nama_cabang: req.body.nama_cabang,
+                    alamat_cabang: req.body.alamat_cabang,
+                    nomor: req.body.nomor,
+                    status_cabang: req.body.status_cabang,
                 }
     
                 const validation = await schema.validate(dataRequest).catch((err) => {
@@ -31,18 +37,21 @@ export default async function handler(
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     
-                const { nama, status } = req.body;
+                const { id, nama_cabang, alamat_cabang, nomor, status_cabang } = req.body;
 
-                await Jabatan.create(
-                    nama,
-                    status,
+                await Cabang.update(
+                    id,
+                    nama_cabang,
+                    alamat_cabang,
+                    nomor,
+                    status_cabang,
                     null,
                     null,
                 ).then((result) => {
                     if (result.error) {
                         return res.status(400).json({ status: 'error', message: result.error });
                     } else {
-                        return res.status(200).json({ status: 'success', message: 'Jabatan created successfully' });
+                        return res.status(200).json({ status: 'success', message: 'Cabang updated successfully' });
                     }
                 }).catch((err) => {
                     return res.status(500).json({ status: 'error', message: err.message });

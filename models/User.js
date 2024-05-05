@@ -99,6 +99,10 @@ class User {
     // Dapatkan data pengguna sebelum diperbarui
     const user = await User.findById(id);
 
+    if (!user) {
+      throw new Error("Data pengguna tidak ditemukan");
+    }
+
     // Ambil data kosong dari parameter yang tidak diisi
     nama = nama ?? user.nama;
     email = email ?? user.email;
@@ -293,7 +297,7 @@ class User {
     console.log(`SELECT * FROM user ${where} ${pagination}`);
 
     return await excuteQuery({
-      query: `SELECT user.* , cabang_dealer.nama_cabang, posisi_user.nama_posisi FROM user JOIN cabang_dealer ON user.cabang_id = cabang_dealer.cabang_id JOIN posisi_user ON user.posisi_id = posisi_user.posisi_id ${where} ${pagination} ORDER BY user_id DESC`,
+      query: `SELECT user.* , cabang_dealer.nama_cabang, posisi_user.nama_posisi FROM user JOIN cabang_dealer ON user.cabang_id = cabang_dealer.cabang_id JOIN posisi_user ON user.posisi_id = posisi_user.posisi_id ${where} ORDER BY user_id DESC ${pagination}`,
     })
       .then((result) => {
         return result.map((user) => {

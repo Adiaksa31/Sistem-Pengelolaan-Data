@@ -2,11 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Data from '../../../types/Data';
 import * as yup from 'yup';
 import authenticate from '../../../middlware/authenticate';
-import Jabatan from '../../../models/Jabatan';
+import Kategori from '../../../models/Kategori';
 
 const schema = yup.object().shape({
+    id: yup.number().required(),
     nama: yup.string().required(),
-    status: yup.string().nullable()
+    status: yup.string().required()
 })
 
 export default async function handler(
@@ -19,8 +20,9 @@ export default async function handler(
                 
                 // Validate request body
                 const dataRequest = {
+                    id: req.body.id,
                     nama: req.body.nama,
-                    status: req.body.status,
+                    status: req.body.status
                 }
     
                 const validation = await schema.validate(dataRequest).catch((err) => {
@@ -31,9 +33,10 @@ export default async function handler(
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     
-                const { nama, status } = req.body;
+                const { id, nama, status } = req.body;
 
-                await Jabatan.create(
+                await Kategori.update(
+                    id,
                     nama,
                     status,
                     null,
@@ -42,7 +45,7 @@ export default async function handler(
                     if (result.error) {
                         return res.status(400).json({ status: 'error', message: result.error });
                     } else {
-                        return res.status(200).json({ status: 'success', message: 'Jabatan created successfully' });
+                        return res.status(200).json({ status: 'success', message: 'Kategori updated successfully' });
                     }
                 }).catch((err) => {
                     return res.status(500).json({ status: 'error', message: err.message });

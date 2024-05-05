@@ -2,11 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Data from '../../../types/Data';
 import * as yup from 'yup';
 import authenticate from '../../../middlware/authenticate';
-import Jabatan from '../../../models/Jabatan';
+import Pekerjaan from '../../../models/Pekerjaan';
 
 const schema = yup.object().shape({
+    id: yup.number().required(),
     nama: yup.string().required(),
-    status: yup.string().nullable()
 })
 
 export default async function handler(
@@ -19,8 +19,8 @@ export default async function handler(
                 
                 // Validate request body
                 const dataRequest = {
+                    id: req.body.id,
                     nama: req.body.nama,
-                    status: req.body.status,
                 }
     
                 const validation = await schema.validate(dataRequest).catch((err) => {
@@ -31,18 +31,18 @@ export default async function handler(
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     
-                const { nama, status } = req.body;
+                const { id, nama } = req.body;
 
-                await Jabatan.create(
+                await Pekerjaan.update(
+                    id,
                     nama,
-                    status,
                     null,
                     null,
                 ).then((result) => {
                     if (result.error) {
                         return res.status(400).json({ status: 'error', message: result.error });
                     } else {
-                        return res.status(200).json({ status: 'success', message: 'Jabatan created successfully' });
+                        return res.status(200).json({ status: 'success', message: 'Pekerjaan updated successfully' });
                     }
                 }).catch((err) => {
                     return res.status(500).json({ status: 'error', message: err.message });

@@ -45,7 +45,7 @@ export default async function handler(
                     if (result.error) {
                         return res.status(400).json({ status: 'error', message: result.error });
                     } else {
-                        return res.status(200).json({ status: 'success', message: 'User updated successfully' });
+                        return res.status(200).json({ status: 'success', message: 'Jabatan updated successfully' });
                     }
                 }).catch((err) => {
                     return res.status(500).json({ status: 'error', message: err.message });

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Data from '../../../types/Data';
 import * as yup from 'yup';
 import authenticate from '../../../middlware/authenticate';
-import Jabatan from '../../../models/Jabatan';
+import Kategori from '../../../models/Kategori';
 
 const schema = yup.object().shape({
     nama: yup.string().required(),
@@ -33,7 +33,7 @@ export default async function handler(
     
                 const { nama, status } = req.body;
 
-                await Jabatan.create(
+                await Kategori.create(
                     nama,
                     status,
                     null,
@@ -42,7 +42,7 @@ export default async function handler(
                     if (result.error) {
                         return res.status(400).json({ status: 'error', message: result.error });
                     } else {
-                        return res.status(200).json({ status: 'success', message: 'Jabatan created successfully' });
+                        return res.status(200).json({ status: 'success', message: 'Kategori created successfully' });
                     }
                 }).catch((err) => {
                     return res.status(500).json({ status: 'error', message: err.message });

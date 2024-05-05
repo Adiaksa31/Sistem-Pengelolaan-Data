@@ -38,9 +38,9 @@ export default async function handler(
                         return res.status(400).json({ status: 'error', message: result.error });
                     } else {
                         if (result.affectedRows > 0) {
-                            return res.status(200).json({ status: 'success', message: 'User deleted successfully' });
+                            return res.status(200).json({ status: 'success', message: 'Jabatan deleted successfully' });
                         } else {
-                            return res.status(400).json({ status: 'error', message: 'User not found' });
+                            return res.status(400).json({ status: 'error', message: 'Jabatan not found' });
                         }
                     }
                 }).catch((err) => {

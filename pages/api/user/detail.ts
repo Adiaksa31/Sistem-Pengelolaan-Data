@@ -35,9 +35,9 @@ export default async function handler(
                     id,
                 ).then((result) => {
                     if (result) {
-                        return res.status(200).json({ status: 'success', message: 'User found', data: result });
+                        return res.status(200).json({ status: 'success', message: 'Fetching data success', data: result });
                     } else {
-                        return res.status(400).json({ status: 'error', message: 'User not found' });
+                        return res.status(400).json({ status: 'error', message: 'Fetching data failed' });
                     }
                 }).catch((err) => {
                     return res.status(500).json({ status: 'error', message: err.message });

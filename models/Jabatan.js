@@ -79,7 +79,7 @@ class Jabatan {
     console.log(`SELECT * FROM posisi_user ${where} ${pagination}`);
 
     return await excuteQuery({
-      query: `SELECT * FROM posisi_user ${where} ${pagination} ORDER BY posisi_id DESC`,
+      query: `SELECT * FROM posisi_user ${where} ORDER BY posisi_id DESC ${pagination}`,
     })
       .then((result) => {
         if (result.length) {
@@ -104,6 +104,10 @@ class Jabatan {
   static async update(id, nama, status, created_at, updated_at) {
     // Dapatkan data pengguna sebelum diperbarui
     const jabatan = await Jabatan.findById(id);
+
+    if (!jabatan) {
+      throw new Error("Jabatan tidak ditemukan");
+    }
 
     // Ambil data kosong dari parameter yang tidak diisi
     nama = nama ?? jabatan.nama;
