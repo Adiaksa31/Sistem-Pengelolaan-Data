@@ -23,11 +23,16 @@ type User = {
         const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus pengguna ${user.nama}?`);
         if (!confirmDelete) return;
   
-        const response = await fetch(`http://localhost:3000/api/user/delete/${userId}`, {
+        const params = new URLSearchParams();
+        params.append('id', userId.toString());
+
+        const response = await fetch('http://localhost:3000/api/user/delete', {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': `Bearer ${token3}`,
           },
+          body: params.toString(),
         });
   
         if (!response.ok) {
