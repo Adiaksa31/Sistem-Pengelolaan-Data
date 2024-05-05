@@ -1,4 +1,5 @@
 'use client'
+
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 
@@ -10,21 +11,16 @@ type User = {
     email: string;
     nomor: number;
     password: any;
-    posisi: any;
-    cabang: any;
-    status: string;
   }
 
-  export default function UpdateUser(user: User) {
+  export default function UpdateUser({ user }: { user: User }) {
     const [nama, setNama] = useState(user.nama);
     const [email, setEmail] = useState(user.email);
     const [nomor, setNomor] = useState(user.nomor);
     const [password, setPassword] = useState(user.password);
-    const [posisi_id, setPosisi_id] = useState(user.posisi.nama_posisi);
-    const [cabang_id, setCabang_id] = useState(user.cabang.nama_cabang);
     const [error, setError] = useState<string | null>(null); 
   
-    async function updateUser(e: SyntheticEvent) {
+    async function handelUpdateUser(e: SyntheticEvent) {
       e.preventDefault();
       try {
         const preparedData = {
@@ -32,11 +28,9 @@ type User = {
           email,
           nomor,
           password,
-          posisi_id,
-          cabang_id,
         };
-  
-        const response = await fetch(`http://localhost:3000/api/user/update/${user.id}`, {
+
+        const response = await fetch('http://localhost:3000/api/user/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -66,7 +60,7 @@ type User = {
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Edit Data {user.nama}</h1>
           <br />
-          <form onSubmit={updateUser} className="w-full max-w-lg">
+          <form onSubmit={handelUpdateUser} className="w-full max-w-lg">
                 <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -121,7 +115,7 @@ type User = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={updateUser}
+           content={modalContent} formSubmitEdt={handelUpdateUser}
           ></BtnEditData>
         </>
     )

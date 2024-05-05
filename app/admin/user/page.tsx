@@ -10,7 +10,7 @@ import Pagination from "../components/pagination";
 import { useState, useEffect } from 'react';
 
 // Ini masih cara manual ngeset token, nanti bakal diubah pake cara otomatis (biasanya kamu ambil dari session aplikasi)
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDgwNzEyNiwiZXhwIjoxNzE0ODkzNTI2fQ.FBvzueAqlaBKmS_WA9gMTUq9qFnG3IHFXWWobdii1vc';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDg5MzY2NSwiZXhwIjoxNzE0OTgwMDY1fQ.MonnB9wK5hLZ-wBsCZtLZuNyhVJSUSZsNMrppPAMP0M';
 
 // fungsi ini bisa di taruh di lain file kalau kamu mau (misal: hooks/useUsers.ts)
 async function getUsers() {
@@ -72,7 +72,7 @@ export default function User() {
     
       <div key={`aksi-${index}`} className="container mx-auto">
         <Aksi>
-        <UpdateUser {...user} /> 
+        <UpdateUser user={user} />
         <DeleteUser {...user} /> </Aksi>
       </div>
     ]),
