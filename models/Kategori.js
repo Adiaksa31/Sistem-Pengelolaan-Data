@@ -87,8 +87,6 @@ class Kategori {
             return new Kategori(
               kategori.kategori_id,
               kategori.nama_kategori,
-              kategori.alamat_cabang,
-              kategori.nomor,
               kategori.status_kategori,
               kategori.created_at,
               kategori.updated_at
