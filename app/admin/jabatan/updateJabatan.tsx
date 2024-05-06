@@ -14,8 +14,7 @@ type Posisi = {
 
   export default function UpdateUser({ posisi }: { posisi: Posisi }) {
     const [id, setId] = useState(posisi.id);
-    const [nama, setNama] = useState(posisi.nama);
-    const [nama_posisi, setNamaPosisi] = useState(posisi.nama_posisi);
+    const [nama, setNama] = useState(posisi.nama_posisi);
     const [status, setStatus] = useState(posisi.status);
     const [error, setError] = useState<string | null>(null); 
   
@@ -25,7 +24,6 @@ type Posisi = {
         const preparedData = {
           id,
           nama,
-          nama_posisi,
           status,
         };
 
