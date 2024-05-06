@@ -1,12 +1,58 @@
-
+'use client'
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import BtnData from "../components/btnData";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
+import { useState, useEffect } from 'react';
+
+// Ini masih cara manual ngeset token, nanti bakal diubah pake cara otomatis (biasanya kamu ambil dari session aplikasi)
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDk2NTYzMSwiZXhwIjoxNzE1MDUyMDMxfQ.pAWcRHpfq4UREZVwAKSOi-OspGGG-bt3WO7PJLxdcQ8';
+
+// fungsi ini bisa di taruh di lain file kalau kamu mau (misal: hooks/useUsers.ts)
+async function getKategoris() {
+  const res = await fetch('http://localhost:3000/api/kategori/get',{
+    method: 'POST',
+    headers:{
+      'Authorization': 'Bearer ' + token,
+    }}).then(response => response.json())
+		.then(response => {
+      if (response.status === 'error') {
+        // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
+      } else {
+        // console.log('DATA: ', response.data); // Buat ngecek datanya
+        return response.data;
+      }
+    })
+		.catch(err => console.error(err));
+
+  return res;
+}
+type Kategori = {
+  id: number;
+  nama_kategori: string;
+  status_kategori: string;
+}
+
 
 export default function Kategori() {
+  const [kategoris, setKategoris] = useState([]);
+  const kategoriType = kategoris as Kategori[];
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const kategoriData = await getKategoris();
+        setKategoris(kategoriData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   const modalContent = (
     <div className="p-4">
       <h1 className="text-center font-bold">Tambah Data Kategori</h1>
@@ -75,10 +121,15 @@ export default function Kategori() {
   );
   const tableData = {
     headers: ['No', 'Nama Kategori', 'Status', 'Action'],
-    rows: [
-      [1, 'Keluhan', 'Yes', <div key="Aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
-      
-    ],
+    rows: kategoriType.map((kategori, index) => [
+      index + 1,
+      kategori.nama_kategori,
+      kategori.status_kategori,
+    
+      <div key={`aksi-${index}`} className="container mx-auto">
+        <Aksi content={mdlEditDataContent}/>
+      </div>
+    ]),
   };
   return (
   <>
