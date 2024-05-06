@@ -1,84 +1,73 @@
-
+'use client'
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
-import BtnData from "../components/btnData";
+import AddKategori from "./addKategori";
+import DeleteKategori from "./deleteKategori";
+import UpdateKategori from "./updateKategori";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
+import { useState, useEffect } from 'react';
+
+// Ini masih cara manual ngeset token, nanti bakal diubah pake cara otomatis (biasanya kamu ambil dari session aplikasi)
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDk2NTYzMSwiZXhwIjoxNzE1MDUyMDMxfQ.pAWcRHpfq4UREZVwAKSOi-OspGGG-bt3WO7PJLxdcQ8';
+
+// fungsi ini bisa di taruh di lain file kalau kamu mau (misal: hooks/useUsers.ts)
+async function getKategoris() {
+  const res = await fetch('http://localhost:3000/api/kategori/get',{
+    method: 'POST',
+    headers:{
+      'Authorization': 'Bearer ' + token,
+    }}).then(response => response.json())
+		.then(response => {
+      if (response.status === 'error') {
+        // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
+      } else {
+        // console.log('DATA: ', response.data); // Buat ngecek datanya
+        return response.data;
+      }
+    })
+		.catch(err => console.error(err));
+
+  return res;
+}
+type Kategori = {
+  id: number;
+  nama: string;
+  nama_kategori: string;
+  status: string;
+  status_kategori: string;
+}
+
 
 export default function Kategori() {
-  const modalContent = (
-    <div className="p-4">
-      <h1 className="text-center font-bold">Tambah Data Kategori</h1>
-      <br />
-      <form className="w-full max-w-lg">
-            <div className="flex flex-wrap -mx-3 mb-6">
-              <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Nama Kategori
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama Kategori..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-2">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Status
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Status --</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-      </form>
-    </div>
-  );
-  const mdlEditDataContent = (
-    <div className="p-4">
-      <h1 className="text-center font-bold">Edit Data Kategori</h1>
-      <br />
-      <form className="w-full max-w-lg">
-            <div className="flex flex-wrap -mx-3 mb-6">
-              <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Nama Kategori
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama Kategori..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-2">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Status
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Status --</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-      </form>
-    </div>
-  );
+  const [kategoris, setKategoris] = useState([]);
+  const kategoriType = kategoris as Kategori[];
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const kategoriData = await getKategoris();
+        setKategoris(kategoriData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   const tableData = {
     headers: ['No', 'Nama Kategori', 'Status', 'Action'],
-    rows: [
-      [1, 'Keluhan', 'Yes', <div key="Aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
-      
-    ],
+    rows: kategoriType.map((kategori, index) => [
+      index + 1,
+      kategori.nama_kategori,
+      kategori.status_kategori,
+    
+      <div key={`aksi-${index}`} className="container mx-auto">
+        <Aksi><UpdateKategori kategori={kategori} /><DeleteKategori {...kategori} /> </Aksi>
+      </div>
+    ]),
   };
   return (
   <>
@@ -101,9 +90,7 @@ export default function Kategori() {
                   </svg>
               </div>
           </div>
-          <BtnData
-           content={modalContent}
-          ></BtnData>
+          <AddKategori />
         </div>
       </div>
       <div>

@@ -4,29 +4,25 @@ import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 
 const token3 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDk2NTYzMSwiZXhwIjoxNzE1MDUyMDMxfQ.pAWcRHpfq4UREZVwAKSOi-OspGGG-bt3WO7PJLxdcQ8';
-type User = {
+type Pekerjaan = {
     id: number;
     nama: string;
-    email: string;
-    nomor: number;
-    posisi: any;
-    cabang: any;
-    status: string;
+    nama_pekerjaan: string;
   }
 
-  export default function DeleteUser(user: User) {
+  export default function DeletePekerjaan(pekerjaan: Pekerjaan) {
 
     const [error, setError] = useState<string | null>(null);
   
-    async function handleDeleteUser(userId: number) {
+    async function handleDeletePekerjaan(pekerjaanId: number) {
       try {
-        const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus pengguna ${user.nama}?`);
+        const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus pengguna ${pekerjaan.nama_pekerjaan}?`);
         if (!confirmDelete) return;
   
         const params = new URLSearchParams();
-        params.append('id', userId.toString());
+        params.append('id', pekerjaanId.toString());
 
-        const response = await fetch('http://localhost:3000/api/user/delete', {
+        const response = await fetch('http://localhost:3000/api/pekerjaan/delete', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -52,7 +48,7 @@ type User = {
           <button
             type="button"
             className="rounded bg-red-600 hover:bg-red-700 px-2 py-2 text-white"
-            onClick={() => handleDeleteUser(user.id)}
+            onClick={() => handleDeletePekerjaan(pekerjaan.id)}
           >
             <FaTrashCan />
           </button>
