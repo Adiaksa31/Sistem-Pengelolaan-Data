@@ -5,20 +5,20 @@ import BtnEditData from "../components/btnEditData";
 
 const token4 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDk2NTYzMSwiZXhwIjoxNzE1MDUyMDMxfQ.pAWcRHpfq4UREZVwAKSOi-OspGGG-bt3WO7PJLxdcQ8';
 
-type Posisi = {
+type Kategori = {
     id: number;
     nama: string;
-    nama_posisi: string;
+    nama_kategori: string;
     status: string;
   }
 
-  export default function UpdateJabatan({ posisi }: { posisi: Posisi }) {
-    const [id, setId] = useState(posisi.id);
-    const [nama, setNama] = useState(posisi.nama_posisi);
-    const [status, setStatus] = useState(posisi.status);
+  export default function UpdateKategori({ kategori }: { kategori: Kategori }) {
+    const [id, setId] = useState(kategori.id);
+    const [nama, setNama] = useState(kategori.nama_kategori);
+    const [status, setStatus] = useState(kategori.status);
     const [error, setError] = useState<string | null>(null); 
   
-    async function handelUpdateJabatan(e: SyntheticEvent) {
+    async function handelUpdateKategori(e: SyntheticEvent) {
       e.preventDefault();
       try {
         const preparedData = {
@@ -27,7 +27,7 @@ type Posisi = {
           status,
         };
 
-        const response = await fetch('http://localhost:3000/api/jabatan/update', {
+        const response = await fetch('http://localhost:3000/api/kategori/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -56,9 +56,9 @@ type Posisi = {
    
     const modalContent = (
         <div className="p-4">
-          <h1 className="text-center font-bold text-xl">Edit Data {posisi.nama_posisi}</h1>
+          <h1 className="text-center font-bold text-xl">Edit Data {kategori.nama_kategori}</h1>
           <br />
-          <form onSubmit={handelUpdateJabatan} className="w-full max-w-lg">
+          <form onSubmit={handelUpdateKategori} className="w-full max-w-lg">
                 {/* hidden id */}
                 <input type="hidden" name="id" value={id} />
                 <div className="flex flex-wrap -mx-3 mb-6">
@@ -97,7 +97,7 @@ type Posisi = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdateJabatan}
+           content={modalContent} formSubmitEdt={handelUpdateKategori}
           ></BtnEditData>
         </>
     )

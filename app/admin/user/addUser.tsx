@@ -118,7 +118,7 @@ export default function AddUser() {
   }, []);  
     const modalContent = (
         <div className="p-4">
-          <h1 className="text-center font-bold text-xl">Tambah Data user</h1>
+          <h1 className="text-center font-bold text-xl">Tambah Data User</h1>
           <br />
           <form onSubmit={addUser} className="w-full max-w-lg">
                 <div className="flex flex-wrap -mx-3 mb-6">
