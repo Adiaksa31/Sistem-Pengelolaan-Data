@@ -47,7 +47,7 @@ class Pelanggan {
   ) {
     return await excuteQuery({
       query:
-        "INSERT INTO data_pekerjaan_customer (customer_id, nama, no_wa, email, tgl_lahir, agama, id_pekerjaan, jenis_kelamin, kelurahan, kecamatan, kabupaten, created_at, updated_at) VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO data_calon_customer (customer_id, nama, no_wa, email, tgl_lahir, agama, id_pekerjaan, jenis_kelamin, kelurahan, kecamatan, kabupaten, created_at, updated_at) VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       values: [
         nama,
         no_wa,
@@ -73,7 +73,7 @@ class Pelanggan {
 
   static async findById(id) {
     return await excuteQuery({
-      query: "SELECT * FROM data_pekerjaan_customer WHERE customer_id = ?",
+      query: "SELECT * FROM data_calon_customer WHERE customer_id = ?",
       values: [id],
     })
       .then((result) => {
@@ -104,7 +104,7 @@ class Pelanggan {
   }
 
   static async allWithFilter(filter, page, limit) {
-    // Filter data data_pekerjaan_customer berdasarkan nama, paginate, page, limit
+    // Filter data data_calon_customer berdasarkan nama, paginate, page, limit
     let where = "";
 
     if (filter.nama) {
@@ -152,17 +152,17 @@ class Pelanggan {
       where = `WHERE ${where.slice(0, -4)}`;
     }
 
-    // Pagination data data_pekerjaan_customer
+    // Pagination data data_calon_customer
     let pagination = "";
     if (page && limit) {
       const offset = (page - 1) * limit;
       pagination = `LIMIT ${limit} OFFSET ${offset}`;
     }
 
-    console.log(`SELECT * FROM data_pekerjaan_customer ${where} ${pagination}`);
+    console.log(`SELECT * FROM data_calon_customer ${where} ${pagination}`);
 
     return await excuteQuery({
-      query: `SELECT * FROM data_pekerjaan_customer ${where} ORDER BY customer_id DESC ${pagination}`,
+      query: `SELECT * FROM data_calon_customer ${where} ORDER BY customer_id DESC ${pagination}`,
     })
       .then((result) => {
         if (result.length) {
@@ -230,7 +230,7 @@ class Pelanggan {
 
     return await excuteQuery({
       query:
-        "UPDATE data_pekerjaan_customer SET nama = ?, created_at = ?, updated_at = ?, no_wa = ?, email = ?, tgl_lahir = ?, agama = ?, id_pekerjaan = ?, jenis_kelamin = ?, kelurahan = ?, kecamatan = ?, kabupaten = ? WHERE customer_id = ?",
+        "UPDATE data_calon_customer SET nama = ?, created_at = ?, updated_at = ?, no_wa = ?, email = ?, tgl_lahir = ?, agama = ?, id_pekerjaan = ?, jenis_kelamin = ?, kelurahan = ?, kecamatan = ?, kabupaten = ? WHERE customer_id = ?",
       values: [
         nama,
         created_at,
@@ -271,7 +271,7 @@ class Pelanggan {
 
   async delete() {
     return await excuteQuery({
-      query: "DELETE FROM data_pekerjaan_customer WHERE customer_id = ?",
+      query: "DELETE FROM data_calon_customer WHERE customer_id = ?",
       values: [this.id],
     })
       .finally((result) => {
@@ -284,7 +284,7 @@ class Pelanggan {
 
   static async delete(id) {
     return await excuteQuery({
-      query: "DELETE FROM data_pekerjaan_customer WHERE customer_id = ?",
+      query: "DELETE FROM data_calon_customer WHERE customer_id = ?",
       values: [id],
     }).finally((result) => {
       return result;
