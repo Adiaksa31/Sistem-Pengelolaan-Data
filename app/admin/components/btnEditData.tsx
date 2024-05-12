@@ -12,15 +12,12 @@ const BtnEditData: React.FC<{ children: React.ReactNode; } & any> = ({ content, 
 
     const handleformSubmitEdt = async (data: any) => {
       try {
-        // Perform form data submission logic here (API calls, etc.)
-        const response = await formSubmitEdt(data); // Assuming formSubmit returns a response
-  
+        const response = await formSubmitEdt(data);
         if (response.ok) {
           handleCloseModal();
         } else {
         }
       } catch (error) {
-        // Handle general errors
         console.error('Error:', error);
       }
     };

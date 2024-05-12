@@ -1,14 +1,25 @@
 'use client'
 import React, { useState } from 'react';
-
 import Modal from "../components/modal";
 
 
-const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content }) => {
+const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content, formSubmit }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => setIsOpen(false);
+
+    const handleformSubmit = async (data: any) => {
+      try {
+        const response = await formSubmit(data);  
+        if (response.ok) {
+          handleCloseModal();
+        } else {
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
   return (
     <>
     
@@ -19,7 +30,7 @@ const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content }) =>
   
       Data
     </button>
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
+      <Modal isOpen={isOpen} onClose={handleCloseModal} onSubmit={handleformSubmit}>
         {content}
       </Modal>
     </>

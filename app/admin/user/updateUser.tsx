@@ -3,7 +3,7 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import BtnEditData from "../components/btnEditData";
 
-const token4 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDk2NTYzMSwiZXhwIjoxNzE1MDUyMDMxfQ.pAWcRHpfq4UREZVwAKSOi-OspGGG-bt3WO7PJLxdcQ8';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNTUzNTc3MywiZXhwIjoxNzE1NjIyMTczfQ.RoZzfE9c9FQLGHzcduDGD-8f6gYS8o1Ave0MPY8PaC4';
 
 type User = {
     id: number;
@@ -45,7 +45,7 @@ type User = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token4}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(preparedData),
         });
@@ -71,7 +71,7 @@ type User = {
       const res = await fetch('http://localhost:3000/api/jabatan/get',{
         method: 'POST',
         headers:{
-          'Authorization': 'Bearer ' + token4,
+          'Authorization': 'Bearer ' + token,
         }}).then(response => response.json())
         .then(response => {
           if (response.status === 'error') {
@@ -89,7 +89,7 @@ type User = {
       const res = await fetch('http://localhost:3000/api/cabang/get',{
         method: 'POST',
         headers:{
-          'Authorization': 'Bearer ' + token4,
+          'Authorization': 'Bearer ' + token,
         }}).then(response => response.json())
         .then(response => {
           if (response.status === 'error') {

@@ -2,8 +2,7 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import BtnData from "../components/btnData";
 
-const token2 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNDk2NTYzMSwiZXhwIjoxNzE1MDUyMDMxfQ.pAWcRHpfq4UREZVwAKSOi-OspGGG-bt3WO7PJLxdcQ8';
-
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNTUzNTc3MywiZXhwIjoxNzE1NjIyMTczfQ.RoZzfE9c9FQLGHzcduDGD-8f6gYS8o1Ave0MPY8PaC4';
 export default function AddUser() {
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +28,7 @@ export default function AddUser() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token2}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(preparedData),
       });
@@ -53,7 +52,7 @@ export default function AddUser() {
     const res = await fetch('http://localhost:3000/api/jabatan/get',{
       method: 'POST',
       headers:{
-        'Authorization': 'Bearer ' + token2,
+        'Authorization': 'Bearer ' + token,
       }}).then(response => response.json())
       .then(response => {
         if (response.status === 'error') {
@@ -71,7 +70,7 @@ export default function AddUser() {
     const res = await fetch('http://localhost:3000/api/cabang/get',{
       method: 'POST',
       headers:{
-        'Authorization': 'Bearer ' + token2,
+        'Authorization': 'Bearer ' + token,
       }}).then(response => response.json())
       .then(response => {
         if (response.status === 'error') {

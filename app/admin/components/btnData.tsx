@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import { useRouter } from "next/navigation";
 import Modal from "../components/modal";
 
 
@@ -20,7 +19,6 @@ const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content, form
         } else {
         }
       } catch (error) {
-        // Handle general errors
         console.error('Error:', error);
       }
     };

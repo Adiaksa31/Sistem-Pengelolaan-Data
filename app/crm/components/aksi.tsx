@@ -1,17 +1,15 @@
 'use client'
+
 import React from 'react';
 import { FaExternalLinkAlt } from "react-icons/fa";
-import { FaTrashCan } from "react-icons/fa6";
 import BtnEditData from "../components/btnEditData";
 
 
-const Aksi: React.FC<{ children: React.ReactNode; } & any> = ({ children, content }) => {
+const Aksi: React.FC<{ children: React.ReactNode; } & any> = ({ children }) => {
    
   return (
     <>
       <div className='flex justify-start space-x-1 items-center'>
-      <BtnEditData content= {content}/>
-           <button className='rounded bg-red-600 hover:bg-red-700 p-2 text-white'><FaTrashCan /></button>
            <button className='rounded bg-blue-600 hover:bg-blue-700 p-2 text-white'><FaExternalLinkAlt/></button>
             {children}
       </div>

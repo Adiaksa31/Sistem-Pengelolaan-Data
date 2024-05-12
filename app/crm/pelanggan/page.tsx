@@ -1,103 +1,66 @@
+'use client'
 import Link from "next/link";
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
-import BtnData from "../components/btnData";
+import AddPelanggan from "./addPelanggan";
+import DeletePelanggan from "./deletePelanggan";
+import UpdatePelanggan from "./updatePelanggan";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
+import { useState, useEffect } from 'react';
+
+
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNTUzNTc3MywiZXhwIjoxNzE1NjIyMTczfQ.RoZzfE9c9FQLGHzcduDGD-8f6gYS8o1Ave0MPY8PaC4';
+
+async function getPelanggans() {
+  const res = await fetch('http://localhost:3000/api/pelanggan/get',{
+    method: 'POST',
+    headers:{
+      'Authorization': 'Bearer ' + token,
+    }}).then(response => response.json())
+		.then(response => {
+      if (response.status === 'error') {
+      } else {
+        return response.data;
+      }
+    })
+		.catch(err => console.error(err));
+
+  return res;
+}
+type Pelanggan = {
+  id: number;
+  nama: string;
+  email: string;
+  no_wa: number;
+  tgl_lahir: any;
+  agama: string;
+  id_pekerjaan: any;
+  jenis_kelamin: string;
+  kelurahan: string;
+  kecamatan: string;
+  kabupaten: string;
+}
 
 export default function Pelanggan() {
-  const modalContent = (
-    <div className="p-4">
-      <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
-      <br />
-      <form className="w-full max-w-lg">
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Nama Pelanggan
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama Pelanggan..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Nomor Wa
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor wa..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Jenis Kelamin
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Jenis Kelamin --</option>
-                    <option>Laki-Laki</option>
-                    <option>Perempuan</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-            </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Agama
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Agama --</option>
-                    <option>Hindu</option>
-                    <option>Islam</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-            </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-              <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                  Alamat
-                </label>
-                <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Tanggal Lahir
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal lahir..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Pekerjaan
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Pekerjaan --</option>
-                    <option>Pegawai Swasta</option>
-                    <option>PNS</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-            </div>
-            </div>
-      </form>
-    </div>
-  );
+  const [pelanggans, setPelanggans] = useState([]);
+
+  const pelangganType = pelanggans as Pelanggan[];
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const pelangganData = await getPelanggans();
+        setPelanggans(pelangganData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   const mdlEditDataContent = (
     <div className="p-4">
       <h1 className="text-center font-bold text-xl">Edit Data Pelanggan</h1>
@@ -190,11 +153,21 @@ export default function Pelanggan() {
     </div>
   );
   const tableData = {
-    headers: ['No', 'Nama Pelanggan', 'Nomor Wa', 'Jenis Kelamin', 'Agama', 'Alamat', 'Tanggal Lahir', 'Pekerjaan', 'Total Kontak Dealer', 'Action'],
-    rows: [
-      [1, ' Syahrul', ' 08123456789', 'Laki-Laki', 'Hindu', 'Jln Bssn', '31 Januari 2000', 'Pegawai Swasta', '1', <div key="aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
-    
-    ],
+    headers: ['No', 'Nama Pelanggan', 'Nomor Wa', 'Email', 'Jenis Kelamin', 'Agama', 'Alamat', 'Tanggal Lahir', 'Pekerjaan', 'Action'],
+    rows: pelangganType.map((pelanggan, index) => [
+      index + 1,
+      pelanggan.nama,
+      pelanggan.no_wa,
+      pelanggan.email,
+      pelanggan.jenis_kelamin,
+      pelanggan.agama,
+      `Kel.${pelanggan.kelurahan}, Kec.${pelanggan.kecamatan}, Kab.${pelanggan.kabupaten}`,
+      new Date(pelanggan.tgl_lahir).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+      pelanggan.id_pekerjaan,
+      <div key={`aksi-${index}`} className="container mx-auto">
+        <Aksi><UpdatePelanggan pelanggan={pelanggan} /> <DeletePelanggan {...pelanggan} /> </Aksi>
+      </div>
+    ]),
   };
   return (
   <>
@@ -223,9 +196,7 @@ export default function Pelanggan() {
                   </svg>
               </div>
           </div>
-          <BtnData
-           content={modalContent}
-          ></BtnData>
+          <AddPelanggan></AddPelanggan>
         </div>
       </div>
       <div>
