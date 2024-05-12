@@ -9,9 +9,7 @@ import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
 import { useState, useEffect } from 'react';
-
-
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNTUzNTc3MywiZXhwIjoxNzE1NjIyMTczfQ.RoZzfE9c9FQLGHzcduDGD-8f6gYS8o1Ave0MPY8PaC4';
+import token from "../components/token";
 
 async function getPelanggans() {
   const res = await fetch('http://localhost:3000/api/pelanggan/get',{
@@ -61,97 +59,6 @@ export default function Pelanggan() {
     fetchData();
   }, []);
 
-  const mdlEditDataContent = (
-    <div className="p-4">
-      <h1 className="text-center font-bold text-xl">Edit Data Pelanggan</h1>
-      <br />
-      <form className="w-full max-w-lg">
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Nama Pelanggan
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama Pelanggan..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Nomor Wa
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor wa..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Jenis Kelamin
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Jenis Kelamin --</option>
-                    <option>Laki-Laki</option>
-                    <option>Perempuan</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-            </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Agama
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Agama --</option>
-                    <option>Hindu</option>
-                    <option>Islam</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-            </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-              <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                  Alamat
-                </label>
-                <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Tanggal Lahir
-                </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal lahir..." />
-              </div>
-            </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Pekerjaan
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option disabled selected>-- Pilih Pekerjaan --</option>
-                    <option>Pegawai Swasta</option>
-                    <option>PNS</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-            </div>
-            </div>
-      </form>
-    </div>
-  );
   const tableData = {
     headers: ['No', 'Nama Pelanggan', 'Nomor Wa', 'Email', 'Jenis Kelamin', 'Agama', 'Alamat', 'Tanggal Lahir', 'Pekerjaan', 'Action'],
     rows: pelangganType.map((pelanggan, index) => [
