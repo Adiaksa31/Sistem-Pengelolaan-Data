@@ -1,12 +1,69 @@
+'use client'
 import Link from "next/link";
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
-import BtnData from "../components/btnData";
+import AddPesan from "./addPesan";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
 import Pagination from "../components/pagination";
+import { useState, useEffect } from 'react';
+import token from "../components/token";
+
+async function getPesanans() {
+  const res = await fetch('http://localhost:3000/api/pesanan/get',{
+    method: 'POST',
+    headers:{
+      'Authorization': 'Bearer ' + token,
+    }}).then(response => response.json())
+		.then(response => {
+      if (response.status === 'error') {
+      } else {
+        return response.data;
+      }
+    })
+		.catch(err => console.error(err));
+
+  return res;
+}
+type Pesanan = {
+  id: number;
+  kategori: any;
+    costumer: any;
+    sumber: string;
+    type_motor: string;
+    warna_motor: string;
+    model_motor: string;
+    jenis_pembayaran: string;
+    jenis_service: string;
+    jadwal_service: number;
+    jenis_sparepart: string;
+    nama_sparepart: string;
+    jenis_keluhan: string;
+    jenis_informasi: string;
+    keterangan: string;
+    cabang: any;
+    crm: any;
+    tujuan_user:any;
+    status_kontak: string;
+}
 
 export default function Pesan() {
+  const [pesanans, setPesanans] = useState([]);
+
+  const pesananType = pesanans as Pesanan[];
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const pesananData = await getPesanans();
+        setPesanans(pesananData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
   const modalContent = (
     <div className="p-4">
       <h1 className="text-center font-bold text-xl">Tambah Data Pesan/Kontak</h1>
@@ -124,12 +181,21 @@ export default function Pesan() {
     </div>
   );
   const tableData = {
-    headers: ['No', 'Nama Pelanggan', 'Keterangan', 'Kategori', 'Cabang', 'Status', 'Action'],
-    rows: [
-      [1, ' Syahrul', 'Saya setelah service kenapa motor tarikan berasa jadi berat dan tidak bertenaga', 'Keluhan', 'Kartini', 'Pending', <div key="aksi" className="container mx-auto"><Aksi content={mdlEditDataContent}/></div>],
-    
-    ],
-  };
+    headers: ['No', 'Nama Pelanggan', 'Keterangan', 'Kategori', 'Cabang', 'Admin CRM', 'Tujuan Staf', 'Status', 'Action'],
+      rows: pesananType.map((pesanan, index) => [
+        index + 1,
+        pesanan.costumer.nama,
+        pesanan.keterangan,
+        pesanan.kategori.nama,
+        pesanan.cabang.nama,
+        pesanan.crm.nama,
+        pesanan.tujuan_user.nama,
+        pesanan.status_kontak,
+        <div key={`aksi-${index}`} className="container mx-auto">
+          <Aksi> </Aksi>
+        </div>
+      ]),
+    };
   return (
   <>
     <NavAdmAts />
@@ -157,9 +223,7 @@ export default function Pesan() {
                   </svg>
               </div>
           </div>
-          <BtnData
-           content={modalContent}
-          ></BtnData>
+          <AddPesan></AddPesan>
         </div>
       </div>
       <div>
