@@ -56,44 +56,41 @@ export default function AddPelanggan() {
   }  
 
 
-  // async function getPosisis() {
-  //   const res = await fetch('http://localhost:3000/api/jabatan/get',{
-  //     method: 'POST',
-  //     headers:{
-  //       'Authorization': 'Bearer ' + token,
-  //     }}).then(response => response.json())
-  //     .then(response => {
-  //       if (response.status === 'error') {
-  //         // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
-  //       } else {
-  //         // console.log('DATA: ', response.data); // Buat ngecek datanya
-  //         return response.data;
-  //       }
-  //     })
-  //     .catch(err => console.error(err));
+  async function getPekerjaans() {
+    const res = await fetch('http://localhost:3000/api/pekerjaan/get',{
+      method: 'POST',
+      headers:{
+        'Authorization': 'Bearer ' + token,
+      }}).then(response => response.json())
+      .then(response => {
+        if (response.status === 'error') {
+        } else {
+          return response.data;
+        }
+      })
+      .catch(err => console.error(err));
   
-  //   return res;
-  // }
+    return res;
+  }
 
-  // type Posisi = {
-  //   id: number;
-  //   nama_posisi: string;
-  //   status: string;
-  // }
-  // const [posisis, setPosisis] = useState([]);
-  // const posisiType = posisis as Posisi[];
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const posisiData = await getPosisis();
-  //       setPosisis(posisiData);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   }
+  type Pekerjaan = {
+    id: number;
+    nama_pekerjaan: string;
+  }
+  const [pekerjaans, setPekerjaans] = useState([]);
+  const pekerjaanType = pekerjaans as Pekerjaan[];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const pekerjaanData = await getPekerjaans();
+        setPekerjaans(pekerjaanData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
 
-  //   fetchData();
-  // }, []);  
+    fetchData();
+  }, []);  
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
@@ -255,8 +252,11 @@ export default function AddPelanggan() {
                    value={id_pekerjaan}
                    onChange={e=>setId_pekerjaan(e.target.value)}>
                   <option disabled value="" selected>-- Pilih Pekerjaan --</option>
-                    <option>1</option>
-                    <option>2</option>
+                  {pekerjaanType.map(pekerjaan => (
+                          <option key={pekerjaan.id} value={pekerjaan.id}>
+                            {pekerjaan.nama_pekerjaan}
+                          </option>
+                        ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>

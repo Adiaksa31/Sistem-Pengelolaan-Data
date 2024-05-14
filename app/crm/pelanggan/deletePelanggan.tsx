@@ -11,7 +11,7 @@ type Pelanggan = {
     no_wa: number;
     tgl_lahir: any;
     agama: string;
-    id_pekerjaan: any;
+    pekerjaan: any;
     jenis_kelamin: string;
     kelurahan: string;
     kecamatan: string;

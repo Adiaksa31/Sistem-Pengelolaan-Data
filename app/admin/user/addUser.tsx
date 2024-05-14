@@ -74,9 +74,7 @@ export default function AddUser() {
       }}).then(response => response.json())
       .then(response => {
         if (response.status === 'error') {
-          // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
         } else {
-          // console.log('DATA: ', response.data); // Buat ngecek datanya
           return response.data;
         }
       })
