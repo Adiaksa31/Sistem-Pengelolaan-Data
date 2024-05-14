@@ -35,7 +35,7 @@ export default async function handler(
 
             // Check if email and password is correct or not from database
             const userQueryRes = await excuteQuery({
-                query: 'SELECT * FROM user WHERE email = ?',
+                query: 'SELECT user.*, cabang_dealer.nama_cabang, posisi_user.nama_posisi FROM user JOIN cabang_dealer ON user.cabang_id = cabang_dealer.cabang_id JOIN posisi_user ON user.posisi_id = posisi_user.posisi_id WHERE email = ?',
                 values: [email]
             });
 
@@ -77,7 +77,23 @@ export default async function handler(
 
 
             // Update User Model
-            const UserModel = new User(user.user_id, user.nama_user, user.email, user.nomor, user.posisi_id, user.cabang_id, user.status_user, user.created_at, user.updated_at);
+            const UserModel = {
+                id: user.user_id,
+                nama: user.nama_user,
+                email: user.email,
+                nomor: user.nomor,
+                posisi: {
+                    id: user.posisi_id,
+                    nama: user.nama_posisi
+                },
+                cabang: {
+                    id: user.cabang_id,
+                    nama: user.nama_cabang
+                },
+                status_user: user.status_user,
+                created_at: user.created_at,
+                updated_at: user.updated_at
+            }
     
             const token = jwt.sign({ user:UserModel }, secret, { expiresIn: expiresIn });
             

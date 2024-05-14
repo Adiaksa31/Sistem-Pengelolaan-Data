@@ -1,3 +1,19 @@
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1hIjoiQWd1bmciLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSIsIm5vbW9yIjoiMTExMTExMSIsInBvc2lzaV9pZCI6MSwiY2FiYW5nX2lkIjoxLCJzdGF0dXNfdXNlciI6InllcyIsImNyZWF0ZWRfYXQiOiIyMDI0LTA1LTAyVDExOjA3OjU1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wNS0wMlQxMTowNzo1NS4wMDBaIn0sImlhdCI6MTcxNTY2MTkxMiwiZXhwIjoxNzE1NzQ4MzEyfQ.PiVl3QZDUBZWGPxODEtDY-4TPxWYyDWzjr1DXtHh-80';
+const token = localStorage.getItem('token');
+
+// check if valid token
+if (!token) {
+  window.location.href = '/';
+} else {
+    // check if token expired
+    if (token) {
+        const tokenData = JSON.parse(atob(token.split('.')[1]));
+        const exp = tokenData.exp;
+        const now = new Date().getTime() / 1000;
+        if (exp < now) {
+            localStorage.removeItem('token');
+            window.location.href = '/';
+        }
+    }
+}
 
 export default token;
