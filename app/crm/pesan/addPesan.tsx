@@ -21,7 +21,7 @@ export default function AddPesan() {
   const [cabang_id, setCabang_id] = useState("");
   const [crm_id, setCrm_id] = useState("");
   const [tujuan_user, setTujuan_user] = useState("");
-  const [status_kontak, setStatus_kontak] = useState("");
+  const [status_kontak, setStatus_kontak] = useState("pending");
 
 
   async function addPesan(e: SyntheticEvent) {
