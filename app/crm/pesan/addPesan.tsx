@@ -8,16 +8,16 @@ export default function AddPesan() {
   const [kategori_id, setKategori_id] = useState("");
   const [customer_id, setCustomer_id] = useState("");
   const [sumber, setSumber] = useState("");
-  const [type_motor, setType_motor] = useState(null);
-  const [warna_motor, setWarna_motor] = useState(null);
-  const [model_motor, setModel_motor] = useState(null);
-  const [jenis_pembayaran, setJenis_pembayaran] = useState(null);
-  const [jenis_service, setJenis_service] = useState(null);
-  const [jadwal_service, setJadwal_service] = useState(null);
-  const [jenis_sparepart, setJenis_sparepart] = useState(null);
-  const [nama_sparepart, setNama_sparepart] = useState(null);
-  const [jenis_keluhan, setJenis_keluhan] = useState(null);
-  const [jenis_informasi, setJenis_informasi] = useState(null);
+  const [type_motor, setType_motor] = useState("");
+  const [warna_motor, setWarna_motor] = useState("");
+  const [model_motor, setModel_motor] = useState("");
+  const [jenis_pembayaran, setJenis_pembayaran] = useState("");
+  const [jenis_service, setJenis_service] = useState("");
+  const [jadwal_service, setJadwal_service] = useState("");
+  const [jenis_sparepart, setJenis_sparepart] = useState("");
+  const [nama_sparepart, setNama_sparepart] = useState("");
+  const [jenis_keluhan, setJenis_keluhan] = useState("");
+  const [jenis_informasi, setJenis_informasi] = useState("");
   const [keterangan, setKeterangan] = useState("");
   const [cabang_id, setCabang_id] = useState("");
   const [crm_id, setCrm_id] = useState("");
@@ -91,6 +91,22 @@ export default function AddPesan() {
   
     return res;
   }
+  async function getUsers() {
+    const res = await fetch('http://localhost:3000/api/user/get',{
+      method: 'POST',
+      headers:{
+        'Authorization': 'Bearer ' + token,
+      }}).then(response => response.json())
+      .then(response => {
+        if (response.status === 'error') {
+        } else {
+          return response.data;
+        }
+      })
+      .catch(err => console.error(err));
+  
+    return res;
+  }
   async function getKategoris() {
     const res = await fetch('http://localhost:3000/api/kategori/get',{
       method: 'POST',
@@ -137,6 +153,17 @@ export default function AddPesan() {
     kecamatan: string;
     kabupaten: string;
   }  
+  type User = {
+    id: number;
+    nama: string;
+    email: string;
+    nomor: number;
+    password: any;
+    posisi: any;
+    cabang: any;
+    status: string;
+  }
+  
   type Cabang = {
     id: number;
     nama_cabang: string;
@@ -155,6 +182,8 @@ export default function AddPesan() {
   const cabangType = cabangs as Cabang[];
   const [kategoris, setKategoris] = useState([]);
   const kategoriType = kategoris as Kategori[];
+  const [users, setUsers] = useState([]);
+  const userType = users as User[];
 
   useEffect(() => {
     async function fetchData() {
@@ -165,6 +194,8 @@ export default function AddPesan() {
         setCabangs(cabangData);
         const kategoriData = await getKategoris();
         setKategoris(kategoriData);
+        const userData = await getUsers();
+        setUsers(userData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -247,7 +278,7 @@ export default function AddPesan() {
                 </div>
             </div>
             </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Keterangan
@@ -259,28 +290,7 @@ export default function AddPesan() {
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Kategori
-                    </label>
-                    <div className="relative">
-                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
-                       value={kategori_id}
-                       onChange={e=>setKategori_id(e.target.value)}
-                       >
-                      <option selected value="" disabled>-- Pilih Kategori --</option>
-                      {kategoriType.map(kategori => (
-                          <option key={kategori.id} value={kategori.id}>
-                            {kategori.nama_kategori}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cabang
                     </label>
@@ -301,8 +311,239 @@ export default function AddPesan() {
                     </div>
                   </div>
                 </div>
+                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="w-full px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Kategori
+                    </label>
+                    <div className="relative">
+                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                       value={kategori_id}
+                       onChange={e=>setKategori_id(e.target.value)}
+                       >
+                      <option selected value="" disabled>-- Pilih Kategori --</option>
+                      {kategoriType.map(kategori => (
+                          <option key={kategori.id} value={kategori.id}>
+                            {kategori.nama_kategori}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                      </div>
+                    </div>
+                  </div>
+                  {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Keluhan' && (
+                     <div className="w-full px-10 mt-3">
+                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                       Jenis Keluhan
+                     </label>
+                     <div className="relative">
+                   <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                    value={jenis_keluhan}
+                    onChange={e=>setJenis_keluhan(e.target.value)}>
+                   <option selected value="" disabled >-- Pilih Jenis Keluhan --</option>
+                     <option>Keluhan Sepeda Motor</option>
+                     <option>Keluhan Pelayanan</option>
+                   </select>
+                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                   </div>
+                 </div>
+                 </div>
+                  )}
+                   {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Informasi' && (
+                    <div className="w-full px-10 mt-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Jenis Informasi
+                    </label>
+                    <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                   value={jenis_informasi}
+                   onChange={e=>setJenis_informasi(e.target.value)}>
+                  <option selected value="" disabled >-- Pilih Jenis Informasi --</option>
+                    <option>STNK & BPKB</option>
+                    <option>Promo</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+                </div>
+                  )}
+                     {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Sperpart' && (
+                     <div className="w-full px-10 mt-3">
+                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                       Jenis Sperpart
+                     </label>
+                     <div className="relative">
+                   <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                    value={jenis_sparepart}
+                    onChange={e=>setJenis_sparepart(e.target.value)}>
+                   <option selected value="" disabled >-- Pilih Jenis Sperpart --</option>
+                     <option>Body Motor</option>
+                     <option>Ban</option>
+                   </select>
+                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                   </div>
+                 </div>
+                 </div>
+                  )}
+
+                    {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Prospek Sale' && (
+                       <div className="flex flex-wrap -mx-3">
+                       <div className="w-full px-10 mt-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Jenis Motor
+                        </label>
+                        <div className="relative">
+                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                       value={type_motor}
+                       onChange={e=>setType_motor(e.target.value)}>
+                      <option selected value="" disabled >-- Pilih Jenis Motor --</option>
+                        <option>Vario</option>
+                        <option>Beat</option>
+                        <option>Pcx</option>
+                        <option>Steillo</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                      </div>
+                    </div>
+                    </div>
+                    <div className="w-full px-10 mt-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Warna Motor
+                        </label>
+                        <div className="relative">
+                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                       value={warna_motor}
+                       onChange={e=>setWarna_motor(e.target.value)}>
+                      <option selected value="" disabled >-- Pilih Warna Motor --</option>
+                        <option>Hitam</option>
+                        <option>Putih</option>
+                        <option>Biru</option>
+                        <option>Merah</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                      </div>
+                    </div>
+                    </div>
+                    <div className="w-full px-10 mt-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Cc Motor
+                    </label>
+                    <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                   value={model_motor}
+                   onChange={e=>setModel_motor(e.target.value)}>
+                  <option selected value="" disabled >-- Pilih Cc Motor --</option>
+                    <option>110</option>
+                    <option>125</option>
+                    <option>150</option>
+                    <option>160</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+                  </div>
+                  <div className="w-full px-10 mt-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Jenis Pembayaran
+                    </label>
+                    <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                   value={jenis_pembayaran}
+                   onChange={e=>setJenis_pembayaran(e.target.value)}>
+                  <option selected value="" disabled >-- Pilih Jenis Pembayaran --</option>
+                    <option>Kredit</option>
+                    <option>Cash</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+                  </div>
+                    </div>
+                  )}
+
+                {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Booking Service' && (
+                 <div className="flex flex-wrap -mx-3">
+                 <div className="w-full px-10 mt-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Jenis Service
+                    </label>
+                    <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                   value={jenis_service}
+                   onChange={e=>setJenis_service(e.target.value)}>
+                  <option selected value="" disabled >-- Pilih Jenis Service --</option>
+                    <option>Servis Besar</option>
+                    <option>Servis Kecil</option>
+                    <option>Ganti Oli</option>
+                    <option>Ganti Sparepart</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+                  </div>
+                  <div className="w-full px-10 mt-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Jenis Motor
+                    </label>
+                    <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                   value={type_motor}
+                   onChange={e=>setType_motor(e.target.value)}>
+                  <option selected value="" disabled >-- Pilih Jenis Motor --</option>
+                    <option>Vario</option>
+                    <option>Beat</option>
+                    <option>Pcx</option>
+                    <option>Steillo</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+                  </div>
+                  <div className="w-full px-10 mt-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Cc Motor
+                    </label>
+                    <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                   value={model_motor}
+                   onChange={e=>setModel_motor(e.target.value)}>
+                  <option selected value="" disabled >-- Pilih Cc Motor --</option>
+                    <option>110</option>
+                    <option>125</option>
+                    <option>150</option>
+                    <option>160</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
+                  </div>
+                  <div className="w-full px-10 mt-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Jadwal Service
+                    </label>
+                    <div className="relative">
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal lahir..." 
+                 value={jadwal_service}
+                 onChange={e=>setJadwal_service(e.target.value)}/>
+                </div>
+                  </div>
+                  </div>
+                )}
+                </div>
             <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
+            <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Admin CRM
                 </label>
@@ -311,8 +552,11 @@ export default function AddPesan() {
                    value={crm_id}
                    onChange={e=>setCrm_id(e.target.value)}>
                   <option selected value="" disabled >-- Pilih Crm --</option>
-                    <option>1</option>
-                    <option>2</option>
+                  {userType.filter(user => user.posisi && user.posisi.nama_posisi === 'Crm').map(filteredUser => (
+          <option key={filteredUser.id} value={filteredUser.id}>
+            {filteredUser.nama}
+          </option>
+        ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -321,7 +565,7 @@ export default function AddPesan() {
             </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
+            <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Tujuan User
                 </label>
@@ -330,8 +574,11 @@ export default function AddPesan() {
                   value={tujuan_user}
                   onChange={e=>setTujuan_user(e.target.value)}>
                   <option selected value="" disabled >-- Pilih Tujuan User --</option>
-                    <option>1</option>
-                    <option>2</option>
+                  {userType.map(user => (
+                          <option key={user.id} value={user.id}>
+                            {user.nama}
+                          </option>
+                        ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
