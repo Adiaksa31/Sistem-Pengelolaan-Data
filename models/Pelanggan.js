@@ -73,7 +73,8 @@ class Pelanggan {
 
   static async findById(id) {
     return await excuteQuery({
-      query: "SELECT * FROM data_calon_customer WHERE customer_id = ?",
+      query:
+        "SELECT * FROM data_calon_customer JOIN data_pekerjaan_customer ON data_calon_customer.id_pekerjaan = data_pekerjaan_customer.id_pekerjaan WHERE customer_id = ?",
       values: [id],
     })
       .then((result) => {
@@ -89,7 +90,10 @@ class Pelanggan {
           email: kategori.email,
           tgl_lahir: kategori.tgl_lahir,
           agama: kategori.agama,
-          id_pekerjaan: kategori.id_pekerjaan,
+          pekerjaan: {
+            id_pekerjaan: kategori.id_pekerjaan,
+            nama_pekerjaan: kategori.nama_pekerjaan,
+          },
           jenis_kelamin: kategori.jenis_kelamin,
           kelurahan: kategori.kelurahan,
           kecamatan: kategori.kecamatan,
@@ -162,26 +166,29 @@ class Pelanggan {
     console.log(`SELECT * FROM data_calon_customer ${where} ${pagination}`);
 
     return await excuteQuery({
-      query: `SELECT * FROM data_calon_customer ${where} ORDER BY customer_id DESC ${pagination}`,
+      query: `SELECT * FROM data_calon_customer JOIN data_pekerjaan_customer ON data_calon_customer.id_pekerjaan = data_pekerjaan_customer.id_pekerjaan ${where} ORDER BY customer_id DESC ${pagination}`,
     })
       .then((result) => {
         if (result.length) {
           return result.map((kategori) => {
-            return new Pelanggan(
-              kategori.customer_id,
-              kategori.nama,
-              kategori.no_wa,
-              kategori.email,
-              kategori.tgl_lahir,
-              kategori.agama,
-              kategori.id_pekerjaan,
-              kategori.jenis_kelamin,
-              kategori.kelurahan,
-              kategori.kecamatan,
-              kategori.kabupaten,
-              kategori.created_at,
-              kategori.updated_at
-            );
+            return {
+              id: kategori.customer_id,
+              nama: kategori.nama,
+              no_wa: kategori.no_wa,
+              email: kategori.email,
+              tgl_lahir: kategori.tgl_lahir,
+              agama: kategori.agama,
+              pekerjaan: {
+                id_pekerjaan: kategori.id_pekerjaan,
+                nama_pekerjaan: kategori.nama_pekerjaan,
+              },
+              jenis_kelamin: kategori.jenis_kelamin,
+              kelurahan: kategori.kelurahan,
+              kecamatan: kategori.kecamatan,
+              kabupaten: kategori.kabupaten,
+              created_at: kategori.created_at,
+              updated_at: kategori.updated_at,
+            };
           });
         } else {
           return [];
