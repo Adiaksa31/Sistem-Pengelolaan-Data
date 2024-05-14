@@ -1,6 +1,6 @@
 'use client'
 
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState, useEffect } from "react";
 import moment from "moment";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
@@ -12,19 +12,12 @@ type Pelanggan = {
     no_wa: number;
     tgl_lahir: any;
     agama: string;
+    pekerjaan: any;
     id_pekerjaan: any;
     jenis_kelamin: string;
     kelurahan: string;
     kecamatan: string;
     kabupaten: string;
-  }
-  function formatDate(dateString: string) {
-    const dateObject = new Date(dateString);
-    const day = String(dateObject.getDate()).padStart(2, '0');
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-    const year = dateObject.getFullYear();
-  
-    return `${day}/${month}/${year}`;
   }
 
   export default function UpdatePelanggan({ pelanggan }: { pelanggan: Pelanggan }) {
@@ -34,7 +27,7 @@ type Pelanggan = {
     const [no_wa, setNo_wa] = useState(pelanggan.no_wa);
     const [tgl_lahir, setTgl_lahir] = useState(pelanggan.tgl_lahir);
     const [agama, setAgama] = useState(pelanggan.agama);
-    const [id_pekerjaan, setId_pekerjaan] = useState(pelanggan.id_pekerjaan);
+    const [id_pekerjaan, setId_pekerjaan] = useState(pelanggan.pekerjaan.id_pekerjaan);
     const [jenis_kelamin, setJenis_kelamin] = useState(pelanggan.jenis_kelamin);
     const [kelurahan, setKelurahan] = useState(pelanggan.kelurahan);
     const [kecamatan, setKecamatan] = useState(pelanggan.kecamatan);
@@ -84,45 +77,41 @@ type Pelanggan = {
         setError((error as Error).message || 'Unknown error'); 
       }
     }
-    // async function getPosisis() {
-    //   const res = await fetch('http://localhost:3000/api/jabatan/get',{
-    //     method: 'POST',
-    //     headers:{
-    //       'Authorization': 'Bearer ' + token,
-    //     }}).then(response => response.json())
-    //     .then(response => {
-    //       if (response.status === 'error') {
-    //         // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
-    //       } else {
-    //         // console.log('DATA: ', response.data); // Buat ngecek datanya
-    //         return response.data;
-    //       }
-    //     })
-    //     .catch(err => console.error(err));
+    async function getPekerjaans() {
+      const res = await fetch('http://localhost:3000/api/pekerjaan/get',{
+        method: 'POST',
+        headers:{
+          'Authorization': 'Bearer ' + token,
+        }}).then(response => response.json())
+        .then(response => {
+          if (response.status === 'error') {
+          } else {
+            return response.data;
+          }
+        })
+        .catch(err => console.error(err));
     
-    //   return res;
-    // }
-
-    // type Posisi = {
-    //   id: number;
-    //   nama_posisi: string;
-    //   status: string;
-    // }
-
-    // const [posisis, setPosisis] = useState([]);
-    // const posisiType = posisis as Posisi[];
-    // useEffect(() => {
-    //   async function fetchData() {
-    //     try {
-    //       const posisiData = await getPosisis();
-    //       setPosisis(posisiData);
-    //     } catch (error) {
-    //       console.error('Error fetching data:', error);
-    //     }
-    //   }
+      return res;
+    }
   
-    //   fetchData();
-    // }, []); 
+    type Pekerjaan = {
+      id: number;
+      nama_pekerjaan: string;
+    }
+    const [pekerjaans, setPekerjaans] = useState([]);
+    const pekerjaanType = pekerjaans as Pekerjaan[];
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const pekerjaanData = await getPekerjaans();
+          setPekerjaans(pekerjaanData);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+  
+      fetchData();
+    }, []);
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Edit Data {pelanggan.nama}</h1>
@@ -172,7 +161,7 @@ type Pelanggan = {
                   <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
                    value={jenis_kelamin}
                    onChange={e=>setJenis_kelamin(e.target.value)}>
-                  <option selected value="" disabled >-- Pilih Jenis Kelamin --</option>
+                  <option selected disabled >-- Pilih Jenis Kelamin --</option>
                     <option>Laki-laki</option>
                     <option>Perempuan</option>
                   </select>
@@ -191,7 +180,7 @@ type Pelanggan = {
                   <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
                   value={agama}
                   onChange={e=>setAgama(e.target.value)}>
-                  <option selected value="" disabled >-- Pilih Agama --</option>
+                  <option selected disabled >-- Pilih Agama --</option>
                     <option>Hindu</option>
                     <option>Islam</option>
                     <option>Budha</option>
@@ -224,7 +213,7 @@ type Pelanggan = {
                       <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
                        value={kabupaten}
                        onChange={e=>setKabupaten(e.target.value)} >
-                      <option selected value="" disabled >-- Pilih --</option>
+                      <option selected disabled >-- Pilih --</option>
                         <option>Buleleng</option>
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -240,7 +229,7 @@ type Pelanggan = {
                       <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
                        value={kecamatan}
                        onChange={e=>setKecamatan(e.target.value)} >
-                      <option selected value="" disabled >-- Pilih --</option>
+                      <option selected disabled >-- Pilih --</option>
                      
                           <option>
                             Tejakula
@@ -261,7 +250,7 @@ type Pelanggan = {
                        value={kelurahan}
                        onChange={e=>setKelurahan(e.target.value)}
                        >
-                      <option selected value="" disabled >-- Pilih --</option>
+                      <option selected disabled >-- Pilih --</option>
                       
                           <option>
                               Bondalem
@@ -274,25 +263,30 @@ type Pelanggan = {
                     </div>
                   </div>
                 </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Pekerjaan
-                </label>
-                <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
-                   value={id_pekerjaan}
-                   onChange={e=>setId_pekerjaan(e.target.value)}>
-                  <option disabled value="" selected>-- Pilih Pekerjaan --</option>
-                    <option>1</option>
-                    <option>2</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+          
+                <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Pekerjaan
+                    </label>
+                    <div className="relative">
+                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                       value={id_pekerjaan}
+                       onChange={e=>setId_pekerjaan(e.target.value)}
+                       >
+                      <option disabled selected>-- Pilih Pekerjaan --</option>
+                      {pekerjaanType.map(pekerjaan => (
+                          <option key={pekerjaan.id} value={pekerjaan.id}>
+                            {pekerjaan.nama_pekerjaan}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
-            </div>
-            </div>
       </form>
         </div>
       );

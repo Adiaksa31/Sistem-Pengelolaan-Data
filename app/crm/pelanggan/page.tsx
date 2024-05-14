@@ -35,6 +35,7 @@ type Pelanggan = {
   tgl_lahir: any;
   agama: string;
   id_pekerjaan: any;
+  pekerjaan: any;
   jenis_kelamin: string;
   kelurahan: string;
   kecamatan: string;
@@ -70,7 +71,7 @@ export default function Pelanggan() {
       pelanggan.agama,
       `Kel.${pelanggan.kelurahan}, Kec.${pelanggan.kecamatan}, Kab.${pelanggan.kabupaten}`,
       new Date(pelanggan.tgl_lahir).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-      pelanggan.id_pekerjaan,
+      pelanggan.pekerjaan.nama_pekerjaan,
       <div key={`aksi-${index}`} className="container mx-auto">
         <Aksi><UpdatePelanggan pelanggan={pelanggan} /> <DeletePelanggan {...pelanggan} /> </Aksi>
       </div>
