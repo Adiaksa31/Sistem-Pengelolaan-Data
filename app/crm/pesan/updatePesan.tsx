@@ -1,7 +1,7 @@
 'use client'
 
 import { SyntheticEvent, useState, useEffect } from "react";
-import moment from "moment";
+import { useRouter } from "next/navigation";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
 
@@ -51,8 +51,8 @@ type Pesanan = {
     const [crm_id, setCrm_id] = useState(pesanan.crm.id);
     const [tujuan_user, setTujuan_user] = useState(pesanan.tujuan_user.id);
     const [status_kontak, setStatus_kontak] = useState(pesanan.status_kontak);
-    const [query, setQuery] = useState('');
     const [error, setError] = useState<string | null>(null); 
+    const router = useRouter();
   
     async function handelUpdatePesan(e: SyntheticEvent) {
       e.preventDefault();
@@ -97,7 +97,7 @@ type Pesanan = {
   
         console.log('Data berhasil diperbarui');
         setError(null); 
-        window.location.reload(); 
+        router.refresh();
         return response;
         
       } catch (error) {
@@ -118,7 +118,6 @@ type Pesanan = {
           }
         })
         .catch(err => console.error(err));
-    
       return res;
     }
     async function getKategoris() {
@@ -134,7 +133,6 @@ type Pesanan = {
           }
         })
         .catch(err => console.error(err));
-    
       return res;
     }
     async function getCabangs() {
@@ -150,7 +148,6 @@ type Pesanan = {
           }
         })
         .catch(err => console.error(err));
-    
       return res;
     }
     type User = {
@@ -197,7 +194,6 @@ type Pesanan = {
           console.error('Error fetching data:', error);
         }
       }
-  
       fetchData();
     }, []);  
     const modalContent = (

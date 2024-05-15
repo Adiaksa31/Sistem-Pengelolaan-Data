@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type Kategori = {
     id: number;
@@ -13,6 +14,7 @@ type Kategori = {
   export default function DeleteKategori(kategori: Kategori) {
 
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
   
     async function handleDeleteKategori(kategoriId: number) {
       try {
@@ -37,7 +39,7 @@ type Kategori = {
         }
   
         console.log('User deleted successfully');
-        window.location.reload();
+        router.refresh();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }

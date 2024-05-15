@@ -1,7 +1,9 @@
 'use client'
 import { SyntheticEvent, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import BtnData from "../components/btnData";
 import token from "../components/token";
+
 
 export default function AddPelanggan() {
   const [nama, setNama] = useState("");
@@ -14,6 +16,7 @@ export default function AddPelanggan() {
   const [kelurahan, setKelurahan] = useState("");
   const [kecamatan, setKecamatan] = useState("");
   const [kabupaten, setKabupaten] = useState("");
+  const router = useRouter();
 
   async function addPelanggan(e: SyntheticEvent) {
     e.preventDefault();
@@ -48,7 +51,7 @@ export default function AddPelanggan() {
       }
   
       console.log('Data berhasil ditambahkan');
-      window.location.reload();
+      router.refresh();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);
@@ -88,7 +91,6 @@ export default function AddPelanggan() {
         console.error('Error fetching data:', error);
       }
     }
-
     fetchData();
   }, []);  
     const modalContent = (
@@ -184,7 +186,7 @@ export default function AddPelanggan() {
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/3 px-3 mb-6 ">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kabupaten
                     </label>
@@ -200,7 +202,7 @@ export default function AddPelanggan() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/3 px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kecamatan
                     </label>
@@ -220,7 +222,7 @@ export default function AddPelanggan() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/3 px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kelurahan
                     </label>
@@ -243,7 +245,7 @@ export default function AddPelanggan() {
                   </div>
                 </div>
             <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6 md:mb-0">
+            <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Pekerjaan
                 </label>

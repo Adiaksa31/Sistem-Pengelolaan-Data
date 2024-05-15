@@ -12,6 +12,7 @@ import token from "../components/token";
 
 async function getUsers() {
   const res = await fetch('http://localhost:3000/api/user/get',{
+    cache: "no-store",
     method: 'POST',
     headers:{
       'Authorization': 'Bearer ' + token,
@@ -51,8 +52,8 @@ export default function User() {
         console.error('Error fetching data:', error);
       }
     }
-
-    fetchData();
+    const intervalId = setInterval(fetchData, 1000); 
+    return () => clearInterval(intervalId);
   }, []);
 
    const tableData = {

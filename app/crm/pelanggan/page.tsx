@@ -13,7 +13,8 @@ import token from "../components/token";
 
 async function getPelanggans() {
   const res = await fetch('http://localhost:3000/api/pelanggan/get',{
-    method: 'POST',
+  cache: "no-store",  
+  method: 'POST',
     headers:{
       'Authorization': 'Bearer ' + token,
     }}).then(response => response.json())
@@ -56,8 +57,8 @@ export default function Pelanggan() {
         console.error('Error fetching data:', error);
       }
     }
-
-    fetchData();
+    const intervalId = setInterval(fetchData, 1000); 
+    return () => clearInterval(intervalId);
   }, []);
 
   const tableData = {

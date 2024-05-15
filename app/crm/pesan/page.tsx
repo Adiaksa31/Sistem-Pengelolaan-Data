@@ -13,6 +13,7 @@ import token from "../components/token";
 
 async function getPesanans() {
   const res = await fetch('http://localhost:3000/api/pesanan/get',{
+    cache: "no-store",
     method: 'POST',
     headers:{
       'Authorization': 'Bearer ' + token,
@@ -67,8 +68,8 @@ export default function Pesan() {
         console.error('Error fetching data:', error);
       }
     }
-
-    fetchData();
+    const intervalId = setInterval(fetchData, 1000); 
+    return () => clearInterval(intervalId);
   }, []);
 
   const tableData = {

@@ -3,6 +3,7 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type User = {
     id: number;
@@ -25,6 +26,7 @@ type User = {
     const [cabang_id, setCabang_id] = useState(user.cabang.id);
     const [status, setStatus] = useState(user.status);
     const [error, setError] = useState<string | null>(null); 
+    const router = useRouter();
   
     async function handelUpdateUser(e: SyntheticEvent) {
       e.preventDefault();
@@ -58,7 +60,7 @@ type User = {
   
         console.log('Data berhasil diperbarui');
         setError(null); 
-        window.location.reload(); 
+        router.refresh(); 
         return response;
         
       } catch (error) {
@@ -74,9 +76,7 @@ type User = {
         }}).then(response => response.json())
         .then(response => {
           if (response.status === 'error') {
-            // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
           } else {
-            // console.log('DATA: ', response.data); // Buat ngecek datanya
             return response.data;
           }
         })
@@ -92,9 +92,7 @@ type User = {
         }}).then(response => response.json())
         .then(response => {
           if (response.status === 'error') {
-            // console.error('ERROR: ', response.message); // Buat ngecek errornya apa
           } else {
-            // console.log('DATA: ', response.data); // Buat ngecek datanya
             return response.data;
           }
         })
@@ -129,8 +127,7 @@ type User = {
         } catch (error) {
           console.error('Error fetching data:', error);
         }
-      }
-  
+      } 
       fetchData();
     }, []); 
     const modalContent = (

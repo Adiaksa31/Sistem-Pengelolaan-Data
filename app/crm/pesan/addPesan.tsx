@@ -1,5 +1,6 @@
 'use client'
 import { SyntheticEvent, useState, useEffect, ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
 import BtnData from "../components/btnData";
 import token from "../components/token";
 import Link from 'next/link';
@@ -25,7 +26,7 @@ export default function AddPesan() {
   const [status_kontak, setStatus_kontak] = useState("pending");
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<boolean>(false);
-
+  const router = useRouter();
 
   async function addPesan(e: SyntheticEvent) {
     e.preventDefault();
@@ -68,7 +69,7 @@ export default function AddPesan() {
       }
   
       console.log('Data berhasil ditambahkan');
-      window.location.reload();
+      router.refresh();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);
@@ -200,7 +201,6 @@ export default function AddPesan() {
         console.error('Error fetching data:', error);
       }
     }
-
     fetchData();
   }, []);  
   const filteredPelanggan = pelangganType.filter(pelanggan =>

@@ -2,9 +2,11 @@
 import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 export default function AddKategori() {
   const [nama, setNama] = useState("");
+  const router = useRouter();
 
   async function addKategori(e: SyntheticEvent) {
     e.preventDefault();
@@ -30,7 +32,7 @@ export default function AddKategori() {
       }
   
       console.log('Data berhasil ditambahkan');
-      window.location.reload();
+      router.refresh();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

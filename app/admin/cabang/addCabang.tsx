@@ -2,11 +2,13 @@
 import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 export default function AddCabang() {
   const [nama_cabang, setNamaCabang] = useState("");
   const [alamat_cabang, setAlamatCabang] = useState("");
   const [nomor, setNomor] = useState("");
+  const router = useRouter();
 
   async function addCabang(e: SyntheticEvent) {
     e.preventDefault();
@@ -34,7 +36,7 @@ export default function AddCabang() {
       }
   
       console.log('Data berhasil ditambahkan');
-      window.location.reload();
+      router.refresh();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

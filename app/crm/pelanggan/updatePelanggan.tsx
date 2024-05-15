@@ -4,6 +4,7 @@ import { SyntheticEvent, useState, useEffect } from "react";
 import moment from "moment";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type Pelanggan = {
     id: number;
@@ -33,6 +34,7 @@ type Pelanggan = {
     const [kecamatan, setKecamatan] = useState(pelanggan.kecamatan);
     const [kabupaten, setKabupaten] = useState(pelanggan.kabupaten);
     const [error, setError] = useState<string | null>(null); 
+    const router = useRouter();
   
     async function handelUpdatePelanggan(e: SyntheticEvent) {
       e.preventDefault();
@@ -69,7 +71,7 @@ type Pelanggan = {
   
         console.log('Data berhasil diperbarui');
         setError(null); 
-        window.location.reload(); 
+        router.refresh(); 
         return response;
         
       } catch (error) {
@@ -109,7 +111,6 @@ type Pelanggan = {
           console.error('Error fetching data:', error);
         }
       }
-  
       fetchData();
     }, []);
     const modalContent = (

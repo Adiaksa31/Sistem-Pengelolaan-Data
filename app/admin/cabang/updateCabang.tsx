@@ -3,6 +3,7 @@
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type Cabang = {
     id: number;
@@ -19,6 +20,7 @@ type Cabang = {
     const [nomor, setNomor] = useState(cabang.nomor);
     const [status_cabang, setStatusCabang] = useState(cabang.status_cabang);
     const [error, setError] = useState<string | null>(null); 
+    const router = useRouter();
   
     async function handelUpdateCabang(e: SyntheticEvent) {
       e.preventDefault();
@@ -49,7 +51,7 @@ type Cabang = {
   
         console.log('Data berhasil diperbarui');
         setError(null); 
-        window.location.reload(); 
+        router.refresh(); 
         return response;
         
       } catch (error) {

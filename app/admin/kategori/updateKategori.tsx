@@ -3,6 +3,7 @@
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type Kategori = {
     id: number;
@@ -16,6 +17,7 @@ type Kategori = {
     const [nama, setNama] = useState(kategori.nama_kategori);
     const [status, setStatus] = useState(kategori.status);
     const [error, setError] = useState<string | null>(null); 
+    const router = useRouter();
   
     async function handelUpdateKategori(e: SyntheticEvent) {
       e.preventDefault();
@@ -44,7 +46,7 @@ type Kategori = {
   
         console.log('Data berhasil diperbarui');
         setError(null); 
-        window.location.reload(); 
+        router.refresh(); 
         return response;
         
       } catch (error) {

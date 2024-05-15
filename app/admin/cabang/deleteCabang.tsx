@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type Cabang = {
     id: number;
@@ -15,6 +16,7 @@ type Cabang = {
   export default function DeleteCabang(cabang: Cabang) {
 
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
   
     async function handleDeleteCabang(cabangId: number) {
       try {
@@ -39,7 +41,7 @@ type Cabang = {
         }
   
         console.log('Jabatan deleted successfully');
-        window.location.reload();
+        router.refresh();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }

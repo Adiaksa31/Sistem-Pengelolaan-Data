@@ -2,6 +2,7 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 export default function AddUser() {
   const [nama, setNama] = useState("");
@@ -10,7 +11,7 @@ export default function AddUser() {
   const [password, setPassword] = useState("");
   const [posisi_id, setPosisi_id] = useState("");
   const [cabang_id, setCabang_id] = useState("");
-
+  const router = useRouter();
   async function addUser(e: SyntheticEvent) {
     e.preventDefault();
   
@@ -40,7 +41,7 @@ export default function AddUser() {
       }
   
       console.log('Data berhasil ditambahkan');
-      window.location.reload();
+      router.refresh();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);
@@ -110,7 +111,6 @@ export default function AddUser() {
         console.error('Error fetching data:', error);
       }
     }
-
     fetchData();
   }, []);  
     const modalContent = (

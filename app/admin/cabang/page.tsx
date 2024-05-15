@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react';
 
 async function getCabangs() {
   const res = await fetch('http://localhost:3000/api/cabang/get',{
+    cache: "no-store",
     method: 'POST',
     headers:{
       'Authorization': 'Bearer ' + token,
@@ -52,7 +53,8 @@ export default function Cabang() {
       }
     }
 
-    fetchData();
+    const intervalId = setInterval(fetchData, 1000); 
+    return () => clearInterval(intervalId);
   }, []);
 
   const tableData = {

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type User = {
     id: number;
@@ -17,6 +18,7 @@ type User = {
   export default function DeleteUser(user: User) {
 
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
   
     async function handleDeleteUser(userId: number) {
       try {
@@ -41,7 +43,7 @@ type User = {
         }
   
         console.log('User deleted successfully');
-        window.location.reload();
+        router.refresh();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }

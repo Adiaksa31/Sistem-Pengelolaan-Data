@@ -3,6 +3,7 @@
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
+import { useRouter } from "next/navigation";
 
 type Posisi = {
     id: number;
@@ -16,7 +17,7 @@ type Posisi = {
     const [nama, setNama] = useState(posisi.nama_posisi);
     const [status, setStatus] = useState(posisi.status);
     const [error, setError] = useState<string | null>(null); 
-  
+  const router = useRouter();
     async function handelUpdateJabatan(e: SyntheticEvent) {
       e.preventDefault();
       try {
@@ -44,7 +45,7 @@ type Posisi = {
   
         console.log('Data berhasil diperbarui');
         setError(null); 
-        window.location.reload(); 
+        router.refresh(); 
         return response;
         
       } catch (error) {

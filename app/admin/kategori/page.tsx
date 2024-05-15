@@ -12,6 +12,7 @@ import token from "../components/token";
 
 async function getKategoris() {
   const res = await fetch('http://localhost:3000/api/kategori/get',{
+    cache: "no-store",
     method: 'POST',
     headers:{
       'Authorization': 'Bearer ' + token,
@@ -51,7 +52,8 @@ export default function Kategori() {
       }
     }
 
-    fetchData();
+    const intervalId = setInterval(fetchData, 1000); 
+    return () => clearInterval(intervalId);
   }, []);
 
   const tableData = {
