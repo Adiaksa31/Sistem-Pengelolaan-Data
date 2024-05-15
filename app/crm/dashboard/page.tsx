@@ -1,3 +1,4 @@
+'use client'
 import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 
