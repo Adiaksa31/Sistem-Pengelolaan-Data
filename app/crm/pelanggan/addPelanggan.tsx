@@ -76,10 +76,37 @@ export default function AddPelanggan() {
     return res;
   }
 
+  async function getKabupaten() {
+    const res = await fetch('https://emsifa.github.io/api-wilayah-indonesia/api/regencies/51.json',{
+      method: 'GET',
+      headers:{
+        'Authorization': 'Bearer ' + token,
+      }}).then(response => response.json())
+      .then(response => {
+        if (response.status === 'error') {
+        } else {
+          return response.data;
+        }
+      })
+      .catch(err => console.error(err));
+  
+    return res;
+  }
+  
+
+  type Kabupaten = {
+    id: number;
+    name: string;
+  }
+
   type Pekerjaan = {
     id: number;
     nama_pekerjaan: string;
   }
+
+const [kabupatens, setKabupatens] = useState([]);
+
+const kabupatenType = kabupatens as Kabupaten[];
   const [pekerjaans, setPekerjaans] = useState([]);
   const pekerjaanType = pekerjaans as Pekerjaan[];
   useEffect(() => {
@@ -87,12 +114,17 @@ export default function AddPelanggan() {
       try {
         const pekerjaanData = await getPekerjaans();
         setPekerjaans(pekerjaanData);
+
+      const kabupatenData = await getKabupaten();
+      setKabupatens(kabupatenData);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     }
     fetchData();
   }, []);  
+  
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
@@ -195,7 +227,11 @@ export default function AddPelanggan() {
                        value={kabupaten}
                        onChange={e=>setKabupaten(e.target.value)} >
                       <option selected value="" disabled >-- Pilih --</option>
-                        <option>Buleleng</option>
+                      {kabupatenType.map(kabupaten => (
+                          <option key={kabupaten.id} value={kabupaten.id}>
+                            {kabupaten.name}
+                          </option>
+                        ))}
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
