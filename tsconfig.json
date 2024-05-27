@@ -27,7 +27,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "middlware/authenticate.js",
-    "models/User.js"
+    "models/User.js",
+    "pages/api/region/kabupaten.js"
   ],
   "exclude": ["node_modules"]
 }
