@@ -46,7 +46,6 @@ export default function AddPelanggan() {
       });
   
       if (!response.ok) {
-  
         const errorData = await response.json();
         throw new Error(`Gagal menambahkan data: ${errorData.message || 'Unknown error'}`);
       }
@@ -100,50 +99,71 @@ export default function AddPelanggan() {
     }
   }
 
-  async function getKecamatan(id:string) {
+  async function getKecamatan(id: string) {
     try {
-      const response = await fetch('/api/region/kecamatan', {
-          method: 'GET',
-          headers: {
-              'Authorization': 'Bearer ' + token,
-          },
-          body: JSON.stringify({id:id})
+      const response = await fetch(`/api/region/kecamatan?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
       });
-
+  
       if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
       const provinces = await response.json();
       console.log("Parsed JSON:", provinces);
-
+  
       return provinces;
     } catch (error) {
-        console.error("Error fetching data:", error);
-        throw error;
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  }
+ 
+  async function getKelurahan(id: string) {
+    try {
+      const response = await fetch(`/api/region/kelurahan?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const provinces = await response.json();
+      console.log("Parsed JSON:", provinces);
+  
+      return provinces;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
     }
   }
 
-  
-
-  type Kabupaten = {
+  type Region = {
     id: number;
     name: string;
   }
 
-  type Kecamatan = {
-    id: number;
-    name: string;
-  }
 
   type Pekerjaan = {
     id: number;
     nama_pekerjaan: string;
   }
 
-const [kabupatens, setKabupatens] = useState([]);
+  const [kabupatens, setKabupatens] = useState([]);
+  const [kecamatans, setKecamatans] = useState([]);
+  const [kelurahans, setKelurahans] = useState([]);
 
-const kabupatenType = kabupatens as Kabupaten[];
+  const kabupatenType = kabupatens as Region[];
+  const kecamatanType = kecamatans as Region[];
+  const kelurahanType = kelurahans as Region[];
+
   const [pekerjaans, setPekerjaans] = useState([]);
   const pekerjaanType = pekerjaans as Pekerjaan[];
   useEffect(() => {
@@ -152,8 +172,8 @@ const kabupatenType = kabupatens as Kabupaten[];
         const pekerjaanData = await getPekerjaans();
         setPekerjaans(pekerjaanData);
 
-      const kabupatenData = await getKabupaten();
-      setKabupatens(kabupatenData);
+        const kabupatenData = await getKabupaten();
+        setKabupatens(kabupatenData);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -162,6 +182,34 @@ const kabupatenType = kabupatens as Kabupaten[];
     fetchData();
   }, []);  
   
+  useEffect(() => {
+    async function fetchKecamatanData() {
+      if (kabupaten) {
+        try {
+          const kecamatanData = await getKecamatan(kabupaten);
+          setKecamatans(kecamatanData);
+        } catch (error) {
+          console.error('Error fetching kecamatan data:', error);
+        }
+      }
+    }
+    fetchKecamatanData();
+  }, [kabupaten]);
+
+  useEffect(() => {
+    async function fetchKelurahanData() {
+      if (kecamatan) {
+        try {
+          const kelurahanData = await getKelurahan(kecamatan);
+          setKelurahans(kelurahanData);
+        } catch (error) {
+          console.error('Error fetching kelurahan data:', error);
+        }
+      }
+    }
+    fetchKelurahanData();
+  }, [kecamatan]);
+
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
@@ -288,9 +336,9 @@ const kabupatenType = kabupatens as Kabupaten[];
                       <option selected value="" disabled >-- Pilih --</option>
                      
                           {
-                          kabupatenType.map(kabupaten => (
-                            <option key={kabupaten.id} value={kabupaten.id}>
-                              {kabupaten.name}
+                          kecamatanType.map(kecamatan => (
+                            <option key={kecamatan.id} value={kecamatan.id}>
+                              {kecamatan.name}
                             </option>
                           ))
                           }
@@ -311,10 +359,13 @@ const kabupatenType = kabupatens as Kabupaten[];
                        onChange={e=>setKelurahan(e.target.value)}
                        >
                       <option selected value="" disabled >-- Pilih --</option>
-                      
-                          <option>
-                              Bondalem
-                          </option>
+                      {
+                          kelurahanType.map(kelurahan => (
+                            <option key={kelurahan.id} value={kelurahan.id}>
+                              {kelurahan.name}
+                            </option>
+                          ))
+                          }
  
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
