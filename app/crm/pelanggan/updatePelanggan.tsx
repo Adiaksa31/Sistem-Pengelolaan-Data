@@ -5,6 +5,7 @@ import moment from "moment";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 
 type Pelanggan = {
     id: number;
@@ -72,7 +73,7 @@ type Pelanggan = {
           throw new Error(errorData.message || 'Unknown error'); 
         }
   
-        console.log('Data berhasil diperbarui');
+        toast({ title: `Data ${pelanggan.nama} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
         router.refresh(); 
         return response;

@@ -3,6 +3,7 @@ import { SyntheticEvent, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import BtnData from "../components/btnData";
 import token from "../components/token";
+import { toast } from "@/components/ui/use-toast";
 const fetch2 = require('node-fetch');
 
 
@@ -53,7 +54,7 @@ export default function AddPelanggan() {
         throw new Error(`Gagal menambahkan data: ${errorData.message || 'Unknown error'}`);
       }
   
-      console.log('Data berhasil ditambahkan');
+      toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
       router.refresh();
       return response;
     } catch (error) {

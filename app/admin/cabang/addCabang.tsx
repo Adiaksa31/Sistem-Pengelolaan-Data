@@ -3,6 +3,7 @@ import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 
 export default function AddCabang() {
   const [nama_cabang, setNamaCabang] = useState("");
@@ -35,7 +36,7 @@ export default function AddCabang() {
         throw new Error(`Gagal menambahkan data: ${errorData.message || 'Unknown error'}`);
       }
   
-      console.log('Data berhasil ditambahkan');
+      toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
       router.refresh();
       return response;
     } catch (error) {
