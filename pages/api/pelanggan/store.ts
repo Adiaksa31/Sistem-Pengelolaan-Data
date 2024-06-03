@@ -12,6 +12,9 @@ const schema = yup.object().shape({
     agama: yup.string().required(),
     id_pekerjaan: yup.number().required(),
     jenis_kelamin: yup.string().required(),
+    id_kelurahan: yup.number().required(),
+    id_kecamatan: yup.number().required(),
+    id_kabupaten: yup.number().required(),
     kelurahan: yup.string().required(),
     kecamatan: yup.string().required(),
     kabupaten: yup.string().required(),
@@ -34,6 +37,9 @@ export default async function handler(
                     agama: req.body.agama,
                     id_pekerjaan: req.body.id_pekerjaan,
                     jenis_kelamin: req.body.jenis_kelamin,
+                    id_kelurahan: req.body.id_kelurahan,
+                    id_kecamatan: req.body.id_kecamatan,
+                    id_kabupaten: req.body.id_kabupaten,
                     kelurahan: req.body.kelurahan,
                     kecamatan: req.body.kecamatan,
                     kabupaten: req.body.kabupaten,
@@ -47,7 +53,7 @@ export default async function handler(
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     
-                const { nama, no_wa, email, tgl_lahir, agama, id_pekerjaan, jenis_kelamin, kelurahan, kecamatan, kabupaten } = req.body;
+                const { nama, no_wa, email, tgl_lahir, agama, id_pekerjaan, jenis_kelamin, id_kelurahan, id_kecamatan, id_kabupaten, kelurahan, kecamatan, kabupaten } = req.body;
 
                 await Pelanggan.create(
                     nama,
@@ -57,6 +63,9 @@ export default async function handler(
                     agama,
                     id_pekerjaan,
                     jenis_kelamin,
+                    id_kelurahan,
+                    id_kecamatan,
+                    id_kabupaten,
                     kelurahan,
                     kecamatan,
                     kabupaten,

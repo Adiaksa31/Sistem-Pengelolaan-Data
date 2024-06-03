@@ -38,6 +38,9 @@ type Pelanggan = {
   id_pekerjaan: any;
   pekerjaan: any;
   jenis_kelamin: string;
+  id_kelurahan: any,
+  id_kecamatan: any,
+  id_kabupaten: any,
   kelurahan: string;
   kecamatan: string;
   kabupaten: string;

@@ -17,6 +17,9 @@ type Pelanggan = {
     pekerjaan: any;
     id_pekerjaan: any;
     jenis_kelamin: string;
+    id_kelurahan: any,
+    id_kecamatan: any,
+    id_kabupaten: any,
     kelurahan: string;
     kecamatan: string;
     kabupaten: string;
@@ -31,6 +34,9 @@ type Pelanggan = {
     const [agama, setAgama] = useState(pelanggan.agama);
     const [id_pekerjaan, setId_pekerjaan] = useState(pelanggan.pekerjaan.id_pekerjaan);
     const [jenis_kelamin, setJenis_kelamin] = useState(pelanggan.jenis_kelamin);
+    const [id_kelurahan, setIdKelurahan] = useState(pelanggan.id_kelurahan);
+    const [id_kecamatan, setIdKecamatan] = useState(pelanggan.id_kecamatan);
+    const [id_kabupaten, setIdKabupaten] = useState(pelanggan.id_kabupaten);
     const [kelurahan, setKelurahan] = useState(pelanggan.kelurahan);
     const [kecamatan, setKecamatan] = useState(pelanggan.kecamatan);
     const [kabupaten, setKabupaten] = useState(pelanggan.kabupaten);
@@ -43,6 +49,9 @@ type Pelanggan = {
     async function handelUpdatePelanggan(e: SyntheticEvent) {
       e.preventDefault();
       try {
+        const selectedKabupaten = kabupatenType.find(item => item.id.toString() === id_kabupaten);
+        const selectedKecamatan = kecamatanType.find(item => item.id.toString() === id_kecamatan);
+        const selectedKelurahan = kelurahanType.find(item => item.id.toString() === id_kelurahan);
         const preparedData = {
           id,
           nama,
@@ -52,10 +61,10 @@ type Pelanggan = {
           agama,
           id_pekerjaan,
           jenis_kelamin,
-          kelurahan: kelurahanName,
-          kecamatan: kecamatanName,
-          kabupaten: kabupatenName,
-        };
+           kelurahan: selectedKelurahan ? selectedKelurahan.name : "",
+        kecamatan: selectedKecamatan ? selectedKecamatan.name : "",
+        kabupaten: selectedKabupaten ? selectedKabupaten.name : "",
+      };
 
         const response = await fetch('http://localhost:3000/api/pelanggan/update', {
           method: 'POST',
@@ -206,47 +215,49 @@ type Pelanggan = {
     }, []);
 
     
-  useEffect(() => {
-    async function fetchKecamatanData() {
-      if (kabupaten) {
-        try {
-          const kecamatanData = await getKecamatan(kabupaten);
-          setKecamatans(kecamatanData);
-          
-          const selectedKabupaten = kabupatenType.find(item => item.id.toString() === kabupaten);
-          setKabupatenName(selectedKabupaten ? selectedKabupaten.name : "");
-
-        } catch (error) {
-          console.error('Error fetching kecamatan data:', error);
+    useEffect(() => {
+      async function fetchKecamatanData() {
+        if (id_kabupaten) {
+          try {
+            const kecamatanData = await getKecamatan(id_kabupaten);
+            setKecamatans(kecamatanData);
+            
+            const selectedKabupaten = kabupatenType.find(item => item.id.toString() === id_kabupaten);
+            setKabupatenName(selectedKabupaten ? selectedKabupaten.name : "");
+            setIdKabupaten(id_kabupaten);
+    
+          } catch (error) {
+            console.error('Error fetching kecamatan data:', error);
+          }
         }
       }
-    }
-    fetchKecamatanData();
-  }, [kabupaten]);
-
-  useEffect(() => {
-    async function fetchKelurahanData() {
-      if (kecamatan) {
-        try {
-          const kelurahanData = await getKelurahan(kecamatan);
-          setKelurahans(kelurahanData);
-          
-          const selectedKecamatan = kecamatanType.find(item => item.id.toString() === kecamatan);
-          setKecamatanName(selectedKecamatan ? selectedKecamatan.name : "");
-
-        } catch (error) {
-          console.error('Error fetching kelurahan data:', error);
+      fetchKecamatanData();
+    }, [kabupaten]);
+    
+    useEffect(() => {
+      async function fetchKelurahanData() {
+        if (id_kecamatan) {
+          try {
+            const kelurahanData = await getKelurahan(id_kecamatan);
+            setKelurahans(kelurahanData);
+            
+            const selectedKecamatan = kecamatanType.find(item => item.id.toString() === id_kecamatan);
+            setKecamatanName(selectedKecamatan ? selectedKecamatan.name : "");
+            setIdKecamatan(id_kecamatan);
+    
+          } catch (error) {
+            console.error('Error fetching kelurahan data:', error);
+          }
         }
       }
-    }
-    fetchKelurahanData();
-  }, [kecamatan]);
-
-  useEffect(() => {
-    const selectedKelurahan = kelurahanType.find(item => item.id.toString() === kelurahan);
-    setKelurahanName(selectedKelurahan ? selectedKelurahan.name : "");
-  }, [kelurahan]);
-
+      fetchKelurahanData();
+    }, [kecamatan]);
+    
+    useEffect(() => {
+      const selectedKelurahan = kelurahanType.find(item => item.id.toString() === id_kelurahan);
+      setKelurahanName(selectedKelurahan ? selectedKelurahan.name : "");
+      setIdKelurahan(id_kelurahan);
+    }, [kelurahan]);
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Edit Data {pelanggan.nama}</h1>
@@ -348,8 +359,8 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={kabupaten}
-                        onChange={e => setKabupaten(e.target.value)}
+                        value={id_kabupaten}
+                        onChange={e => setIdKabupaten(e.target.value)}
                       >
                         <option selected disabled>Pilih Kabupaten</option>
                         {kabupatenType.map((region) => (
@@ -371,8 +382,8 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={kecamatan}
-                        onChange={e => setKecamatan(e.target.value)}
+                        value={id_kecamatan}
+                        onChange={e => setIdKecamatan(e.target.value)}
                       >
                         <option selected disabled >Pilih Kecamatan</option>
                         {kecamatanType.map((region) => (
@@ -394,8 +405,8 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={kelurahan}
-                        onChange={e => setKelurahan(e.target.value)}
+                        value={id_kelurahan}
+                        onChange={e => setIdKelurahan(e.target.value)}
                       >
                         <option selected disabled>Pilih Kelurahan</option>
                         {kelurahanType.map((region) => (

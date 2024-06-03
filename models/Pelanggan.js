@@ -10,6 +10,9 @@ class Pelanggan {
     agama,
     id_pekerjaan,
     jenis_kelamin,
+    id_kelurahan,
+    id_kecamatan,
+    id_kabupaten,
     kelurahan,
     kecamatan,
     kabupaten,
@@ -24,6 +27,9 @@ class Pelanggan {
     this.agama = agama;
     this.id_pekerjaan = id_pekerjaan;
     this.jenis_kelamin = jenis_kelamin;
+    this.id_kelurahan = id_kelurahan;
+    this.id_kecamatan = id_kecamatan;
+    this.id_kabupaten = id_kabupaten;
     this.kelurahan = kelurahan;
     this.kecamatan = kecamatan;
     this.kabupaten = kabupaten;
@@ -39,6 +45,9 @@ class Pelanggan {
     agama,
     id_pekerjaan,
     jenis_kelamin,
+    id_kelurahan,
+    id_kecamatan,
+    id_kabupaten,
     kelurahan,
     kecamatan,
     kabupaten,
@@ -47,7 +56,7 @@ class Pelanggan {
   ) {
     return await excuteQuery({
       query:
-        "INSERT INTO data_calon_customer (customer_id, nama, no_wa, email, tgl_lahir, agama, id_pekerjaan, jenis_kelamin, kelurahan, kecamatan, kabupaten, created_at, updated_at) VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO data_calon_customer (customer_id, nama, no_wa, email, tgl_lahir, agama, id_pekerjaan, jenis_kelamin, id_kelurahan, id_kecamatan, id_kabupaten, kelurahan, kecamatan, kabupaten, created_at, updated_at) VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       values: [
         nama,
         no_wa,
@@ -56,6 +65,9 @@ class Pelanggan {
         agama,
         id_pekerjaan,
         jenis_kelamin,
+        id_kelurahan,
+        id_kecamatan,
+        id_kabupaten,
         kelurahan,
         kecamatan,
         kabupaten,
@@ -95,6 +107,9 @@ class Pelanggan {
             nama_pekerjaan: kategori.nama_pekerjaan,
           },
           jenis_kelamin: kategori.jenis_kelamin,
+          id_kelurahan: kategori.id_kelurahan,
+          id_kecamatan: kategori.id_kecamatan,
+          id_kabupaten: kategori.id_kabupaten,
           kelurahan: kategori.kelurahan,
           kecamatan: kategori.kecamatan,
           kabupaten: kategori.kabupaten,
@@ -137,6 +152,18 @@ class Pelanggan {
 
     if (filter.jenis_kelamin) {
       where += `jenis_kelamin LIKE '%${filter.jenis_kelamin}%' AND`;
+    }
+
+    if (filter.id_kelurahan) {
+      where += `id_kelurahan LIKE '%${filter.id_kelurahan}%' AND`;
+    }
+
+    if (filter.id_kecamatan) {
+      where += `id_kecamatan LIKE '%${filter.id_kecamatan}%' AND`;
+    }
+
+    if (filter.id_kabupaten) {
+      where += `id_kabupaten LIKE '%${filter.id_kabupaten}%' AND`;
     }
 
     if (filter.kelurahan) {
@@ -183,6 +210,9 @@ class Pelanggan {
                 nama_pekerjaan: kategori.nama_pekerjaan,
               },
               jenis_kelamin: kategori.jenis_kelamin,
+              id_kelurahan: kategori.id_kelurahan,
+              id_kecamatan: kategori.id_kecamatan,
+              id_kabupaten: kategori.id_kabupaten,
               kelurahan: kategori.kelurahan,
               kecamatan: kategori.kecamatan,
               kabupaten: kategori.kabupaten,
@@ -208,6 +238,9 @@ class Pelanggan {
     agama,
     id_pekerjaan,
     jenis_kelamin,
+    id_kelurahan,
+    id_kecamatan,
+    id_kabupaten,
     kelurahan,
     kecamatan,
     kabupaten,
@@ -229,6 +262,9 @@ class Pelanggan {
     agama = agama ?? kategori.agama;
     id_pekerjaan = id_pekerjaan ?? kategori.id_pekerjaan;
     jenis_kelamin = jenis_kelamin ?? kategori.jenis_kelamin;
+    id_kelurahan = id_kelurahan ?? kategori.id_kelurahan;
+    id_kecamatan = id_kecamatan ?? kategori.id_kecamatan;
+    id_kabupaten = id_kabupaten ?? kategori.id_kabupaten;
     kelurahan = kelurahan ?? kategori.kelurahan;
     kecamatan = kecamatan ?? kategori.kecamatan;
     kabupaten = kabupaten ?? kategori.kabupaten;
@@ -237,7 +273,7 @@ class Pelanggan {
 
     return await excuteQuery({
       query:
-        "UPDATE data_calon_customer SET nama = ?, created_at = ?, updated_at = ?, no_wa = ?, email = ?, tgl_lahir = ?, agama = ?, id_pekerjaan = ?, jenis_kelamin = ?, kelurahan = ?, kecamatan = ?, kabupaten = ? WHERE customer_id = ?",
+        "UPDATE data_calon_customer SET nama = ?, created_at = ?, updated_at = ?, no_wa = ?, email = ?, tgl_lahir = ?, agama = ?, id_pekerjaan = ?, jenis_kelamin = ?, id_kelurahan = ?, id_kecamatan = ?, id_kabupaten = ?, kelurahan = ?, kecamatan = ?, kabupaten = ? WHERE customer_id = ?",
       values: [
         nama,
         created_at,
@@ -248,6 +284,9 @@ class Pelanggan {
         agama,
         id_pekerjaan,
         jenis_kelamin,
+        id_kelurahan,
+        id_kecamatan,
+        id_kabupaten,
         kelurahan,
         kecamatan,
         kabupaten,
@@ -264,6 +303,9 @@ class Pelanggan {
           agama,
           id_pekerjaan,
           jenis_kelamin,
+          id_kelurahan,
+          id_kecamatan,
+          id_kabupaten,
           kelurahan,
           kecamatan,
           kabupaten,

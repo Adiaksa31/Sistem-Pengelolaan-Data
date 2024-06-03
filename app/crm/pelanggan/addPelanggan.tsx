@@ -6,7 +6,6 @@ import token from "../components/token";
 import { toast } from "@/components/ui/use-toast";
 const fetch2 = require('node-fetch');
 
-
 export default function AddPelanggan() {
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
@@ -15,6 +14,9 @@ export default function AddPelanggan() {
   const [agama, setAgama] = useState("");
   const [id_pekerjaan, setId_pekerjaan] = useState("");
   const [jenis_kelamin, setJenis_kelamin] = useState("");
+  const [id_kelurahan, setIdKelurahan] = useState("");
+  const [id_kecamatan, setIdKecamatan] = useState("");
+  const [id_kabupaten, setIdKabupaten] = useState("");
   const [kelurahan, setKelurahan] = useState("");
   const [kecamatan, setKecamatan] = useState("");
   const [kabupaten, setKabupaten] = useState("");
@@ -25,7 +27,7 @@ export default function AddPelanggan() {
 
   async function addPelanggan(e: SyntheticEvent) {
     e.preventDefault();
-  
+
     try {
       const preparedData = {
         nama,
@@ -35,11 +37,14 @@ export default function AddPelanggan() {
         agama,
         id_pekerjaan,
         jenis_kelamin,
+        id_kelurahan,
+        id_kecamatan,
+        id_kabupaten,
         kelurahan: kelurahanName,
         kecamatan: kecamatanName,
         kabupaten: kabupatenName,
       };
-  
+
       const response = await fetch('http://localhost:3000/api/pelanggan/store', {
         method: 'POST',
         headers: {
@@ -48,27 +53,27 @@ export default function AddPelanggan() {
         },
         body: JSON.stringify(preparedData),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`Gagal menambahkan data: ${errorData.message || 'Unknown error'}`);
       }
-  
-      toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
+
+      toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil' });
       router.refresh();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);
     }
-  }  
-
+  }
 
   async function getPekerjaans() {
-    const res = await fetch('http://localhost:3000/api/pekerjaan/get',{
+    const res = await fetch('http://localhost:3000/api/pekerjaan/get', {
       method: 'POST',
-      headers:{
+      headers: {
         'Authorization': 'Bearer ' + token,
-      }}).then(response => response.json())
+      }
+    }).then(response => response.json())
       .then(response => {
         if (response.status === 'error') {
         } else {
@@ -76,30 +81,30 @@ export default function AddPelanggan() {
         }
       })
       .catch(err => console.error(err));
-  
+
     return res;
   }
 
   async function getKabupaten() {
     try {
-        const response = await fetch('/api/region/kabupaten', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await fetch('/api/region/kabupaten', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
         }
+      });
 
-        const provinces = await response.json();
-        console.log("Parsed JSON:", provinces);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-        return provinces;
+      const provinces = await response.json();
+      console.log("Parsed JSON:", provinces);
+
+      return provinces;
     } catch (error) {
-        console.error("Error fetching data:", error);
-        throw error;
+      console.error("Error fetching data:", error);
+      throw error;
     }
   }
 
@@ -111,21 +116,21 @@ export default function AddPelanggan() {
           'Authorization': 'Bearer ' + token,
         }
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const provinces = await response.json();
       console.log("Parsed JSON:", provinces);
-  
+
       return provinces;
     } catch (error) {
       console.error("Error fetching data:", error);
       throw error;
     }
   }
- 
+
   async function getKelurahan(id: string) {
     try {
       const response = await fetch(`/api/region/kelurahan?id=${id}`, {
@@ -134,14 +139,14 @@ export default function AddPelanggan() {
           'Authorization': 'Bearer ' + token,
         }
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const provinces = await response.json();
       console.log("Parsed JSON:", provinces);
-  
+
       return provinces;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -153,7 +158,6 @@ export default function AddPelanggan() {
     id: number;
     name: string;
   }
-
 
   type Pekerjaan = {
     id: number;
@@ -170,6 +174,7 @@ export default function AddPelanggan() {
 
   const [pekerjaans, setPekerjaans] = useState([]);
   const pekerjaanType = pekerjaans as Pekerjaan[];
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -184,16 +189,18 @@ export default function AddPelanggan() {
       }
     }
     fetchData();
-  }, []);  
+  }, []);
+
   useEffect(() => {
     async function fetchKecamatanData() {
       if (kabupaten) {
         try {
           const kecamatanData = await getKecamatan(kabupaten);
           setKecamatans(kecamatanData);
-          
+
           const selectedKabupaten = kabupatenType.find(item => item.id.toString() === kabupaten);
           setKabupatenName(selectedKabupaten ? selectedKabupaten.name : "");
+          setIdKabupaten(kabupaten); // Set the id_kabupaten state
 
         } catch (error) {
           console.error('Error fetching kecamatan data:', error);
@@ -209,9 +216,10 @@ export default function AddPelanggan() {
         try {
           const kelurahanData = await getKelurahan(kecamatan);
           setKelurahans(kelurahanData);
-          
+
           const selectedKecamatan = kecamatanType.find(item => item.id.toString() === kecamatan);
           setKecamatanName(selectedKecamatan ? selectedKecamatan.name : "");
+          setIdKecamatan(kecamatan); // Set the id_kecamatan state
 
         } catch (error) {
           console.error('Error fetching kelurahan data:', error);
@@ -224,9 +232,8 @@ export default function AddPelanggan() {
   useEffect(() => {
     const selectedKelurahan = kelurahanType.find(item => item.id.toString() === kelurahan);
     setKelurahanName(selectedKelurahan ? selectedKelurahan.name : "");
+    setIdKelurahan(kelurahan); // Set the id_kelurahan state
   }, [kelurahan]);
-
-
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
@@ -319,8 +326,8 @@ export default function AddPelanggan() {
                  onChange={e=>setTgl_lahir(e.target.value)}/>
               </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="w-full md:w-1/3 px-3 mb-6 ">
+            <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kabupaten
                     </label>
@@ -341,28 +348,32 @@ export default function AddPelanggan() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6">
+                  </div>
+                  <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kecamatan
                     </label>
                     <div className="relative">
                     <select
-                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-state"
-                value={kecamatan}
-                onChange={e => setKecamatan(e.target.value)}
-              >
-                <option value="">Pilih Kecamatan</option>
-                {kecamatanType.map((region) => (
-                  <option key={region.id} value={region.id}>{region.name}</option>
-                ))}
-              </select>
+                      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-state"
+                      value={kecamatan}
+                      onChange={e => setKecamatan(e.target.value)}
+                    >
+                      <option value="">Pilih Kecamatan</option>
+                      {kecamatanType.map((region) => (
+                        <option key={region.id} value={region.id}>{region.name}</option>
+                      ))}
+                    </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                       </div>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6">
+                  </div>
+                  <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kelurahan
                     </label>
