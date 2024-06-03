@@ -4,6 +4,7 @@ import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 
 type Posisi = {
     id: number;
@@ -43,7 +44,7 @@ type Posisi = {
           throw new Error(errorData.message || 'Unknown error'); 
         }
   
-        console.log('Data berhasil diperbarui');
+        toast({ title: `Data jabatan ${posisi.nama_posisi} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
         router.refresh(); 
         return response;

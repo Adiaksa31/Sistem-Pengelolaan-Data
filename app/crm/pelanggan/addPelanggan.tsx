@@ -3,6 +3,7 @@ import { SyntheticEvent, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import BtnData from "../components/btnData";
 import token from "../components/token";
+import { toast } from "@/components/ui/use-toast";
 const fetch2 = require('node-fetch');
 
 
@@ -17,6 +18,9 @@ export default function AddPelanggan() {
   const [kelurahan, setKelurahan] = useState("");
   const [kecamatan, setKecamatan] = useState("");
   const [kabupaten, setKabupaten] = useState("");
+  const [kelurahanName, setKelurahanName] = useState("");
+  const [kecamatanName, setKecamatanName] = useState("");
+  const [kabupatenName, setKabupatenName] = useState("");
   const router = useRouter();
 
   async function addPelanggan(e: SyntheticEvent) {
@@ -31,9 +35,9 @@ export default function AddPelanggan() {
         agama,
         id_pekerjaan,
         jenis_kelamin,
-        kelurahan,
-        kecamatan,
-        kabupaten,
+        kelurahan: kelurahanName,
+        kecamatan: kecamatanName,
+        kabupaten: kabupatenName,
       };
   
       const response = await fetch('http://localhost:3000/api/pelanggan/store', {
@@ -46,12 +50,11 @@ export default function AddPelanggan() {
       });
   
       if (!response.ok) {
-  
         const errorData = await response.json();
         throw new Error(`Gagal menambahkan data: ${errorData.message || 'Unknown error'}`);
       }
   
-      console.log('Data berhasil ditambahkan');
+      toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
       router.refresh();
       return response;
     } catch (error) {
@@ -100,50 +103,71 @@ export default function AddPelanggan() {
     }
   }
 
-  async function getKecamatan(id:string) {
+  async function getKecamatan(id: string) {
     try {
-      const response = await fetch('/api/region/kecamatan', {
-          method: 'GET',
-          headers: {
-              'Authorization': 'Bearer ' + token,
-          },
-          body: JSON.stringify({id:id})
+      const response = await fetch(`/api/region/kecamatan?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
       });
-
+  
       if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
       const provinces = await response.json();
       console.log("Parsed JSON:", provinces);
-
+  
       return provinces;
     } catch (error) {
-        console.error("Error fetching data:", error);
-        throw error;
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  }
+ 
+  async function getKelurahan(id: string) {
+    try {
+      const response = await fetch(`/api/region/kelurahan?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const provinces = await response.json();
+      console.log("Parsed JSON:", provinces);
+  
+      return provinces;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
     }
   }
 
-  
-
-  type Kabupaten = {
+  type Region = {
     id: number;
     name: string;
   }
 
-  type Kecamatan = {
-    id: number;
-    name: string;
-  }
 
   type Pekerjaan = {
     id: number;
     nama_pekerjaan: string;
   }
 
-const [kabupatens, setKabupatens] = useState([]);
+  const [kabupatens, setKabupatens] = useState([]);
+  const [kecamatans, setKecamatans] = useState([]);
+  const [kelurahans, setKelurahans] = useState([]);
 
-const kabupatenType = kabupatens as Kabupaten[];
+  const kabupatenType = kabupatens as Region[];
+  const kecamatanType = kecamatans as Region[];
+  const kelurahanType = kelurahans as Region[];
+
   const [pekerjaans, setPekerjaans] = useState([]);
   const pekerjaanType = pekerjaans as Pekerjaan[];
   useEffect(() => {
@@ -152,8 +176,8 @@ const kabupatenType = kabupatens as Kabupaten[];
         const pekerjaanData = await getPekerjaans();
         setPekerjaans(pekerjaanData);
 
-      const kabupatenData = await getKabupaten();
-      setKabupatens(kabupatenData);
+        const kabupatenData = await getKabupaten();
+        setKabupatens(kabupatenData);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -161,7 +185,48 @@ const kabupatenType = kabupatens as Kabupaten[];
     }
     fetchData();
   }, []);  
-  
+  useEffect(() => {
+    async function fetchKecamatanData() {
+      if (kabupaten) {
+        try {
+          const kecamatanData = await getKecamatan(kabupaten);
+          setKecamatans(kecamatanData);
+          
+          const selectedKabupaten = kabupatenType.find(item => item.id.toString() === kabupaten);
+          setKabupatenName(selectedKabupaten ? selectedKabupaten.name : "");
+
+        } catch (error) {
+          console.error('Error fetching kecamatan data:', error);
+        }
+      }
+    }
+    fetchKecamatanData();
+  }, [kabupaten]);
+
+  useEffect(() => {
+    async function fetchKelurahanData() {
+      if (kecamatan) {
+        try {
+          const kelurahanData = await getKelurahan(kecamatan);
+          setKelurahans(kelurahanData);
+          
+          const selectedKecamatan = kecamatanType.find(item => item.id.toString() === kecamatan);
+          setKecamatanName(selectedKecamatan ? selectedKecamatan.name : "");
+
+        } catch (error) {
+          console.error('Error fetching kelurahan data:', error);
+        }
+      }
+    }
+    fetchKelurahanData();
+  }, [kecamatan]);
+
+  useEffect(() => {
+    const selectedKelurahan = kelurahanType.find(item => item.id.toString() === kelurahan);
+    setKelurahanName(selectedKelurahan ? selectedKelurahan.name : "");
+  }, [kelurahan]);
+
+
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
@@ -260,17 +325,16 @@ const kabupatenType = kabupatens as Kabupaten[];
                       Kabupaten
                     </label>
                     <div className="relative">
-                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
-                       value={kabupaten}
-                       onChange={e=>setKabupaten(e.target.value)} >
-                      <option selected value="" disabled >-- Pilih --</option>
-                      {
-                      kabupatenType.map(kabupaten => (
-                          <option key={kabupaten.id} value={kabupaten.id}>
-                            {kabupaten.name}
-                          </option>
-                        ))
-                      }
+                    <select
+                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="grid-state"
+                        value={kabupaten}
+                        onChange={e => setKabupaten(e.target.value)}
+                      >
+                        <option value="">Pilih Kabupaten</option>
+                        {kabupatenType.map((region) => (
+                          <option key={region.id} value={region.id}>{region.name}</option>
+                        ))}
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -282,20 +346,17 @@ const kabupatenType = kabupatens as Kabupaten[];
                       Kecamatan
                     </label>
                     <div className="relative">
-                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
-                       value={kecamatan}
-                       onChange={e=>setKecamatan(e.target.value)} >
-                      <option selected value="" disabled >-- Pilih --</option>
-                     
-                          {
-                          kabupatenType.map(kabupaten => (
-                            <option key={kabupaten.id} value={kabupaten.id}>
-                              {kabupaten.name}
-                            </option>
-                          ))
-                          }
-
-                      </select>
+                    <select
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-state"
+                value={kecamatan}
+                onChange={e => setKecamatan(e.target.value)}
+              >
+                <option value="">Pilih Kecamatan</option>
+                {kecamatanType.map((region) => (
+                  <option key={region.id} value={region.id}>{region.name}</option>
+                ))}
+              </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                       </div>
@@ -306,16 +367,16 @@ const kabupatenType = kabupatens as Kabupaten[];
                       Kelurahan
                     </label>
                     <div className="relative">
-                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
-                       value={kelurahan}
-                       onChange={e=>setKelurahan(e.target.value)}
-                       >
-                      <option selected value="" disabled >-- Pilih --</option>
-                      
-                          <option>
-                              Bondalem
-                          </option>
- 
+                    <select
+                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="grid-state"
+                        value={kelurahan}
+                        onChange={e => setKelurahan(e.target.value)}
+                      >
+                        <option value="">Pilih Kelurahan</option>
+                        {kelurahanType.map((region) => (
+                          <option key={region.id} value={region.id}>{region.name}</option>
+                        ))}
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>

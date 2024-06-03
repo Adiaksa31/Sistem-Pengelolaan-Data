@@ -70,7 +70,7 @@ export default function Pelanggan() {
       pelanggan.email,
       pelanggan.jenis_kelamin,
       pelanggan.agama,
-      `Kel.${pelanggan.kelurahan}, Kec.${pelanggan.kecamatan}, Kab.${pelanggan.kabupaten}`,
+      `Kelurahan ${pelanggan.kelurahan.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}, Kecamatan ${pelanggan.kecamatan.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}, ${pelanggan.kabupaten.charAt(0).toUpperCase() + pelanggan.kabupaten.slice(1).toLowerCase()}`,
       new Date(pelanggan.tgl_lahir).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
       pelanggan.pekerjaan.nama_pekerjaan,
       <div key={`aksi-${index}`} className="container mx-auto">
