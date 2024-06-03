@@ -53,17 +53,11 @@ export default async function handler(
             const user = userQueryRes[0];
             const hashedPassword = user.password;
 
-            // Check if password is correct or not (hashed)
-            bcrypt.hash(password, 10, async (err, hash) => {
-                if (err) {
-                    throw new Error('An error occured');
-                }
-                const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
+            const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
 
-                if (!isPasswordMatch) {
-                    return res.status(401).json({ status: 'error', message: 'Email or password is incorrect'});
-                }
-            });
+            if (!isPasswordMatch) {
+                return res.status(401).json({ status: 'error', message: 'Email or password is incorrect'});
+            }
 
             // Set Secret key
             const secretString = process.env.JWT_SECRET;
