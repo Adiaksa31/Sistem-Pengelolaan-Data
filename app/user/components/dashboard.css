@@ -39,4 +39,9 @@ box-sizing: border-box;
     overflow-y: hidden;
     white-space: nowrap;
   }
+  .kanban {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
 }
