@@ -2,59 +2,9 @@ import Image from "next/image";
 import "./dashboard.css";
 import Link from "next/link";
 import KanbanBoard from '../components/kanban';
-import DataTable from '../components/DataTable';
-import Data from '../components/Data';
 
 
 
-const rows = [
-  { id: 1, name: 'John Doe', age: 25 },
-  { id: 2, name: 'Jane Doe', age: 30 },
-  { id: 3, name: 'Alice Smith', age: 35 },
-  { id: 4, name: 'Bob Johnson', age: 40 },
-  { id: 5, name: 'Charlie Brown', age: 20 },
-  { id: 6, name: 'David Clark', age: 50 },
-  { id: 7, name: 'Eve Adams', age: 28 },
-  { id: 8, name: 'Frank Wright', age: 45 },
-  { id: 9, name: 'Grace Lee', age: 32 },
-  { id: 10, name: 'Hank Green', age: 38 },
-  { id: 11, name: 'John Doe', age: 25 },
-  { id: 12, name: 'Jane Doe', age: 30 },
-  { id: 13, name: 'Alice Smith', age: 35 },
-  { id: 14, name: 'Bob Johnson', age: 40 },
-  { id: 15, name: 'Charlie Brown', age: 20 },
-  { id: 16, name: 'David Clark', age: 50 },
-  { id: 17, name: 'Eve Adams', age: 28 },
-  { id: 18, name: 'Frank Wright', age: 45 },
-  { id: 19, name: 'Grace Lee', age: 32 },
-  { id: 20, name: 'Hank Green', age: 38 },
-  { id: 21, name: 'John Doe', age: 25 },
-  { id: 22, name: 'Jane Doe', age: 30 },
-  { id: 23, name: 'Alice Smith', age: 35 },
-  { id: 24, name: 'Bob Johnson', age: 40 },
-  { id: 25, name: 'Charlie Brown', age: 20 },
-  { id: 26, name: 'David Clark', age: 50 },
-  { id: 27, name: 'Eve Adams', age: 28 },
-  { id: 28, name: 'Frank Wright', age: 45 },
-  { id: 29, name: 'Grace Lee', age: 32 },
-  { id: 30, name: 'Hank Green', age: 38 },
-  { id: 31, name: 'John Doe', age: 25 },
-  { id: 32, name: 'Jane Doe', age: 30 },
-  { id: 33, name: 'Alice Smith', age: 35 },
-  { id: 34, name: 'Bob Johnson', age: 40 },
-  { id: 35, name: 'Charlie Brown', age: 20 },
-  { id: 36, name: 'David Clark', age: 50 },
-  { id: 37, name: 'Eve Adams', age: 28 },
-  { id: 38, name: 'Frank Wright', age: 45 },
-  { id: 39, name: 'Grace Lee', age: 32 },
-  { id: 40, name: 'Hank Green', age: 38 },
-];
-
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'name', headerName: 'Name', width: 150 },
-  { field: 'age', headerName: 'Age', type: 'number', width: 110 },
-];
 
 export default function DashboardSPV() {
 
@@ -239,8 +189,7 @@ export default function DashboardSPV() {
       <KanbanBoard />
 
     </div>
-    <div className="container p-4"><Data /></div>
-    <DataTable rows={rows} columns={columns} />
+
   </>
   );
 }

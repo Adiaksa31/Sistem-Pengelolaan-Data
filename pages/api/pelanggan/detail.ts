@@ -25,7 +25,7 @@ export default async function handler(
                     return err.errors[0];
                 });
 
-                if (!validation) {
+                if (validation) {
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     

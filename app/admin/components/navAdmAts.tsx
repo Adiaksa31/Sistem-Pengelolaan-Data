@@ -33,8 +33,8 @@ const NavAdmAts = () => {
         const url = window.location.href;
         const urlSplit = url.split('/');
         // url is http://localhost:3000/spv/dashboard search for spv in url
-        if (urlSplit[3] !== 'spv') {
-            window.location.href = '/spv/dashboard';
+        if (urlSplit[3] !== 'user') {
+            window.location.href = '/user/dashboard';
         }
     }
   } else {

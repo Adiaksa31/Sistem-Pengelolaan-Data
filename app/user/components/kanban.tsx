@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import Column from '../components/Column';
+import Column from './Column';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 function Kanban() {

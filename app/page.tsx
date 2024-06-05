@@ -45,7 +45,7 @@ export default function Home() {
         window.location.href = '/crm/dashboard';
       } else if (data.user.posisi.id >= 3) { // SPV
         console.log('SPV');
-        window.location.href = '/spv/dashboard';
+        window.location.href = '/user/dashboard';
       }
       toast({ title: 'Berhasil Login', variant: 'berhasil' });
     } catch (error) {
