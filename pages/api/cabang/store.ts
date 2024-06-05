@@ -6,7 +6,7 @@ import Cabang from '../../../models/Cabang';
 
 const schema = yup.object().shape({
     nama_cabang: yup.string().required(),
-    alamat_cabang: yup.string().nullable(),
+    alamat_cabang: yup.string().required(),
     nomor: yup.string().nullable(),
     status_cabang: yup.string().nullable()
 })
@@ -31,7 +31,7 @@ export default async function handler(
                     return err.errors[0];
                 });
 
-                if (!validation) {
+                if (validation) {
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     
