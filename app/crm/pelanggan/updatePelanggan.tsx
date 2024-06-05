@@ -119,7 +119,7 @@ type Pelanggan = {
             }
         });
 
-        if (!response.ok) {
+        if (!response.ok) {   
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 

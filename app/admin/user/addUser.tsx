@@ -14,6 +14,7 @@ export default function AddUser() {
   const [password, setPassword] = useState("");
   const [posisi_id, setPosisi_id] = useState("");
   const [cabang_id, setCabang_id] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
   async function addUser(e: SyntheticEvent) {
     e.preventDefault();
@@ -133,27 +134,27 @@ export default function AddUser() {
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full px-3">
+                  <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Email
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Email..." 
-                     value={email}
-                     onChange={e=>setEmail(e.target.value)}
-                     />
-                    <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
+                    <input className={`appearance-none block w-full ${error ? 'border-red-500' : 'border-gray-200'} bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-email" type="text" placeholder="Masukkan Email..." 
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                    />
+                    {error && <p className="text-red-500 text-xs italic">{error}</p>}
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full px-3">
+                  <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nomor
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor..." 
-                     value={nomor}
-                     onChange={e=>setNomor(e.target.value)}
-                     />
-                    <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
+                    <input className={`appearance-none block w-full ${error ? 'border-red-500' : 'border-gray-200'} bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-nomor" type="text" placeholder="Masukkan Nomor..." 
+                      value={nomor}
+                      onChange={e => setNomor(e.target.value)}
+                    />
+                    {error && <p className="text-red-500 text-xs italic">{error}</p>}
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">

@@ -1,7 +1,8 @@
 'use client'
 import Link from "next/link";
 import Image from "next/image";
-import { SyntheticEvent, useState, useEffect } from "react";
+import { SyntheticEvent, useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 export default function Home() {
   const [email, setUsername] = useState("");
@@ -20,7 +21,9 @@ export default function Home() {
 
       if (!response.ok) {
         const errorData = await response.json();
+        toast({ title: `Gagal login: ${errorData.message || 'Unknown error'}`, variant: 'destructive' });
         throw new Error(`Gagal login: ${errorData.message || 'Unknown error'}`);
+        
       }
 
       const payload = await response.json();
@@ -44,7 +47,7 @@ export default function Home() {
         console.log('SPV');
         window.location.href = '/spv/dashboard';
       }
-      
+      toast({ title: 'Berhasil Login', variant: 'berhasil' });
     } catch (error) {
       console.error('Error:', error as Error);
     }
@@ -79,15 +82,6 @@ export default function Home() {
         <div className="flex justify-center">
             <button className="bg-D32124 font-bold text-white px-10 py-2 rounded-md" type="submit">Masuk</button>
         </div>
-        {/* <div className="flex justify-center">
-           <Link href="/admin/dashboard">Admin</Link>
-        </div>
-        <div className="flex justify-center">
-           <Link href="/crm/dashboard">CRM</Link>
-        </div>
-        <div className="flex justify-center">
-           <Link href="/spv/dashboard">SPV</Link>
-        </div> */}
       </form>
       </div>
     </div>
