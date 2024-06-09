@@ -5,9 +5,9 @@ import authenticate from '../../../middlware/authenticate';
 import Pesanan from '../../../models/Pesanan';
 
 const schema = yup.object().shape({
-    kategori_id: yup.number().required(),
-    customer_id: yup.number().required(),
-    sumber: yup.string().required(),
+    kategori_id: yup.number().nullable(),
+    customer_id: yup.number().nullable(),
+    sumber: yup.string().nullable(),
     type_motor: yup.string().nullable(),
     warna_motor: yup.string().nullable(),
     model_motor: yup.string().nullable(),
@@ -18,11 +18,11 @@ const schema = yup.object().shape({
     nama_sparepart: yup.string().nullable(),
     jenis_keluhan: yup.string().nullable(),
     jenis_informasi: yup.string().nullable(),
-    keterangan: yup.string().required(),
-    cabang_id: yup.number().required(),
-    crm_id: yup.number().required(),
-    tujuan_user: yup.string().required(),
-    status_kontak: yup.string().required(),
+    keterangan: yup.string().nullable(),
+    cabang_id: yup.number().nullable(),
+    crm_id: yup.number().nullable(),
+    tujuan_user: yup.string().nullable(),
+    status_kontak: yup.string().nullable(),
     paginate: yup.boolean().nullable(),
     page: yup.number().nullable(),
     limit: yup.number().nullable(),
@@ -61,11 +61,15 @@ export default async function handler(
                     limit: req.body.limit,
                 }
     
-                const validation = await schema.validate(dataRequest).catch((err) => {
+                const validation = await schema.validate(dataRequest)
+                .then(() => {
+                    return null;
+                })
+                .catch((err) => {
                     return err.errors[0];
                 });
 
-                if (validation) {
+                if (validation != null) {
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     
