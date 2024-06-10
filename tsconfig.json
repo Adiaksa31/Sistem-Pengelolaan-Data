@@ -28,7 +28,8 @@
     ".next/types/**/*.ts",
     "middlware/authenticate.js",
     "models/User.js",
-    "pages/api/region/kabupaten.js"
+    "pages/api/region/kabupaten.js",
+    "app/user/components/StatusCard.js"
   ],
   "exclude": ["node_modules"]
 }

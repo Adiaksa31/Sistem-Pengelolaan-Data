@@ -25,11 +25,15 @@ export default async function handler(
                     status: req.body.status
                 }
     
-                const validation = await schema.validate(dataRequest).catch((err) => {
+                const validation = await schema.validate(dataRequest)
+                .then(() => {
+                    return null;
+                })
+                .catch((err) => {
                     return err.errors[0];
-                });
+                })
 
-                if (validation) {
+                if (validation != null) {
                     return res.status(400).json({ status: 'error', message: validation });
                 }
     
