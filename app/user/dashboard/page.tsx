@@ -7,6 +7,7 @@ import StatusCards from '../components/StatusCard';
 import { Order } from '../../../types/Order';
 import { getToken } from '../components/TokenComponent';
 import { User } from '../../../types/User';
+import Report from '../components/Report';
 import Kategori from '@/app/admin/kategori/page';
 
 const fetchOrders = async (token: string | null): Promise<Order[]> => {
@@ -120,6 +121,10 @@ const DashboardSPV: React.FC = () => {
       <NavAdmAts />
       <NavAdmBwh currentPath="/user/dashboard" />
       <TabKategori />
+      {/* only user.posisi.id 3 or 4 or 5 show Report */}
+      {user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 5 ? (
+        <Report initialOrders={initialOrders}/>
+      ) : null}
       <StatusCards initialOrders={initialOrders} />
     </>
   );

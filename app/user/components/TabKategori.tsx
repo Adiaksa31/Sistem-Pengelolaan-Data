@@ -47,13 +47,6 @@ const TabKategori: React.FC = () => {
                 <li className="me-2">
                     <a href="#" className="inline-block py-2 border-transparent rounded-t-lg hover:text-D32124 hover:border-D32124 ">Keluhan</a>
                 </li>
-
-                {/* only user.posisi.id 3 or 4 or 5 show Report */}
-                {user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 5 ? (
-                        <li className="me-2">
-                            <a href="#" className="inline-block py-2 border-transparent rounded-t-lg hover:text-D32124 hover:border-D32124 ">Report</a>
-                        </li>
-                ) : null}
             </ul>
         </div>
         </>
