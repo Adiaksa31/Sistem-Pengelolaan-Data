@@ -43,6 +43,7 @@ const fetchOrders = async (token: string | null): Promise<Order[]> => {
         orderData.push({
           id: data.data[i].id,
           kategori_id: data.data[i].kategori.id,
+          cabang_id: data.data[i].cabang.id,
           nama: data.data[i].kategori.nama,
           keterangan: data.data[i].keterangan,
           tanggal: data.data[i].created_at,
@@ -106,6 +107,14 @@ const DashboardSPV: React.FC = () => {
           }
         }
 
+        // search order that have same cabang_id from user
+        for (let i = 0; i < orderData.length; i++) {
+          if (orderData[i].cabang_id !== user?.cabang.id) {
+            orderData.splice(i, 1);
+          }
+          console.log('orderData: ', orderData);
+        }
+
         setInitialOrders(orderData as Order[]);
       }
     };
@@ -114,6 +123,7 @@ const DashboardSPV: React.FC = () => {
   }, [
     user?.posisi.id,
     token,
+    user?.cabang.id,
   ]);
 
   return (

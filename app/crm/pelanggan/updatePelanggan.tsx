@@ -61,9 +61,9 @@ type Pelanggan = {
           agama,
           id_pekerjaan,
           jenis_kelamin,
-           kelurahan: selectedKelurahan ? selectedKelurahan.name : "",
-        kecamatan: selectedKecamatan ? selectedKecamatan.name : "",
-        kabupaten: selectedKabupaten ? selectedKabupaten.name : "",
+           kelurahan: selectedKelurahan ? selectedKelurahan.name : kecamatanName,
+          kecamatan: selectedKecamatan ? selectedKecamatan.name : kecamatanName,
+          kabupaten: selectedKabupaten ? selectedKabupaten.name : kabupatenName,
       };
 
         const response = await fetch('http://localhost:3000/api/pelanggan/update', {
@@ -359,10 +359,10 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={id_kabupaten}
-                        onChange={e => setIdKabupaten(e.target.value)}
+                        value={kabupaten}
+                        onChange={e => setKabupaten(e.target.value)}
                       >
-                        <option selected disabled>Pilih Kabupaten</option>
+                        <option disabled>Pilih Kabupaten</option>
                         {kabupatenType.map((region) => (
                           <option key={region.id} value={region.id}>{region.name}</option>
                         ))}
@@ -382,10 +382,10 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={id_kecamatan}
-                        onChange={e => setIdKecamatan(e.target.value)}
+                        value={kecamatan}
+                        onChange={e => setKecamatan(e.target.value)}
                       >
-                        <option selected disabled >Pilih Kecamatan</option>
+                        <option disabled >Pilih Kecamatan</option>
                         {kecamatanType.map((region) => (
                           <option key={region.id} value={region.id}>{region.name}</option>
                         ))}
@@ -405,10 +405,10 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={id_kelurahan}
-                        onChange={e => setIdKelurahan(e.target.value)}
+                        value={kelurahan}
+                        onChange={e => setKelurahan(e.target.value)}
                       >
-                        <option selected disabled>Pilih Kelurahan</option>
+                        <option disabled>Pilih Kelurahan</option>
                         {kelurahanType.map((region) => (
                           <option key={region.id} value={region.id}>{region.name}</option>
                         ))}
