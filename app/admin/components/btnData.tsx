@@ -11,8 +11,8 @@ const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content, form
 
     const handleformSubmit = async (data: any) => {
       try {
-        // Perform form data submission logic here (API calls, etc.)
-        const response = await formSubmit(data); // Assuming formSubmit returns a response
+       
+        const response = await formSubmit(data); 
   
         if (response.ok) {
           handleCloseModal();

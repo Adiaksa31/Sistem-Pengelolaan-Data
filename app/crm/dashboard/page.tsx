@@ -3,6 +3,7 @@ import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import { useState, useEffect } from 'react';
 import token from "../components/token";
+import Chart from "../components/chart";
 
 async function getPelanggans() {
   const res = await fetch('http://localhost:3000/api/pelanggan/get',{
@@ -120,6 +121,9 @@ export default function DashboardCrm() {
               </svg>
             </div>
           </div>
+        </div>
+        <div>
+          <Chart />
         </div>
       </div>
 
