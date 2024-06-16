@@ -26,6 +26,7 @@ async function getPelanggans() {
       }
     });
     const response = await res.json();
+    console.log('Data pelanggan dari API:', response.data); 
     return response.status === 'error' ? [] : response.data;
   } catch (err) {
     console.error(err);
@@ -41,31 +42,25 @@ const Chart: React.FC = () => {
       try {
         const pelanggans = await getPelanggans();
 
-        // Create an object to hold the count of pelanggans per month
-        const monthlyCounts: { [key: string]: any[] } = {};
+        const countsByMonth: { [key: string]: number } = {};
 
-        // Iterate over the pelanggan data
+        // Counting pelanggan by month
         pelanggans.forEach((pelanggan: any) => {
           const date = new Date(pelanggan.created_at);
-          const monthYear = `${date.getMonth() + 1}-${date.getFullYear()}`; // Get month and year
-          
-          // If the month does not exist in the monthlyCounts object, initialize it to an empty array
-          if (!monthlyCounts[monthYear]) {
-            monthlyCounts[monthYear] = [];
-          }
-          
-          // Add pelanggan data to the respective month
-          monthlyCounts[monthYear].push(pelanggan);
+          const month = date.getMonth() + 1;
+          const year = date.getFullYear(); // Use the year from the created_at date
+          const monthYear = `${year}-${pad(month, 2)}`; // Get year and zero-padded month
+          countsByMonth[monthYear] = (countsByMonth[monthYear] || 0) + 1;
         });
 
         // Format the data for the chart
         const formattedData: PelangganData[] = [];
         for (let i = 1; i <= 12; i++) {
-          const monthYear = `${i}-${new Date().getFullYear()}`;
-          const monthName = new Date(`${i}-1-${new Date().getFullYear()}`).toLocaleString('default', { month: 'long' });
+          const monthYear = `${new Date().getFullYear()}-${pad(i, 2)}`; // Get current year and zero-padded month
+          const monthName = new Date(`${new Date().getFullYear()}-${pad(i, 2)}-1`).toLocaleString('default', { month: 'long' });
           formattedData.push({
             bulan: monthName,
-            countPelanggan: monthlyCounts[monthYear] ? monthlyCounts[monthYear].length : 0,
+            countPelanggan: countsByMonth[monthYear] || 0,
           });
         }
 
@@ -76,6 +71,13 @@ const Chart: React.FC = () => {
     }
     fetchData();
   }, []);
+
+  // Function to pad numbers with leading zeros
+  function pad(num: number, size: number) {
+    let s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
+  }
 
   return (
     <div style={{ width: '100%' }}>
@@ -101,6 +103,6 @@ const Chart: React.FC = () => {
       </ResponsiveContainer>
     </div>
   );
-}
+};
 
 export default Chart;
