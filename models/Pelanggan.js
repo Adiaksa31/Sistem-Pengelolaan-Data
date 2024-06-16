@@ -193,7 +193,7 @@ class Pelanggan {
     console.log(`SELECT * FROM data_calon_customer ${where} ${pagination}`);
 
     return await excuteQuery({
-      query: `SELECT * FROM data_calon_customer JOIN data_pekerjaan_customer ON data_calon_customer.id_pekerjaan = data_pekerjaan_customer.id_pekerjaan ${where} ORDER BY customer_id DESC ${pagination}`,
+      query: `SELECT data_calon_customer.*, data_pekerjaan_customer.id_pekerjaan, data_pekerjaan_customer.nama_pekerjaan FROM data_calon_customer JOIN data_pekerjaan_customer ON data_calon_customer.id_pekerjaan = data_pekerjaan_customer.id_pekerjaan ${where} ORDER BY customer_id DESC ${pagination}`,
     })
       .then((result) => {
         if (result.length) {
