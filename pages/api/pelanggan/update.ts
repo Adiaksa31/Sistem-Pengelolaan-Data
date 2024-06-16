@@ -9,7 +9,7 @@ const schema = yup.object().shape({
     nama: yup.string().required(),
     no_wa: yup.string().required(),
     email: yup.string().email().required(),
-    tgl_lahir: yup.string().datetime().required(),
+    tgl_lahir: yup.string().required(),
     agama: yup.string().required(),
     id_pekerjaan: yup.number().required(),
     jenis_kelamin: yup.string().required(),
@@ -33,7 +33,7 @@ export default async function handler(
                 const dataRequest = {
                     id: req.body.id,
                     nama: req.body.nama,
-                    no_wa: req.body.wa,
+                    no_wa: req.body.no_wa,
                     email: req.body.email,
                     tgl_lahir: req.body.tgl_lahir,
                     agama: req.body.agama,

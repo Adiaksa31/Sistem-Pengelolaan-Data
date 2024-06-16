@@ -359,8 +359,8 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={kabupaten}
-                        onChange={e => setKabupaten(e.target.value)}
+                        value={id_kabupaten}
+                        onChange={e => setIdKabupaten(e.target.value)}
                       >
                         <option disabled>Pilih Kabupaten</option>
                         {kabupatenType.map((region) => (
@@ -382,8 +382,8 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={kecamatan}
-                        onChange={e => setKecamatan(e.target.value)}
+                        value={id_kecamatan}
+                        onChange={e => setIdKecamatan(e.target.value)}
                       >
                         <option disabled >Pilih Kecamatan</option>
                         {kecamatanType.map((region) => (
@@ -405,8 +405,8 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={kelurahan}
-                        onChange={e => setKelurahan(e.target.value)}
+                        value={id_kelurahan}
+                        onChange={e => setIdKelurahan(e.target.value)}
                       >
                         <option disabled>Pilih Kelurahan</option>
                         {kelurahanType.map((region) => (
