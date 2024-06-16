@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 import token from "../components/token";
 
 type Pesanan = {
@@ -83,8 +83,8 @@ export default function Pesan() {
   }));
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ width: '70%' }}>
+    <div className="flex flex-col md:flex-row items-center justify-center">
+      <div className="w-full max-w-md md:w-1/2">
         <PieChart width={400} height={300}>
           <Pie
             dataKey="value"
@@ -103,17 +103,14 @@ export default function Pesan() {
           <Tooltip />
         </PieChart>
       </div>
-      <div style={{ width: '30%' }}>
-        <Legend
-          verticalAlign="middle"
-          align="left"
-          layout="vertical"
-          payload={data.map((entry, index) => ({
-            value: entry.name,
-            type: 'square',
-            color: entry.color
-          }))}
-        />
+      <div className="w-full pl-5 md:w-1/2 md:pl-10">
+        <h1 className="text-xl mb-2">Keterangan :</h1>
+        {data.map((entry, index) => (
+          <div key={`legend-${index}`} className="flex items-center my-1 px-5">
+            <div className="w-4 h-4 mr-2 rounded-full" style={{ backgroundColor: entry.color }}></div>
+            <span>{entry.name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
