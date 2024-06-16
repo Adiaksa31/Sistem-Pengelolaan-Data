@@ -11,8 +11,11 @@ type Pekerjaan = {
     nama: string;
     nama_pekerjaan: string;
   }
-
-  export default function UpdatePekerjaan({ pekerjaan }: { pekerjaan: Pekerjaan }) {
+  interface UpdatePekerjaanProps {
+    pekerjaan: Pekerjaan;
+    reloadTable: () => void;
+  }
+  export default function UpdatePekerjaan({ pekerjaan, reloadTable }: UpdatePekerjaanProps) {
     const [id, setId] = useState(pekerjaan.id);
     const [nama, setNama] = useState(pekerjaan.nama_pekerjaan);
     const [error, setError] = useState<string | null>(null); 
@@ -44,7 +47,7 @@ type Pekerjaan = {
   
         toast({ title: `Data pekerjaan ${pekerjaan.nama_pekerjaan} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
-        router.refresh(); 
+        reloadTable();
         return response;
         
       } catch (error) {

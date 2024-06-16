@@ -6,7 +6,6 @@ import DeleteJabatan from "./deleteJabatan";
 import UpdateJabatan from "./updateJabatan";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
-import Pagination from "../components/pagination";
 import { useState, useEffect } from 'react';
 import token from "../components/token";
 
@@ -64,7 +63,7 @@ export default function Jabatan() {
       <div key={`aksi-${index}`} className="container mx-auto">
          <Aksi>
          <UpdateJabatan posisi={posisi} />
-        <DeleteJabatan {...posisi} /> </Aksi>
+          <DeleteJabatan {...posisi} /> </Aksi>
         </div>
     ]),
   };
@@ -81,14 +80,6 @@ export default function Jabatan() {
           <h1 className="font-black py-2 px-1 text-3xl">Jabatan</h1>
           </div>
         <div className="flex items-center space-x-3">
-        <div className="relative">
-              <input type="text" id="table-search-users" className="block ps-10 py-2 text-sm border rounded-lg w-60 md:w-60 bg-white focus:ring-D32124 focus:border-D32124" placeholder="Search..." />
-              <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                  </svg>
-              </div>
-          </div>
           <AddJabatan></AddJabatan>
         </div>
       </div>
@@ -96,9 +87,6 @@ export default function Jabatan() {
       <Table data={tableData} 
       />
     </div>
-    <br />
-    <Pagination />
-        
     </div>
     </div>
   </>

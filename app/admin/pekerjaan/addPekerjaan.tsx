@@ -2,12 +2,15 @@
 import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
-export default function AddPekerjaan() {
+interface AddPekerjaanProps {
+  reloadTable: () => void;
+}
+
+export default function AddPekerjaan({ reloadTable }: AddPekerjaanProps) {
+
   const [nama, setNama] = useState("");
-  const router = useRouter();
 
   async function addPekerjaan(e: SyntheticEvent) {
     e.preventDefault();
@@ -33,7 +36,7 @@ export default function AddPekerjaan() {
       }
   
       toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
-      router.refresh();
+      reloadTable();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

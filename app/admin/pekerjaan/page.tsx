@@ -6,7 +6,6 @@ import UpdatePekerjaan from "./updatePekerjaan";
 import DeletePekerjaan from "./deletePekerjaan";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
-import Pagination from "../components/pagination";
 import { useState, useEffect } from 'react';
 import token from "../components/token";
 
@@ -48,6 +47,15 @@ export default function Pekerjaan() {
     fetchData();
   }, []);
 
+  const reloadTable = async () => {
+    try {
+      const pekerjaanData = await getPekerjaans();
+      setPekerjaans(pekerjaanData);
+    } catch (error) {
+      console.error('Error reloading table:', error);
+    }
+  };
+
   const tableData = {
     headers: ['No', 'Nama Pekerjaan', 'Action'],
     rows: pekerjaanType.map((pekerjaan, index) => [
@@ -55,42 +63,35 @@ export default function Pekerjaan() {
       pekerjaan.nama_pekerjaan,
     
       <div key={`aksi-${index}`} className="container mx-auto">
-        <Aksi> <UpdatePekerjaan pekerjaan={pekerjaan} /><DeletePekerjaan {...pekerjaan} /></Aksi>
+        <Aksi> 
+          <UpdatePekerjaan pekerjaan={pekerjaan} reloadTable={reloadTable} />
+          <DeletePekerjaan pekerjaan={pekerjaan} reloadTable={reloadTable} />
+        </Aksi>
       </div>
     ]),
   };
+
   return (
-  <>
-    <NavAdmAts />
-    <NavAdmBwh currentPath="/admin/pekerjaan"/>
-  
-    <div className="p-3 md:px-10">
-    <div className="px-3 pb-3 bg-white shadow">
-    <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white">
+    <>
+      <NavAdmAts />
+      <NavAdmBwh currentPath="/admin/pekerjaan"/>
+    
+      <div className="p-3 md:px-10">
+        <div className="px-3 pb-3 bg-white shadow">
+          <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white">
+            <div>
+              <h1 className="font-black py-2 px-1 text-3xl">Pekerjaan</h1>
+            </div>
+            <label className="sr-only">Search</label>
+            <div className="flex items-center space-x-3">
+              <AddPekerjaan reloadTable={reloadTable} />
+            </div>
+          </div>
           <div>
-          <h1 className="font-black py-2 px-1 text-3xl">Pekerjaan</h1>
+            <Table data={tableData} />
           </div>
-          <label className="sr-only">Search</label>
-        <div className="flex items-center space-x-3">
-        <div className="relative">
-              <input type="text" id="table-search-users" className="block ps-10 py-2 text-sm border rounded-lg w-60 md:w-60 bg-white focus:ring-D32124 focus:border-D32124" placeholder="Search..." />
-              <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                  </svg>
-              </div>
-          </div>
-          <AddPekerjaan></AddPekerjaan>
         </div>
       </div>
-      <div>
-      <Table data={tableData} />
-      </div>
-    <br />
-    <Pagination />
-        
-    </div>
-    </div>
-  </>
+    </>
   );
 }

@@ -22,8 +22,12 @@ type Pekerjaan = {
     nama: string;
     nama_pekerjaan: string;
   }
-
-  export default function DeletePekerjaan(pekerjaan: Pekerjaan) {
+  interface DeletePekerjaanProps {
+    pekerjaan: Pekerjaan;
+    reloadTable: () => void;
+  }
+  
+  export default function DeletePekerjaan({ pekerjaan, reloadTable }: DeletePekerjaanProps) {
 
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +54,7 @@ type Pekerjaan = {
         }
   
         toast({ title: `Data pekerjaan ${pekerjaan.nama_pekerjaan} berhasil dihapus`, variant: 'berhasil' });
-        router.refresh();
+        reloadTable();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }
