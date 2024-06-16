@@ -57,7 +57,7 @@ const Chart: React.FC = () => {
         const formattedData: PelangganData[] = [];
         for (let i = 1; i <= 12; i++) {
           const monthYear = `${new Date().getFullYear()}-${pad(i, 2)}`; // Get current year and zero-padded month
-          const monthName = new Date(`${new Date().getFullYear()}-${pad(i, 2)}-1`).toLocaleString('default', { month: 'long' });
+          const monthName = getMonthName(i);
           formattedData.push({
             bulan: monthName,
             countPelanggan: countsByMonth[monthYear] || 0,
@@ -79,12 +79,21 @@ const Chart: React.FC = () => {
     return s;
   }
 
+  // Function to get month name
+  function getMonthName(month: number) {
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
+      "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+    ];
+    return monthNames[month - 1];
+  }
+
   return (
     <div style={{ width: '100%' }}>
       <ResponsiveContainer width="100%" height={200}>
         <LineChart
           width={500}
-          height={200}
+          height={400}
           data={data}
           syncId="anyId"
           margin={{

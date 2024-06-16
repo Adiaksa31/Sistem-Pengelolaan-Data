@@ -4,6 +4,7 @@ import NavAdmBwh from "../components/navAdmBwh";
 import { useState, useEffect } from 'react';
 import token from "../components/token";
 import Chart from "../components/chart";
+import PieCharts from "../components/pieCharts";
 
 async function getPelanggans() {
   const res = await fetch('http://localhost:3000/api/pelanggan/get',{
@@ -143,6 +144,7 @@ export default function DashboardCrm() {
 
           </div>
         </div>
+        <PieCharts />
       </div>
     </div>
   </>
