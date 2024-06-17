@@ -3,7 +3,6 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 type User = {
@@ -16,8 +15,11 @@ type User = {
     password: any;
     status: string;
   }
-
-  export default function UpdateUser({ user }: { user: User }) {
+  interface UpdateUserProps {
+    user: User;
+    reloadTable: () => void;
+  }
+  export default function UpdateUser({ user, reloadTable }: UpdateUserProps) {
     const [id, setId] = useState(user.id);
     const [nama, setNama] = useState(user.nama);
     const [email, setEmail] = useState(user.email);
@@ -27,7 +29,6 @@ type User = {
     const [cabang_id, setCabang_id] = useState(user.cabang.id);
     const [status, setStatus] = useState(user.status);
     const [error, setError] = useState<string | null>(null); 
-    const router = useRouter();
   
     async function handelUpdateUser(e: SyntheticEvent) {
       e.preventDefault();
@@ -61,7 +62,7 @@ type User = {
   
         toast({ title: `Data ${user.nama} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
-        router.refresh(); 
+        reloadTable(); 
         return response;
         
       } catch (error) {

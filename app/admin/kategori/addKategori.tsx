@@ -2,12 +2,14 @@
 import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
-export default function AddKategori() {
+interface AddKategoriProps {
+  reloadTable: () => void;
+}
+
+export default function AddKategori({ reloadTable }: AddKategoriProps) {
   const [nama, setNama] = useState("");
-  const router = useRouter();
 
   async function addKategori(e: SyntheticEvent) {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function AddKategori() {
       }
   
       toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
-      router.refresh();
+      reloadTable();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

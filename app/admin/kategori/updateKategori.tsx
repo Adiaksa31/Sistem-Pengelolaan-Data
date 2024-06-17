@@ -3,7 +3,6 @@
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 type Kategori = {
@@ -12,17 +11,20 @@ type Kategori = {
     nama_kategori: string;
     status: string;
   }
-
-  export default function UpdateKategori({ kategori }: { kategori: Kategori }) {
+  interface UpdateKategoriProps {
+    kategori: Kategori;
+    reloadTable: () => void;
+  }
+  export default function UpdateKategori({ kategori, reloadTable }: UpdateKategoriProps) {
     const [id, setId] = useState(kategori.id);
     const [nama, setNama] = useState(kategori.nama_kategori);
     const [status, setStatus] = useState(kategori.status);
     const [error, setError] = useState<string | null>(null); 
-    const router = useRouter();
   
     async function handelUpdateKategori(e: SyntheticEvent) {
       e.preventDefault();
       try {
+        
         const preparedData = {
           id,
           nama,
@@ -47,7 +49,7 @@ type Kategori = {
   
         toast({ title: `Data kategori ${kategori.nama_kategori} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
-        router.refresh(); 
+        reloadTable();
         return response;
         
       } catch (error) {

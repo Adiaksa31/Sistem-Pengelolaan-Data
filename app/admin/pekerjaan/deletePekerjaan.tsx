@@ -31,7 +31,6 @@ type Pekerjaan = {
 
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter();
   
     async function handleDeletePekerjaan(pekerjaanId: number) {
       try {

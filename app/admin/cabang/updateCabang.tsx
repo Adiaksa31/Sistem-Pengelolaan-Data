@@ -3,7 +3,6 @@
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 type Cabang = {
@@ -13,15 +12,17 @@ type Cabang = {
     alamat_cabang: string;
     status_cabang: string;
   }
-
-  export default function UpdateCabang({ cabang }: { cabang: Cabang }) {
+  interface UpdateCabangProps {
+    cabang: Cabang;
+    reloadTable: () => void;
+  }
+  export default function UpdateCabang({ cabang, reloadTable }: UpdateCabangProps) {
     const [id, setId] = useState(cabang.id);
     const [nama_cabang, setNamaCabang] = useState(cabang.nama_cabang);
     const [alamat_cabang, setAlamatCabang] = useState(cabang.alamat_cabang);
     const [nomor, setNomor] = useState(cabang.nomor);
     const [status_cabang, setStatusCabang] = useState(cabang.status_cabang);
     const [error, setError] = useState<string | null>(null); 
-    const router = useRouter();
   
     async function handelUpdateCabang(e: SyntheticEvent) {
       e.preventDefault();
@@ -52,7 +53,7 @@ type Cabang = {
   
         toast({ title: `Data cabang ${cabang.nama_cabang} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
-        router.refresh(); 
+        reloadTable();
         return response;
         
       } catch (error) {

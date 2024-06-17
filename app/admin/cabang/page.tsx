@@ -52,9 +52,16 @@ export default function Cabang() {
       }
     }
 
-    const intervalId = setInterval(fetchData, 1000); 
-    return () => clearInterval(intervalId);
+    fetchData();
   }, []);
+  const reloadTable = async () => {
+    try {
+      const cabangData = await getCabangs();
+      setCabangs(cabangData);
+    } catch (error) {
+      console.error('Error reloading table:', error);
+    }
+  };
 
   const tableData = {
     headers: ['No', 'Nama Cabang', 'Alamat', 'Nomor', 'Status', 'Action'],
@@ -66,7 +73,7 @@ export default function Cabang() {
       cabang.status_cabang,
     
       <div key={`aksi-${index}`} className="container mx-auto">
-         <Aksi><UpdateCabang cabang={cabang} /><DeleteCabang {...cabang} /> </Aksi></div>
+         <Aksi><UpdateCabang cabang={cabang} reloadTable={reloadTable}/><DeleteCabang cabang={cabang} reloadTable={reloadTable}/> </Aksi></div>
     ]),
   };
   return (
@@ -80,7 +87,7 @@ export default function Cabang() {
           <h1 className="font-black py-2 px-1 text-3xl">Cabang</h1>
           </div>
         <div className="flex items-center space-x-3">
-          <AddCabang/>
+          <AddCabang reloadTable={reloadTable}/>
         </div>
       </div>
       <div>

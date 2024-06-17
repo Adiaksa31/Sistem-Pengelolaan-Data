@@ -2,12 +2,14 @@
 import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
-export default function AddJabatan() {
+interface AddJabatanProps {
+  reloadTable: () => void;
+}
+
+export default function AddJabatan({ reloadTable }: AddJabatanProps) {
   const [nama, setNama] = useState("");
-  const router = useRouter();
 
   async function addJabatan(e: SyntheticEvent) {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function AddJabatan() {
       }
   
       toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
-      router.refresh();
+      reloadTable();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

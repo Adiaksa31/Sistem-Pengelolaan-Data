@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import {
   AlertDialog,
@@ -24,18 +23,17 @@ type Cabang = {
     nomor: number;
     status_cabang: string;
   }
-
-  export default function DeleteCabang(cabang: Cabang) {
-
+  interface DeleteCabangProps {
+    cabang: Cabang;
+    reloadTable: () => void;
+  }
+  
+  export default function DeleteCabang({ cabang, reloadTable }: DeleteCabangProps) {
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter();
   
     async function handleDeleteCabang(cabangId: number) {
       try {
-        const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus Jabatan ${cabang.nama_cabang}?`);
-        if (!confirmDelete) return;
-  
         const params = new URLSearchParams();
         params.append('id', cabangId.toString());
 
@@ -54,7 +52,7 @@ type Cabang = {
         }
   
         toast({ title: `Data cabang ${cabang.nama_cabang} berhasil dihapus`, variant: 'berhasil' });
-        router.refresh();
+        reloadTable();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }

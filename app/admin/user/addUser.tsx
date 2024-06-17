@@ -2,11 +2,14 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 
-export default function AddUser() {
+interface AddUserProps {
+  reloadTable: () => void;
+}
+
+export default function AddUser({ reloadTable }: AddUserProps) {
 
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
@@ -15,7 +18,7 @@ export default function AddUser() {
   const [posisi_id, setPosisi_id] = useState("");
   const [cabang_id, setCabang_id] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
+  
   async function addUser(e: SyntheticEvent) {
     e.preventDefault();
   
@@ -45,7 +48,7 @@ export default function AddUser() {
       }
   
      toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
-      router.refresh();
+     reloadTable();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

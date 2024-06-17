@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import {
   AlertDialog,
@@ -23,18 +22,17 @@ type Posisi = {
     nama_posisi: string;
     status: string;
   }
-
-  export default function DeleteJabatan(posisi: Posisi) {
-
+  interface DeleteJabatanProps {
+    posisi: Posisi;
+    reloadTable: () => void;
+  }
+  
+  export default function DeleteJabatan({ posisi, reloadTable }: DeleteJabatanProps) {
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter();
   
     async function handleDeleteJabatan(posisiId: number) {
       try {
-        const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus Jabatan ${posisi.nama_posisi}?`);
-        if (!confirmDelete) return;
-  
         const params = new URLSearchParams();
         params.append('id', posisiId.toString());
 
@@ -53,7 +51,7 @@ type Posisi = {
         }
   
         toast({ title: `Data jabatan ${posisi.nama_posisi} berhasil dihapus`, variant: 'berhasil' });
-        router.refresh();
+        reloadTable();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }

@@ -55,9 +55,15 @@ export default function User() {
     fetchData();
   }, []);
 
-  const addUserAndUpdateTable = async (newUser: User) => {
-    setUsers(prevUsers => [...prevUsers, newUser]);
+  const reloadTable = async () => {
+    try {
+      const userData = await getUsers();
+      setUsers(userData);
+    } catch (error) {
+      console.error('Error reloading table:', error);
+    }
   };
+
 
   const tableData = {
     headers: ['No', 'Nama', 'Email', 'Nomor', 'Jabatan', 'Cabang', 'Status', 'Action'],
@@ -71,8 +77,8 @@ export default function User() {
       user.status,
       <div key={`aksi-${index}`} className="container mx-auto">
         <Aksi>
-          <UpdateUser user={user} />
-          <DeleteUser {...user} />
+          <UpdateUser user={user} reloadTable={reloadTable}/>
+          <DeleteUser user={user} reloadTable={reloadTable}/>
         </Aksi>
       </div>
     ]),
@@ -90,7 +96,7 @@ export default function User() {
               <h1 className="font-black py-2 px-1 text-3xl">User</h1>
             </div>
             <div className="flex items-center space-x-3">
-              <AddUser />
+              <AddUser reloadTable={reloadTable}/>
             </div>
           </div>
           <div>

@@ -3,7 +3,6 @@
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 type Pekerjaan = {
@@ -19,7 +18,6 @@ type Pekerjaan = {
     const [id, setId] = useState(pekerjaan.id);
     const [nama, setNama] = useState(pekerjaan.nama_pekerjaan);
     const [error, setError] = useState<string | null>(null); 
-    const router = useRouter();
   
     async function handelUpdatePekerjaan(e: SyntheticEvent) {
       e.preventDefault();

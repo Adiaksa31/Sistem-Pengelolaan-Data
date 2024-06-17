@@ -2,14 +2,16 @@
 import { SyntheticEvent, useState } from "react";
 import BtnData from "../components/btnData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
-export default function AddCabang() {
+interface AddCabangProps {
+  reloadTable: () => void;
+}
+
+export default function AddCabang({ reloadTable }: AddCabangProps) {
   const [nama_cabang, setNamaCabang] = useState("");
   const [alamat_cabang, setAlamatCabang] = useState("");
   const [nomor, setNomor] = useState("");
-  const router = useRouter();
 
   async function addCabang(e: SyntheticEvent) {
     e.preventDefault();
@@ -37,7 +39,7 @@ export default function AddCabang() {
       }
   
       toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
-      router.refresh();
+      reloadTable();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

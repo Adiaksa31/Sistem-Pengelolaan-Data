@@ -49,10 +49,18 @@ export default function Jabatan() {
       }
     }
 
-    const intervalId = setInterval(fetchData, 1000); 
-    return () => clearInterval(intervalId);
+    fetchData();
   }, []);
- 
+
+  const reloadTable = async () => {
+    try {
+      const posisiData = await getPosisis();
+      setPosisis(posisiData);
+    } catch (error) {
+      console.error('Error reloading table:', error);
+    }
+  };
+
   const tableData = {
     headers: ['No', 'Nama Jabatan', 'Status', 'Action'],
     rows: posisiType.map((posisi, index) => [
@@ -62,8 +70,8 @@ export default function Jabatan() {
     
       <div key={`aksi-${index}`} className="container mx-auto">
          <Aksi>
-         <UpdateJabatan posisi={posisi} />
-          <DeleteJabatan {...posisi} /> </Aksi>
+         <UpdateJabatan posisi={posisi} reloadTable={reloadTable}/>
+          <DeleteJabatan posisi={posisi} reloadTable={reloadTable}/> </Aksi>
         </div>
     ]),
   };
@@ -80,7 +88,7 @@ export default function Jabatan() {
           <h1 className="font-black py-2 px-1 text-3xl">Jabatan</h1>
           </div>
         <div className="flex items-center space-x-3">
-          <AddJabatan></AddJabatan>
+          <AddJabatan reloadTable={reloadTable}></AddJabatan>
         </div>
       </div>
     <div>

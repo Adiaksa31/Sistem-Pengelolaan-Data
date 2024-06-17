@@ -3,7 +3,6 @@
 import { SyntheticEvent, useState } from "react";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 type Posisi = {
@@ -12,16 +11,20 @@ type Posisi = {
     nama_posisi: string;
     status: string;
   }
-
-  export default function UpdateJabatan({ posisi }: { posisi: Posisi }) {
+  interface UpdateJabatanProps {
+    posisi: Posisi;
+    reloadTable: () => void;
+  }
+  export default function UpdateJabatan({ posisi, reloadTable }: UpdateJabatanProps) {
     const [id, setId] = useState(posisi.id);
     const [nama, setNama] = useState(posisi.nama_posisi);
     const [status, setStatus] = useState(posisi.status);
     const [error, setError] = useState<string | null>(null); 
-  const router = useRouter();
+
     async function handelUpdateJabatan(e: SyntheticEvent) {
       e.preventDefault();
       try {
+
         const preparedData = {
           id,
           nama,
@@ -46,7 +49,7 @@ type Posisi = {
   
         toast({ title: `Data jabatan ${posisi.nama_posisi} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
-        router.refresh(); 
+        reloadTable();
         return response;
         
       } catch (error) {

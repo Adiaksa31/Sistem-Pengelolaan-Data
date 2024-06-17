@@ -22,12 +22,14 @@ type Kategori = {
     nama_kategori: string;
     status_kategori: string;
   }
-
-  export default function DeleteKategori(kategori: Kategori) {
-
+  interface DeleteKategoriProps {
+    kategori: Kategori;
+    reloadTable: () => void;
+  }
+  
+  export default function DeleteKategori({ kategori, reloadTable }: DeleteKategoriProps) {
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter();
   
     async function handleDeleteKategori(kategoriId: number) {
       try {
@@ -50,7 +52,7 @@ type Kategori = {
         }
   
         toast({ title: `Data Kategori ${kategori.nama_kategori} berhasil dihapus`, variant: 'berhasil' });
-        router.refresh();
+        reloadTable();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }

@@ -51,9 +51,17 @@ export default function Kategori() {
       }
     }
 
-    const intervalId = setInterval(fetchData, 1000); 
-    return () => clearInterval(intervalId);
+    fetchData();
   }, []);
+
+  const reloadTable = async () => {
+    try {
+      const kategoriData = await getKategoris();
+      setKategoris(kategoriData);
+    } catch (error) {
+      console.error('Error reloading table:', error);
+    }
+  };
 
   const tableData = {
     headers: ['No', 'Nama Kategori', 'Status', 'Action'],
@@ -63,7 +71,7 @@ export default function Kategori() {
       kategori.status_kategori,
     
       <div key={`aksi-${index}`} className="container mx-auto">
-        <Aksi><UpdateKategori kategori={kategori} /><DeleteKategori {...kategori} /> </Aksi>
+        <Aksi><UpdateKategori kategori={kategori} reloadTable={reloadTable}/><DeleteKategori kategori={kategori} reloadTable={reloadTable} /> </Aksi>
       </div>
     ]),
   };
@@ -80,7 +88,7 @@ export default function Kategori() {
           </div>
           <label className="sr-only">Search</label>
         <div className="flex items-center space-x-3">
-          <AddKategori />
+          <AddKategori reloadTable={reloadTable}/>
         </div>
       </div>
       <div>
