@@ -4,7 +4,6 @@ import { SyntheticEvent, useState, useEffect } from "react";
 import moment from "moment";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 type Pelanggan = {
@@ -24,8 +23,11 @@ type Pelanggan = {
     kecamatan: string;
     kabupaten: string;
   }
-
-  export default function UpdatePelanggan({ pelanggan }: { pelanggan: Pelanggan }) {
+  interface UpdatePelangganProps {
+    pelanggan: Pelanggan;
+    reloadTable: () => void;
+  }
+  export default function UpdatePelanggan({ pelanggan, reloadTable }: UpdatePelangganProps) {
     const [id, setId] = useState(pelanggan.id);
     const [nama, setNama] = useState(pelanggan.nama);
     const [email, setEmail] = useState(pelanggan.email);
@@ -44,7 +46,6 @@ type Pelanggan = {
     const [kecamatanName, setKecamatanName] = useState("");
     const [kabupatenName, setKabupatenName] = useState("");
     const [error, setError] = useState<string | null>(null); 
-    const router = useRouter();
   
     async function handelUpdatePelanggan(e: SyntheticEvent) {
       e.preventDefault();
@@ -84,7 +85,7 @@ type Pelanggan = {
   
         toast({ title: `Data ${pelanggan.nama} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
-        router.refresh(); 
+        reloadTable();
         return response;
         
       } catch (error) {

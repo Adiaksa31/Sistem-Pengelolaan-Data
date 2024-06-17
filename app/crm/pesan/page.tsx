@@ -68,9 +68,16 @@ export default function Pesan() {
         console.error('Error fetching data:', error);
       }
     }
-    const intervalId = setInterval(fetchData, 1000); 
-    return () => clearInterval(intervalId);
+    fetchData();
   }, []);
+  const reloadTable = async () => {
+    try {
+      const pesananData = await getPesanans();
+      setPesanans(pesananData);
+    } catch (error) {
+      console.error('Error reloading table:', error);
+    }
+  };
 
   const tableData = {
     headers: ['No', 'Nama Pelanggan', 'Keterangan', 'Kategori', 'Cabang', 'Admin CRM', 'Tujuan Staf', 'Status', 'Action'],
@@ -84,7 +91,7 @@ export default function Pesan() {
         pesanan.tujuan_user.nama,
         pesanan.status_kontak,
         <div key={`aksi-${index}`} className="container mx-auto">
-          <Aksi><UpdatePesan pesanan={pesanan} /> <DeletePesan {...pesanan} /> </Aksi>
+          <Aksi><UpdatePesan pesanan={pesanan} reloadTable={reloadTable}/> <DeletePesan pesanan={pesanan} reloadTable={reloadTable}/> </Aksi>
         </div>
       ]),
     };
@@ -99,7 +106,7 @@ export default function Pesan() {
           <h1 className="font-black md:py-2 md:px-1 text-3xl">Pesan/Kontak</h1>
           </div>
       <div className="flex flex-wrap items-center -mx-3 space-x-3">
-       <div className="px-3 pb-3 md:pb-0">
+       <div className="px-3 pr-3 md:pr-0 md:pb-0">
          <div className="flex space-x-1 items-center font-bold text-xs px-4 md:px-5 py-1.5 text-white rounded bg-green-600">
               <Link href="#">Unduh Excel</Link>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -107,26 +114,16 @@ export default function Pesan() {
               </svg>
           </div>
        </div>
-        <label className="sr-only">Search</label>
-        <div className="relative">
-              <input type="text" id="table-search-users" className="block ps-10 py-2 text-sm border rounded-lg w-60 md:w-60 bg-white focus:ring-D32124 focus:border-D32124" placeholder="Search..." />
-              <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                  </svg>
-              </div>
+        <div className="pr-3 md:pb-0">
+           <AddPesan reloadTable={reloadTable}></AddPesan>  
           </div>
-          <AddPesan></AddPesan>
+          
         </div>
       </div>
       <div>
       <Table data={tableData} 
       />
     </div>
-    <br />
-    <Pagination />
-        
-        
     </div>
     </div>
   </>

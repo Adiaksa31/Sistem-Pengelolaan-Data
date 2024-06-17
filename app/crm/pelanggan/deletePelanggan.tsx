@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import token from "../components/token";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import {
   AlertDialog,
@@ -30,12 +29,14 @@ type Pelanggan = {
     kecamatan: string;
     kabupaten: string;
   }
-
-  export default function DeletePelanggan(pelanggan: Pelanggan) {
-
+  interface DeletePelangganProps {
+    pelanggan: Pelanggan;
+    reloadTable: () => void;
+  }
+  
+  export default function DeletePelanggan({ pelanggan, reloadTable }: DeletePelangganProps) {
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter();
   
     async function handleDeleteUser(pelangganId: number) {
       try {
@@ -57,7 +58,7 @@ type Pelanggan = {
         }
   
         toast({ title: `Data ${pelanggan.nama} berhasil dihapus`, variant: 'berhasil' });
-        router.refresh();
+        reloadTable();
       } catch (error: any) {
         setError(error?.message || 'An error occurred while deleting the user.');
       }

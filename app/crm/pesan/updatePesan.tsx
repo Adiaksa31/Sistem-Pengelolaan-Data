@@ -1,7 +1,6 @@
 'use client'
 
 import { SyntheticEvent, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import BtnEditData from "../components/btnEditData";
 import token from "../components/token";
 import { toast } from "@/components/ui/use-toast";
@@ -31,8 +30,11 @@ type Pesanan = {
     tujuan_user:any;
     status_kontak: string;
   }
-
-  export default function UpdatePesan({ pesanan }: { pesanan: Pesanan }) {
+  interface UpdatePesanProps {
+    pesanan: Pesanan;
+    reloadTable: () => void;
+  }
+  export default function UpdatePesan({ pesanan, reloadTable }: UpdatePesanProps) {
     const [id, setId] = useState(pesanan.id);
     const [kategori_id, setKategori_id] = useState(pesanan.kategori.id);
     const [customer_id, setCustomer_id] = useState(pesanan.costumer.id);
@@ -53,7 +55,6 @@ type Pesanan = {
     const [tujuan_user, setTujuan_user] = useState(pesanan.tujuan_user.id);
     const [status_kontak, setStatus_kontak] = useState(pesanan.status_kontak);
     const [error, setError] = useState<string | null>(null); 
-    const router = useRouter();
   
     async function handelUpdatePesan(e: SyntheticEvent) {
       e.preventDefault();
@@ -98,7 +99,7 @@ type Pesanan = {
   
         toast({ title: `Data pesan ${pesanan.costumer.nama} berhasil diperbaharui`, variant: 'berhasil' });
         setError(null); 
-        router.refresh();
+        reloadTable();
         return response;
         
       } catch (error) {

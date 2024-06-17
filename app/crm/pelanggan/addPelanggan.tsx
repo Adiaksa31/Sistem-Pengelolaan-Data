@@ -1,12 +1,14 @@
 'use client'
 import { SyntheticEvent, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import BtnData from "../components/btnData";
 import token from "../components/token";
 import { toast } from "@/components/ui/use-toast";
 const fetch2 = require('node-fetch');
+interface AddPelangganProps {
+  reloadTable: () => void;
+}
 
-export default function AddPelanggan() {
+export default function AddPelanggan({ reloadTable }: AddPelangganProps) {
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [no_wa, setNo_wa] = useState("");
@@ -23,7 +25,6 @@ export default function AddPelanggan() {
   const [kelurahanName, setKelurahanName] = useState("");
   const [kecamatanName, setKecamatanName] = useState("");
   const [kabupatenName, setKabupatenName] = useState("");
-  const router = useRouter();
 
   async function addPelanggan(e: SyntheticEvent) {
     e.preventDefault();
@@ -60,7 +61,7 @@ export default function AddPelanggan() {
       }
 
       toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil' });
-      router.refresh();
+      reloadTable();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);

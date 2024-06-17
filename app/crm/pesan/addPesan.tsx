@@ -1,12 +1,15 @@
 'use client'
 import { SyntheticEvent, useState, useEffect, ChangeEvent } from "react";
-import { useRouter } from "next/navigation";
 import BtnData from "../components/btnData";
 import token from "../components/token";
 import Link from 'next/link';
 import { toast } from "@/components/ui/use-toast";
 
-export default function AddPesan() {
+interface AddPesanProps {
+  reloadTable: () => void;
+}
+
+export default function AddPesan({ reloadTable }: AddPesanProps) {
   const [kategori_id, setKategori_id] = useState("");
   const [customer_id, setCustomer_id] = useState("");
   const [sumber, setSumber] = useState("");
@@ -27,7 +30,6 @@ export default function AddPesan() {
   const [status_kontak, setStatus_kontak] = useState("pending");
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<boolean>(false);
-  const router = useRouter();
 
   async function addPesan(e: SyntheticEvent) {
     e.preventDefault();
@@ -70,7 +72,7 @@ export default function AddPesan() {
       }
   
       toast({ title: 'Data berhasil ditambahkan', variant: 'berhasil'});
-      router.refresh();
+      reloadTable();
       return response;
     } catch (error) {
       console.error('Error:', error as Error);
