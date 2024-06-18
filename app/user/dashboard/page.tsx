@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react';
 import NavAdmAts from '../components/navAdmAts';
 import NavAdmBwh from '../components/navAdmBwh';
 import TabKategori from '../components/TabKategori';
-import StatusCards from '../components/StatusCard';
+import KanbanBoard from '../components/KanbanBoard'; 
 import { Order } from '../../../types/Order';
 import { getToken } from '../components/TokenComponent';
 import { User } from '../../../types/User';
 import Report from '../components/Report';
-import Kategori from '@/app/admin/kategori/page';
 
 const fetchOrders = async (token: string | null): Promise<Order[]> => {
   if (!token) {
@@ -25,32 +24,18 @@ const fetchOrders = async (token: string | null): Promise<Order[]> => {
       },
     });
     const data = await res.json();
-    // console.log('response: ', data);
     if (data.status === 'error') {
       return [];
     } else {
-      var orderData = [];
-
-      // interface Order {
-      //   id: number;
-      //   nama: string;
-      //   keterangan: string;
-      //   tanggal: string;
-      //   status: string;
-      // }
-
-      for (let i = 0; i < data.data.length; i++) {
-        orderData.push({
-          id: data.data[i].id,
-          kategori_id: data.data[i].kategori.id,
-          cabang_id: data.data[i].cabang.id,
-          nama: data.data[i].kategori.nama,
-          keterangan: data.data[i].keterangan,
-          tanggal: data.data[i].created_at,
-          status: data.data[i].status_kontak,
-        });
-      }
-
+      const orderData = data.data.map((order: any) => ({
+        id: order.id,
+        kategori_id: order.kategori.id,
+        cabang_id: order.cabang.id,
+        nama: order.costumer.nama,
+        keterangan: order.keterangan,
+        tanggal: order.created_at,
+        status: order.status_kontak,
+      }));
       return orderData as Order[];
     }
   } catch (err) {
@@ -69,73 +54,44 @@ const DashboardSPV: React.FC = () => {
     setToken(storedToken);
 
     const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        } else {
-            localStorage.removeItem('token');
-            window.location.href = '/';
-        }
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    }
 
     const loadOrders = async () => {
       if (storedToken) {
         const orders = await fetchOrders(storedToken);
 
-        var orderData = [];
-
-        // search order that have posisi_id from user
-        // if user.posisi.id = 3 or 4 or 8 show Prospek Sale = kategori_id 2
-        // if user.posisi.id = 5 or 7 show Booking Service = kategori_id 1
-        // if user.posisi.id = 5 or 6 show Sparepart = kategori_id 3
+        let orderData: Order[] = [];
 
         if (user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 8) {
-          for (let i = 0; i < orders.length; i++) {
-            if (orders[i].kategori_id === 2) {
-              orderData.push(orders[i]);
-            }
-          }
+          orderData = orders.filter(order => order.kategori_id === 2);
         } else if (user?.posisi.id === 5 || user?.posisi.id === 7) {
-          for (let i = 0; i < orders.length; i++) {
-            if (orders[i].kategori_id === 1) {
-              orderData.push(orders[i]);
-            }
-          }
+          orderData = orders.filter(order => order.kategori_id === 1);
         } else if (user?.posisi.id === 5 || user?.posisi.id === 6) {
-          for (let i = 0; i < orders.length; i++) {
-            if (orders[i].kategori_id === 3) {
-              orderData.push(orders[i]);
-            }
-          }
+          orderData = orders.filter(order => order.kategori_id === 3);
         }
 
-        // search order that have same cabang_id from user
-        for (let i = 0; i < orderData.length; i++) {
-          if (orderData[i].cabang_id !== user?.cabang.id) {
-            orderData.splice(i, 1);
-          }
-          console.log('orderData: ', orderData);
-        }
-
-        setInitialOrders(orderData as Order[]);
+        orderData = orderData.filter(order => order.cabang_id === user?.cabang.id);
+        setInitialOrders(orderData);
       }
     };
 
     loadOrders();
-  }, [
-    user?.posisi.id,
-    token,
-    user?.cabang.id,
-  ]);
+  }, [user?.posisi.id, token, user?.cabang.id]);
 
   return (
     <>
       <NavAdmAts />
       <NavAdmBwh currentPath="/user/dashboard" />
       <TabKategori />
-      {/* only user.posisi.id 3 or 4 or 5 show Report */}
       {user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 5 ? (
-        <Report initialOrders={initialOrders}/>
+        <Report initialOrders={initialOrders} />
       ) : null}
-      <StatusCards initialOrders={initialOrders} />
+      <KanbanBoard initialOrders={initialOrders} /> 
     </>
   );
 };

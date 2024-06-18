@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { DndProvider, useDrag, useDrop, ConnectDragSource } from 'react-dnd';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Order } from '../../../types/Order';
+import { getToken } from "../components/TokenComponent"; // Assuming token is retrieved like this
 
 const ItemTypes = {
   ORDER: 'order',
@@ -14,21 +15,40 @@ interface KanbanBoardProps {
 
 const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
   const [items, setItems] = useState<Order[]>(initialOrders);
+  const token = getToken(); // Retrieve the token
 
   useEffect(() => {
-    // Set the state with initialOrders when it's available
     if (initialOrders.length > 0) {
       setItems(initialOrders);
     }
-  }, [initialOrders, items]);
+  }, [initialOrders]);
+
+  const updateOrderStatus = async (orderId: number, status_kontak: string) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/pesanan/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        },
+        body: JSON.stringify({ id: orderId, status_kontak }),
+      });
+      const data = await res.json();
+      if (data.status === 'error') {
+        console.error('Failed to update order status:', data.message);
+      }
+    } catch (err) {
+      console.error('Error updating order status:', err);
+    }
+  };
 
   const moveOrder = (dragIndex: number, hoverIndex: number, targetStatus: string) => {
     const dragOrder = items[dragIndex];
     const newItems = [...items];
-    dragOrder.status = targetStatus;
-    newItems.splice(dragIndex, 1);
-    newItems.splice(hoverIndex, 0, dragOrder);
+    const updatedOrder = { ...dragOrder, status: targetStatus }; // Update only the status
+    newItems.splice(dragIndex, 1, updatedOrder);
     setItems(newItems);
+    updateOrderStatus(dragOrder.id, targetStatus); // Update the order status in the backend
   };
 
   const OrderComponent: React.FC<{ order: Order, index: number }> = ({ order, index }) => {
@@ -53,7 +73,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
   const Column: React.FC<{ status: string }> = ({ status }) => {
     const [, drop] = useDrop({
       accept: ItemTypes.ORDER,
-      drop(item: { index: number; id: number }, monitor) {
+      drop(item: { index: number; id: number }) {
         const dragIndex = item.index;
         const hoverIndex = items.findIndex((order) => order.status === status);
         moveOrder(dragIndex, hoverIndex, status);
@@ -75,7 +95,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="kanban px-10 ">
+      <div className="kanban px-10">
         <div className="flex gap-x-2 md:gap-x-0 w-full space-x-2">
           <Column status="pending" />
           <Column status="proses" />
