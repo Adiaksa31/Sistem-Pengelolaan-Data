@@ -329,33 +329,61 @@ class Pesanan {
     updated_at
   ) {
     // Dapatkan data pengguna sebelum diperbarui
-    const kategori = await Pesanan.findById(id);
+    const pesanan = await Pesanan.findById(id);
 
-    if (!kategori) {
+    if (!pesanan) {
       throw new Error("Pesanan tidak ditemukan");
     }
 
     // Ambil data kosong dari parameter yang tidak diisi
-    kategori_id = kategori_id ?? kategori.kategori_id;
-    customer_id = customer_id ?? kategori.customer_id;
-    sumber = sumber ?? kategori.sumber;
-    type_motor = type_motor ?? kategori.type_motor;
-    warna_motor = warna_motor ?? kategori.warna_motor;
-    model_motor = model_motor ?? kategori.model_motor;
-    jenis_pembayaran = jenis_pembayaran ?? kategori.jenis_pembayaran;
-    jenis_service = jenis_service ?? kategori.jenis_service;
-    jadwal_service = jadwal_service ?? kategori.jadwal_service;
-    jenis_sparepart = jenis_sparepart ?? kategori.jenis_sparepart;
-    nama_sparepart = nama_sparepart ?? kategori.nama_sparepart;
-    jenis_keluhan = jenis_keluhan ?? kategori.jenis_keluhan;
-    jenis_informasi = jenis_informasi ?? kategori.jenis_informasi;
-    keterangan = keterangan ?? kategori.keterangan;
-    cabang_id = cabang_id ?? kategori.cabang_id;
-    crm_id = crm_id ?? kategori.crm_id;
-    tujuan_user = tujuan_user ?? kategori.tujuan_user;
-    status_kontak = status_kontak ?? kategori.status_kontak;
-    created_at = created_at ?? kategori.created_at;
+    kategori_id = kategori_id ?? pesanan.kategori.id;
+    customer_id = customer_id ?? pesanan.costumer.id;
+    sumber = sumber ?? pesanan.sumber;
+    type_motor = type_motor ?? pesanan.type_motor;
+    warna_motor = warna_motor ?? pesanan.warna_motor;
+    model_motor = model_motor ?? pesanan.model_motor;
+    jenis_pembayaran = jenis_pembayaran ?? pesanan.jenis_pembayaran;
+    jenis_service = jenis_service ?? pesanan.jenis_service;
+    jadwal_service = jadwal_service ?? pesanan.jadwal_service;
+    jenis_sparepart = jenis_sparepart ?? pesanan.jenis_sparepart;
+    nama_sparepart = nama_sparepart ?? pesanan.nama_sparepart;
+    jenis_keluhan = jenis_keluhan ?? pesanan.jenis_keluhan;
+    jenis_informasi = jenis_informasi ?? pesanan.jenis_informasi;
+    keterangan = keterangan ?? pesanan.keterangan;
+    cabang_id = cabang_id ?? pesanan.cabang.id;
+    crm_id = crm_id ?? pesanan.crm.id;
+    tujuan_user = tujuan_user ?? pesanan.tujuan_user.id;
+    status_kontak = status_kontak ?? pesanan.status_kontak;
+    created_at = created_at ?? pesanan.created_at;
     updated_at = updated_at ?? new Date();
+
+    // check the query with values to be updated in console
+    console.log(
+      "UPDATE kontak_masuk SET kategori_id = ?, customer_id = ?, sumber = ?, type_motor = ?, warna_motor = ?, model_motor = ?, jenis_pembayaran = ?, jenis_service = ?, jadwal_service = ?, jenis_sparepart = ?, nama_sparepart = ?, jenis_keluhan = ?, jenis_informasi = ?, keterangan = ?, cabang_id = ?, crm_id = ?, tujuan_user = ?, status_kontak = ?, created_at = ?, updated_at = ? WHERE kontak_masuk_id = ?",
+      [
+        kategori_id,
+        customer_id,
+        sumber,
+        type_motor,
+        warna_motor,
+        model_motor,
+        jenis_pembayaran,
+        jenis_service,
+        jadwal_service,
+        jenis_sparepart,
+        nama_sparepart,
+        jenis_keluhan,
+        jenis_informasi,
+        keterangan,
+        cabang_id,
+        crm_id,
+        tujuan_user,
+        status_kontak,
+        created_at,
+        updated_at,
+        id,
+      ]
+    );
 
     return await excuteQuery({
       query:
