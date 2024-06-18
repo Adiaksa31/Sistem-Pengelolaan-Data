@@ -357,34 +357,6 @@ class Pesanan {
     created_at = created_at ?? pesanan.created_at;
     updated_at = updated_at ?? new Date();
 
-    // check the query with values to be updated in console
-    console.log(
-      "UPDATE kontak_masuk SET kategori_id = ?, customer_id = ?, sumber = ?, type_motor = ?, warna_motor = ?, model_motor = ?, jenis_pembayaran = ?, jenis_service = ?, jadwal_service = ?, jenis_sparepart = ?, nama_sparepart = ?, jenis_keluhan = ?, jenis_informasi = ?, keterangan = ?, cabang_id = ?, crm_id = ?, tujuan_user = ?, status_kontak = ?, created_at = ?, updated_at = ? WHERE kontak_masuk_id = ?",
-      [
-        kategori_id,
-        customer_id,
-        sumber,
-        type_motor,
-        warna_motor,
-        model_motor,
-        jenis_pembayaran,
-        jenis_service,
-        jadwal_service,
-        jenis_sparepart,
-        nama_sparepart,
-        jenis_keluhan,
-        jenis_informasi,
-        keterangan,
-        cabang_id,
-        crm_id,
-        tujuan_user,
-        status_kontak,
-        created_at,
-        updated_at,
-        id,
-      ]
-    );
-
     return await excuteQuery({
       query:
         "UPDATE kontak_masuk SET kategori_id = ?, customer_id = ?, sumber = ?, type_motor = ?, warna_motor = ?, model_motor = ?, jenis_pembayaran = ?, jenis_service = ?, jadwal_service = ?, jenis_sparepart = ?, nama_sparepart = ?, jenis_keluhan = ?, jenis_informasi = ?, keterangan = ?, cabang_id = ?, crm_id = ?, tujuan_user = ?, status_kontak = ?, created_at = ?, updated_at = ? WHERE kontak_masuk_id = ?",
