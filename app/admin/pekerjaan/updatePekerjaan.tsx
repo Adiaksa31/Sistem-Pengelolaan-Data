@@ -44,7 +44,7 @@ type Pekerjaan = {
         }
   
         toast({ title: `Data pekerjaan ${pekerjaan.nama_pekerjaan} berhasil diperbaharui`, variant: 'berhasil' });
-        setError(null); 
+        setError(null);
         reloadTable();
         return response;
         
@@ -53,7 +53,6 @@ type Pekerjaan = {
         setError((error as Error).message || 'Unknown error'); 
       }
     }
-   
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Edit Data {pekerjaan.nama_pekerjaan}</h1>

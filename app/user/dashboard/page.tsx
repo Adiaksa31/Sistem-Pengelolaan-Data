@@ -30,11 +30,26 @@ const fetchOrders = async (token: string | null): Promise<Order[]> => {
       const orderData = data.data.map((order: any) => ({
         id: order.id,
         kategori_id: order.kategori.id,
+        kategori: order.kategori.nama,
+        cabang: order.cabang.nama,
         cabang_id: order.cabang.id,
         nama: order.costumer.nama,
+        sumber: order.sumber,
         keterangan: order.keterangan,
         tanggal: order.created_at,
         status: order.status_kontak,
+        type_motor: order.type_motor,
+        warna_motor: order.warna_motor,
+        model_motor: order.model_motor,
+        jenis_pembayaran: order.jenis_pembayaran,
+        jenis_service: order.jenis_service,
+        jadwal_service: order.jadwal_service,
+        jenis_sparepart: order.jenis_sparepart,
+        nama_sparepart: order.nama_sparepart,
+        jenis_keluhan: order.jenis_keluhan,
+        jenis_informasi: order.jenis_informasi,
+        crm: order.crm.nama,
+        tujuan_user: order.tujuan_user.nama,
       }));
       return orderData as Order[];
     }

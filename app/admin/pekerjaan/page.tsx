@@ -56,6 +56,7 @@ export default function Pekerjaan() {
     }
   };
 
+
   const tableData = {
     headers: ['No', 'Nama Pekerjaan', 'Action'],
     rows: pekerjaanType.map((pekerjaan, index) => [
