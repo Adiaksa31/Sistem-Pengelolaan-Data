@@ -4,10 +4,10 @@ import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import AddPelanggan from "./addPelanggan";
 import DeletePelanggan from "./deletePelanggan";
+import ShowPelanggan from "./showPelanggan";
 import UpdatePelanggan from "./updatePelanggan";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
-import Pagination from "../components/pagination";
 import { useState, useEffect } from 'react';
 import token from "../components/token";
 
@@ -83,7 +83,7 @@ export default function Pelanggan() {
       new Date(pelanggan.tgl_lahir).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
       pelanggan.pekerjaan.nama_pekerjaan,
       <div key={`aksi-${index}`} className="container mx-auto">
-        <Aksi><UpdatePelanggan pelanggan={pelanggan} reloadTable={reloadTable}/> <DeletePelanggan pelanggan={pelanggan} reloadTable={reloadTable}/> </Aksi>
+        <Aksi><ShowPelanggan pelanggan={pelanggan}/><UpdatePelanggan pelanggan={pelanggan} reloadTable={reloadTable}/> <DeletePelanggan pelanggan={pelanggan} reloadTable={reloadTable}/> </Aksi>
       </div>
     ]),
   };

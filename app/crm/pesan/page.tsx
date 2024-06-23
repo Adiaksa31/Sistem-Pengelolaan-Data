@@ -4,10 +4,10 @@ import NavAdmAts from "../components/navAdmAts";
 import NavAdmBwh from "../components/navAdmBwh";
 import AddPesan from "./addPesan";
 import DeletePesan from "./deletePesan";
+import ShowPesan from "./showPesan";
 import UpdatePesan from "./updatePesan";
 import Table from "../components/table";
 import Aksi from "../components/aksi";
-import Pagination from "../components/pagination";
 import { useState, useEffect } from 'react';
 import token from "../components/token";
 
@@ -91,7 +91,7 @@ export default function Pesan() {
         pesanan.tujuan_user.nama,
         pesanan.status_kontak,
         <div key={`aksi-${index}`} className="container mx-auto">
-          <Aksi><UpdatePesan pesanan={pesanan} reloadTable={reloadTable}/> <DeletePesan pesanan={pesanan} reloadTable={reloadTable}/> </Aksi>
+          <Aksi><ShowPesan pesanan={pesanan}/><UpdatePesan pesanan={pesanan} reloadTable={reloadTable}/> <DeletePesan pesanan={pesanan} reloadTable={reloadTable}/> </Aksi>
         </div>
       ]),
     };

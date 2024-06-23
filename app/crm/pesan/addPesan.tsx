@@ -601,7 +601,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                       .filter(user => user.posisi.nama_posisi !== 'Administrator')
                       .map(user => (
                         <option key={user.id} value={user.id}>
-                          {user.nama} - {user.posisi.nama_posisi}
+                          {user.nama} - {user.posisi.nama_posisi} - {user.cabang.nama_cabang}
                         </option>
                       ))
                     }

@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Order } from '../../../types/Order';
-import { getToken } from "../components/TokenComponent"; // Assuming token is retrieved like this
+import { toast } from "@/components/ui/use-toast";
+import { getToken } from "../components/TokenComponent";
+import ShowPesan from "./showPesan";
 
 const ItemTypes = {
   ORDER: 'order',
@@ -37,6 +39,10 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       if (data.status === 'error') {
         console.error('Failed to update order status:', data.message);
       }
+      else{
+        const orderName = items.find(item => item.id === orderId)?.nama || 'Pesanan';
+        toast({ title: `Status pesan ${orderName} diupdate menjadi "${status_kontak}"`, variant: 'berhasil' });
+      }
     } catch (err) {
       console.error('Error updating order status:', err);
     }
@@ -52,6 +58,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
   };
 
   const OrderComponent: React.FC<{ order: Order, index: number }> = ({ order, index }) => {
+    console.log('Order data:', order); 
     const [{ isDragging }, drag] = useDrag({
       type: ItemTypes.ORDER,
       item: { type: ItemTypes.ORDER, id: order.id, index },
@@ -59,12 +66,20 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
         isDragging: monitor.isDragging(),
       }),
     });
+    const formattedOrderTanggal = new Date(order.tanggal).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
 
     return (
       <div ref={drag} className={`bg-white p-3 shadow rounded-lg mb-2 ${isDragging ? 'opacity-50' : ''}`}>
-        <p className="font-bold text-sm">{order.nama}</p>
-        <p className="text-xs text-gray-500">{order.keterangan}</p>
-        <p className="text-xs text-gray-500">Tanggal: {order.tanggal}</p>
+       <div className="flex justify-between items-center">
+          <p className="font-bold text-sm">{order.nama}</p>
+          <ShowPesan pesanan={order}/>
+        </div>
+        <p className="text-xs text-gray-500">Keterangan: {order.keterangan}</p>
+        <p className="text-xs text-gray-500">Tanggal: {formattedOrderTanggal}</p>
         <p className="text-xs text-gray-500">Status: {order.status}</p>
       </div>
     );
