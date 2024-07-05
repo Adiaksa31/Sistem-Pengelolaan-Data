@@ -85,7 +85,7 @@ export default function DashboardCrm() {
     <NavAdmAts />
     <NavAdmBwh currentPath="/crm/dashboard"/>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-3 md:px-10 md:pt-10">
-      <div className="w-full max-w-sm bg-white rounded-lg shadow ">
+      <div className="w-full max-w-sm bg-white rounded-lg shadow-lg ">
         <div className="flex flex-col items-center p-5">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 text-D32124">
             <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
@@ -94,11 +94,11 @@ export default function DashboardCrm() {
             <span className="text-sm text-gray-500 dark:text-gray-400">Pelanggan</span>  
         </div>
       </div>
-      <div className="md:col-span-3 w-full bg-white rounded-lg shadow ">
+      <div className="md:col-span-3 w-full bg-white rounded-lg shadow-lg ">
         <h1 className="px-3 pt-3 font-bold">Rekap Pesan/Kontak</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-3">
         {Object.entries(countByStatus).map(([status, count]) => (
-          <div key={status} className="w-full max-w-sm bg-white rounded-lg shadow">
+          <div key={status} className="w-full max-w-sm bg-white rounded-lg shadow-lg">
             <div className="flex flex-col items-center p-5">
               <h5 className="pt-3 text-xl font-black text-black">{formatNumber(count)}</h5>
               <span className={`text-sm ${getTextColor(status)}`}>{status}</span>
@@ -109,7 +109,7 @@ export default function DashboardCrm() {
       </div>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 p-3 md:px-10">
-      <div className="w-full bg-white rounded-lg shadow ">
+      <div className="w-full bg-white rounded-lg shadow-lg ">
           <div className="px-3 pt-3 flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white">
             <div>
             <h1 className="font-bold text-2xl">Pelanggan</h1>
@@ -128,7 +128,7 @@ export default function DashboardCrm() {
         </div>
       </div>
 
-      <div className="w-full bg-white rounded-lg shadow ">
+      <div className="w-full bg-white rounded-lg shadow-lg ">
         <div className="px-3 pt-3 flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white">
             <div>
             <h1 className="font-bold text-2xl">Pesan/Kontak</h1>

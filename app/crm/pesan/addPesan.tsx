@@ -4,6 +4,7 @@ import BtnData from "../components/btnData";
 import token from "../components/token";
 import Link from 'next/link';
 import { toast } from "@/components/ui/use-toast";
+import { HiExclamationCircle } from "react-icons/hi";
 
 interface AddPesanProps {
   reloadTable: () => void;
@@ -30,10 +31,82 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
   const [status_kontak, setStatus_kontak] = useState("pending");
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<boolean>(false);
+  const [errorCustomerId, setErrorCustomerId] = useState("");
+  const [errorSumber, setErrorSumber] = useState("");
+  const [errorKeterangan, setErrorKeterangan] = useState("");
+  const [errorCabangId, setErrorCabangId] = useState("");
+  const [errorKategoriId, setErrorKategoriId] = useState("");
+  const [errorCrmId, setErrorCrmId] = useState("");
+  const [errorTujuanUser, setErrorTujuanUser] = useState("");
+
+  const resetForm = () => {
+    setKategori_id("");
+    setCustomer_id("");
+    setSumber("");
+    setType_motor("");
+    setWarna_motor("");
+    setModel_motor("");
+    setJenis_pembayaran("");
+    setJenis_service("");
+    setJadwal_service("");
+    setJenis_sparepart("");
+    setNama_sparepart("");
+    setJenis_keluhan("");
+    setJenis_informasi("");
+    setKeterangan("");
+    setCabang_id("");
+    setCrm_id("");
+    setTujuan_user("");
+    setStatus_kontak("pending");
+    setErrorCabangId("");
+    setErrorCustomerId("");
+    setErrorSumber("");
+    setErrorKeterangan("");
+    setErrorKategoriId("");
+    setErrorCrmId("");
+    setErrorTujuanUser("");
+  };
 
   async function addPesan(e: SyntheticEvent) {
     e.preventDefault();
   
+    if (!customer_id) {
+      setErrorCustomerId("Nomor Pelanggan tidak boleh kosong");
+  } else {
+      setErrorCustomerId("");
+  }
+  if (!sumber) {
+      setErrorSumber("Sumber Pesan/Kontak tidak boleh kosong"); 
+  } else {
+      setErrorSumber("");
+  }
+  if (!keterangan) {
+      setErrorKeterangan("Keterangan tidak boleh kosong");
+  } else {
+      setErrorKeterangan("");
+  }
+  if (!kategori_id) {
+    setErrorKategoriId("Kategori tidak boleh kosong");
+    } else {
+      setErrorKategoriId("");
+      }
+  if (!cabang_id) {
+    setErrorCabangId("Cabang tidak boleh kosong");
+    } else {
+      setErrorCabangId("");
+      }
+  if (!crm_id) {
+    setErrorCrmId("Admin CRM tidak boleh kosong");
+    } else {
+      setErrorCrmId("");
+      }  
+  if (!tujuan_user) {
+    setErrorTujuanUser("Tujuan User tidak boleh kosong");
+    return;
+    } else {
+      setErrorTujuanUser("");
+      }  
+
     try {
       const preparedData = {
         kategori_id,
@@ -216,27 +289,33 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
     setSelected(true);
   };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setSelected(false); 
+    if (/^\d*$/.test(e.target.value)) { 
+      setQuery(e.target.value);
+      setSelected(false); 
+      setErrorCustomerId("");
+    } else {
+      setErrorCustomerId("Nomor Pelanggan hanya boleh berisi angka");
+    }
   };
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
           <br />
           <form onSubmit={addPesan} className="w-full max-w-lg">
-          <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="flex flex-wrap -mx-3 mb-3">
       <div className="w-full px-3">
         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
           Nomor Wa Pelanggan
         </label>
         <input
           type="text"
-          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorCustomerId ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
           placeholder="Masukkan Nomor Wa Pelanggan"
           value={query}
           onChange={handleChange}
          
         />
+        {errorCustomerId && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorCustomerId}</p>}
         {query && !selected && (
           <div className="relative">
             {filteredPelanggan.length > 0 ? (
@@ -260,13 +339,13 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
         )}
       </div>
     </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                   <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Sumber Pesan/Kontak
                 </label>
                 <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                  <select className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorSumber ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-state"
                    value={sumber}
                    onChange={e=>setSumber(e.target.value)}>
                   <option selected value="" disabled >-- Pilih Sumber Pesan/Kontak --</option>
@@ -279,6 +358,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                   </div>
                 </div>
+                {errorSumber && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorSumber}</p>}
             </div>
             </div>
                 <div className="flex flex-wrap -mx-3 mb-3">
@@ -286,41 +366,20 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Keterangan
                     </label>
-                    <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" placeholder="Masukkan Nomor..." 
+                    <textarea className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorKeterangan ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-first-name" placeholder="Masukkan Nomor..." 
                      value={keterangan}
                      onChange={e=>setKeterangan(e.target.value)}
                      />
+                     {errorKeterangan && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorKeterangan}</p>}
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Cabang
-                    </label>
-                    <div className="relative">
-                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
-                       value={cabang_id}
-                       onChange={e=>setCabang_id(e.target.value)} >
-                      <option selected value="" disabled>-- Pilih Cabang --</option>
-                      {cabangType.map(cabang => (
-                          <option key={cabang.id} value={cabang.id}>
-                            {cabang.nama_cabang}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kategori
                     </label>
                     <div className="relative">
-                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                      <select className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorKategoriId ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-state"
                        value={kategori_id}
                        onChange={e=>setKategori_id(e.target.value)}
                        >
@@ -335,6 +394,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                       </div>
                     </div>
+                    {errorKategoriId && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorKategoriId}</p>}
                   </div>
                   {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Keluhan' && (
                      <div className="w-full px-10 mt-3">
@@ -454,7 +514,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                       </div>
                     </div>
                     </div>
-                    <div className="w-full px-10 mt-3">
+                    <div className="w-full px-10 mt-3 hidden">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cc Motor
                     </label>
@@ -533,7 +593,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                   </div>
                 </div>
                   </div>
-                  <div className="w-full px-10 mt-3">
+                  <div className="w-full px-10 mt-3 hidden">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cc Motor
                     </label>
@@ -565,13 +625,13 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                   </div>
                 )}
                 </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Admin CRM
                 </label>
                 <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                  <select className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorCrmId ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-state"
                    value={crm_id}
                    onChange={e=>setCrm_id(e.target.value)}>
                   <option selected value="" disabled >-- Pilih Crm --</option>
@@ -585,15 +645,39 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                   </div>
                 </div>
+                {errorCrmId && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorCrmId}</p>}
             </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
+                  <div className="w-full px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Cabang
+                    </label>
+                    <div className="relative">
+                      <select className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorCabangId ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-state"
+                       value={cabang_id}
+                       onChange={e=>setCabang_id(e.target.value)} >
+                      <option selected value="" disabled>-- Pilih Cabang --</option>
+                      {cabangType.map(cabang => (
+                          <option key={cabang.id} value={cabang.id}>
+                            {cabang.nama_cabang}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                      </div>
+                    </div>
+                    {errorCabangId && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorCabangId}</p>}
+                  </div>
+                </div>
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Tujuan User
                 </label>
                 <div className="relative">
-                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                  <select className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorTujuanUser ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-state"
                   value={tujuan_user}
                   onChange={e=>setTujuan_user(e.target.value)}>
                   <option selected value="" disabled >-- Pilih Tujuan User --</option>
@@ -610,6 +694,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                   </div>
                 </div>
+                {errorTujuanUser && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorTujuanUser}</p>}
             </div>
             </div>
          </form>
@@ -618,7 +703,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
     return (
         <>
         <BtnData
-           content={modalContent} formSubmit={addPesan}
+           content={modalContent} formSubmit={addPesan} onClose={resetForm}
           ></BtnData>
         </>
     )

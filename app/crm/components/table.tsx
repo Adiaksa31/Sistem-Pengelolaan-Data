@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 interface TableProps {
   data: {
     headers: string[];
-    rows: (React.ReactNode | null | undefined)[][];
+    rows: { id: string; values: (React.ReactNode | null | undefined)[] }[];
   };
 }
 
 const Table: React.FC<TableProps> = ({ data }) => {
   const [tableData, setTableData] = useState<{
     headers: string[];
-    rows: (React.ReactNode | null | undefined)[][];
+    rows: { id: string; values: (React.ReactNode | null | undefined)[] }[];
   }>({ headers: [], rows: [] });
 
   useEffect(() => {
@@ -43,10 +43,10 @@ const Table: React.FC<TableProps> = ({ data }) => {
   const sortedRows = () => {
     const sortableRows = [...tableData.rows];
     if (sortConfig.key !== '') {
+      const index = tableData.headers.indexOf(sortConfig.key);
       sortableRows.sort((a, b) => {
-        const index = tableData.headers.indexOf(sortConfig.key);
-        const valueA = index !== -1 ? a[index] : '';
-        const valueB = index !== -1 ? b[index] : '';
+        const valueA = index !== -1 ? a.values[index] : '';
+        const valueB = index !== -1 ? b.values[index] : '';
         if (valueA === null || valueA === undefined) return -1;
         if (valueB === null || valueB === undefined) return 1;
         if (valueA < valueB) {
@@ -62,7 +62,7 @@ const Table: React.FC<TableProps> = ({ data }) => {
   };
 
   const filteredRows = sortedRows().filter(row =>
-    row.some(cell => (cell?.toString().toLowerCase().includes(searchTerm.toLowerCase())))
+    row.values.some(cell => (cell?.toString().toLowerCase().includes(searchTerm.toLowerCase())))
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -85,10 +85,10 @@ const Table: React.FC<TableProps> = ({ data }) => {
           onChange={e => setSearchTerm(e.target.value)}
         />
         <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                  </svg>
-              </div>
+          <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          </svg>
+        </div>
       </div>
       <div className='pb-2'></div>
       <div className="relative overflow-x-auto shadow rounded-md">
@@ -115,8 +115,8 @@ const Table: React.FC<TableProps> = ({ data }) => {
           <tbody>
             {currentItems.length > 0 ? (
               currentItems.map((row, rowIndex) => (
-                <tr key={rowIndex} className="bg-white border-b hover:bg-gray-100">
-                  {row.map((cell, cellIndex) => (
+                <tr key={row.id} className="bg-white border-b hover:bg-gray-100">
+                  {row.values.map((cell, cellIndex) => (
                     <td key={cellIndex} className="px-4 py-4">
                       {cell !== null && cell !== undefined ? cell : ''}
                     </td>

@@ -72,7 +72,9 @@ export default function Pelanggan() {
   };
   const tableData = {
     headers: ['No', 'Nama Pelanggan', 'Nomor Wa', 'Email', 'Jenis Kelamin', 'Agama', 'Alamat', 'Tanggal Lahir', 'Pekerjaan', 'Action'],
-    rows: pelangganType.map((pelanggan, index) => [
+    rows: pelangganType.map((pelanggan, index) => ({
+      id: pelanggan.id.toString(),
+      values: [
       index + 1,
       pelanggan.nama,
       pelanggan.no_wa,
@@ -85,7 +87,8 @@ export default function Pelanggan() {
       <div key={`aksi-${index}`} className="mx-auto">
         <Aksi><ShowPelanggan pelanggan={pelanggan}/><UpdatePelanggan pelanggan={pelanggan} reloadTable={reloadTable}/> <DeletePelanggan pelanggan={pelanggan} reloadTable={reloadTable}/> </Aksi>
       </div>
-    ]),
+    ]
+  })),
   };
   return (
   <>

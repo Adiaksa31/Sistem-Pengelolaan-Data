@@ -21,6 +21,13 @@ type Posisi = {
     const [status, setStatus] = useState(posisi.status);
     const [error, setError] = useState<string | null>(null); 
 
+    const resetForm = () => {
+      setId(posisi.id);
+      setNama(posisi.nama_posisi);
+      setStatus(posisi.status);
+      setError("");
+    };
+
     async function handelUpdateJabatan(e: SyntheticEvent) {
       e.preventDefault();
       try {
@@ -65,7 +72,7 @@ type Posisi = {
           <form onSubmit={handelUpdateJabatan} className="w-full max-w-lg">
                 {/* hidden id */}
                 <input type="hidden" name="id" value={id} />
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nama
@@ -76,7 +83,7 @@ type Posisi = {
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Status
@@ -101,7 +108,7 @@ type Posisi = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdateJabatan}
+           content={modalContent} formSubmitEdt={handelUpdateJabatan} onClose={resetForm}
           ></BtnEditData>
         </>
     )

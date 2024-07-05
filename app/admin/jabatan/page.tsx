@@ -63,17 +63,20 @@ export default function Jabatan() {
 
   const tableData = {
     headers: ['No', 'Nama Jabatan', 'Status', 'Action'],
-    rows: posisiType.map((posisi, index) => [
+    rows: posisiType.map((posisi, index) =>  ({
+      id: posisi.id.toString(),
+      values: [
       index + 1,
       posisi.nama_posisi,
       posisi.status,
     
-      <div key={`aksi-${index}`} className="container mx-auto">
+      <div key={`aksi-${index}`} className="mx-auto">
          <Aksi>
          <UpdateJabatan posisi={posisi} reloadTable={reloadTable}/>
           <DeleteJabatan posisi={posisi} reloadTable={reloadTable}/> </Aksi>
         </div>
-    ]),
+    ]
+  })),
   };
  
   return (

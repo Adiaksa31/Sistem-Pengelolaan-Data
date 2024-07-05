@@ -65,15 +65,18 @@ export default function Kategori() {
 
   const tableData = {
     headers: ['No', 'Nama Kategori', 'Status', 'Action'],
-    rows: kategoriType.map((kategori, index) => [
+    rows: kategoriType.map((kategori, index) => ({
+      id: kategori.id.toString(),
+      values: [
       index + 1,
       kategori.nama_kategori,
       kategori.status_kategori,
     
-      <div key={`aksi-${index}`} className="container mx-auto">
+      <div key={`aksi-${index}`} className="mx-auto">
         <Aksi><UpdateKategori kategori={kategori} reloadTable={reloadTable}/><DeleteKategori kategori={kategori} reloadTable={reloadTable} /> </Aksi>
       </div>
-    ]),
+    ]
+  })),
   };
   return (
   <>

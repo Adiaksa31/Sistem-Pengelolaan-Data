@@ -6,6 +6,7 @@ import { Order } from '../../../types/Order';
 import { toast } from "@/components/ui/use-toast";
 import { getToken } from "../components/TokenComponent";
 import ShowPesan from "./showPesan";
+import { HiExclamationCircle } from "react-icons/hi";
 
 const ItemTypes = {
   ORDER: 'order',
@@ -111,6 +112,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="kanban px-10">
+      <p className="pb-2 flex items-center text-gray-600 text-xs italic"><HiExclamationCircle /> Geser untuk merubah status pesan/kontak.</p>
         <div className="flex gap-x-2 md:gap-x-0 w-full space-x-2">
           <Column status="pending" />
           <Column status="proses" />

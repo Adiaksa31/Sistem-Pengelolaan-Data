@@ -65,16 +65,20 @@ export default function Cabang() {
 
   const tableData = {
     headers: ['No', 'Nama Cabang', 'Alamat', 'Nomor', 'Status', 'Action'],
-    rows: cabangType.map((cabang, index) => [
+    rows: cabangType.map((cabang, index) => 
+      ({
+        id: cabang.id.toString(),
+        values: [
       index + 1,
       cabang.nama_cabang,
       cabang.alamat_cabang,
       cabang.nomor,
       cabang.status_cabang,
     
-      <div key={`aksi-${index}`} className="container mx-auto">
+      <div key={`aksi-${index}`} className="mx-auto">
          <Aksi><UpdateCabang cabang={cabang} reloadTable={reloadTable}/><DeleteCabang cabang={cabang} reloadTable={reloadTable}/> </Aksi></div>
-    ]),
+    ]
+  })),
   };
   return (
   <>

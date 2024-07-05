@@ -9,7 +9,7 @@ type Kategori = {
     id: number;
     nama: string;
     nama_kategori: string;
-    status: string;
+    status_kategori: string;
   }
   interface UpdateKategoriProps {
     kategori: Kategori;
@@ -18,8 +18,15 @@ type Kategori = {
   export default function UpdateKategori({ kategori, reloadTable }: UpdateKategoriProps) {
     const [id, setId] = useState(kategori.id);
     const [nama, setNama] = useState(kategori.nama_kategori);
-    const [status, setStatus] = useState(kategori.status);
+    const [status, setStatus] = useState(kategori.status_kategori);
     const [error, setError] = useState<string | null>(null); 
+
+    const resetForm = () => {
+      setId(kategori.id);
+      setNama(kategori.nama_kategori);
+      setStatus(kategori.status_kategori);
+      setError("");
+    };
   
     async function handelUpdateKategori(e: SyntheticEvent) {
       e.preventDefault();
@@ -65,7 +72,7 @@ type Kategori = {
           <form onSubmit={handelUpdateKategori} className="w-full max-w-lg">
                 {/* hidden id */}
                 <input type="hidden" name="id" value={id} />
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nama
@@ -76,7 +83,7 @@ type Kategori = {
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Status
@@ -101,7 +108,7 @@ type Kategori = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdateKategori}
+           content={modalContent} formSubmitEdt={handelUpdateKategori} onClose={resetForm}
           ></BtnEditData>
         </>
     )

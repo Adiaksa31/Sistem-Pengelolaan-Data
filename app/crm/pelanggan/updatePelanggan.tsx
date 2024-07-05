@@ -46,13 +46,28 @@ type Pelanggan = {
     const [kecamatanName, setKecamatanName] = useState("");
     const [kabupatenName, setKabupatenName] = useState("");
     const [error, setError] = useState<string | null>(null); 
+
+    const resetForm = () => {
+      setError("");
+      setId(pelanggan.id);
+      setNama(pelanggan.nama);
+      setEmail(pelanggan.email);
+      setNo_wa(pelanggan.no_wa);
+      setTgl_lahir(pelanggan.tgl_lahir);
+      setAgama(pelanggan.agama);
+      setId_pekerjaan(pelanggan.pekerjaan.id_pekerjaan);
+      setJenis_kelamin(pelanggan.jenis_kelamin);
+      setIdKelurahan(pelanggan.id_kelurahan);
+      setIdKecamatan(pelanggan.id_kecamatan);
+      setIdKabupaten(pelanggan.id_kabupaten);
+      setKelurahan(pelanggan.kelurahan);
+      setKecamatan(pelanggan.kecamatan);
+      setKabupaten(pelanggan.kabupaten);
+    };
   
     async function handelUpdatePelanggan(e: SyntheticEvent) {
       e.preventDefault();
       try {
-        const selectedKabupaten = kabupatenType.find(item => item.id.toString() === id_kabupaten);
-        const selectedKecamatan = kecamatanType.find(item => item.id.toString() === id_kecamatan);
-        const selectedKelurahan = kelurahanType.find(item => item.id.toString() === id_kelurahan);
         const preparedData = {
           id,
           nama,
@@ -62,9 +77,12 @@ type Pelanggan = {
           agama,
           id_pekerjaan,
           jenis_kelamin,
-           kelurahan: selectedKelurahan ? selectedKelurahan.name : kecamatanName,
-          kecamatan: selectedKecamatan ? selectedKecamatan.name : kecamatanName,
-          kabupaten: selectedKabupaten ? selectedKabupaten.name : kabupatenName,
+          id_kelurahan,
+          id_kecamatan,
+          id_kabupaten,
+          kelurahan: kelurahanName,
+          kecamatan: kecamatanName,
+          kabupaten: kabupatenName,
       };
 
         const response = await fetch('http://localhost:3000/api/pelanggan/update', {
@@ -111,85 +129,85 @@ type Pelanggan = {
     }
 
     
-  async function getKabupaten() {
-    try {
+    async function getKabupaten() {
+      try {
         const response = await fetch('/api/region/kabupaten', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-            }
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+          }
         });
-
-        if (!response.ok) {   
-            throw new Error(`HTTP error! status: ${response.status}`);
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+  
         const provinces = await response.json();
         console.log("Parsed JSON:", provinces);
-
+  
         return provinces;
-    } catch (error) {
+      } catch (error) {
         console.error("Error fetching data:", error);
         throw error;
-    }
-  }
-
-  async function getKecamatan(id: string) {
-    try {
-      const response = await fetch(`/api/region/kecamatan?id=${id}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + token,
-        }
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
-      const provinces = await response.json();
-      console.log("Parsed JSON:", provinces);
-  
-      return provinces;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      throw error;
     }
-  }
- 
-  async function getKelurahan(id: string) {
-    try {
-      const response = await fetch(`/api/region/kelurahan?id=${id}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + token,
+  
+    async function getKecamatan(id: string) {
+      try {
+        const response = await fetch(`/api/region/kecamatan?id=${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+          }
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      });
   
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const provinces = await response.json();
+        console.log("Parsed JSON:", provinces);
+  
+        return provinces;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
       }
-  
-      const provinces = await response.json();
-      console.log("Parsed JSON:", provinces);
-  
-      return provinces;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      throw error;
     }
-  }
-
-  type Region = {
-    id: number;
-    name: string;
-  }
+  
+    async function getKelurahan(id: string) {
+      try {
+        const response = await fetch(`/api/region/kelurahan?id=${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+          }
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const provinces = await response.json();
+        console.log("Parsed JSON:", provinces);
+  
+        return provinces;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+      }
+    }
+  
+    type Region = {
+      id: number;
+      name: string;
+    }
   
     type Pekerjaan = {
       id: number;
       nama_pekerjaan: string;
     }
-
+  
     const [kabupatens, setKabupatens] = useState([]);
     const [kecamatans, setKecamatans] = useState([]);
     const [kelurahans, setKelurahans] = useState([]);
@@ -200,11 +218,13 @@ type Pelanggan = {
   
     const [pekerjaans, setPekerjaans] = useState([]);
     const pekerjaanType = pekerjaans as Pekerjaan[];
+  
     useEffect(() => {
       async function fetchData() {
         try {
           const pekerjaanData = await getPekerjaans();
           setPekerjaans(pekerjaanData);
+  
           const kabupatenData = await getKabupaten();
           setKabupatens(kabupatenData);
   
@@ -214,19 +234,17 @@ type Pelanggan = {
       }
       fetchData();
     }, []);
-
-    
     useEffect(() => {
       async function fetchKecamatanData() {
-        if (id_kabupaten) {
+        if (kabupaten) {
           try {
-            const kecamatanData = await getKecamatan(id_kabupaten);
+            const kecamatanData = await getKecamatan(kabupaten);
             setKecamatans(kecamatanData);
-            
-            const selectedKabupaten = kabupatenType.find(item => item.id.toString() === id_kabupaten);
+  
+            const selectedKabupaten = kabupatenType.find(item => item.id.toString() === kabupaten);
             setKabupatenName(selectedKabupaten ? selectedKabupaten.name : "");
-            setIdKabupaten(id_kabupaten);
-    
+            setIdKabupaten(kabupaten); // Set the id_kabupaten state
+  
           } catch (error) {
             console.error('Error fetching kecamatan data:', error);
           }
@@ -234,18 +252,18 @@ type Pelanggan = {
       }
       fetchKecamatanData();
     }, [kabupaten]);
-    
+  
     useEffect(() => {
       async function fetchKelurahanData() {
-        if (id_kecamatan) {
+        if (kecamatan) {
           try {
-            const kelurahanData = await getKelurahan(id_kecamatan);
+            const kelurahanData = await getKelurahan(kecamatan);
             setKelurahans(kelurahanData);
-            
-            const selectedKecamatan = kecamatanType.find(item => item.id.toString() === id_kecamatan);
+  
+            const selectedKecamatan = kecamatanType.find(item => item.id.toString() === kecamatan);
             setKecamatanName(selectedKecamatan ? selectedKecamatan.name : "");
-            setIdKecamatan(id_kecamatan);
-    
+            setIdKecamatan(kecamatan); // Set the id_kecamatan state
+  
           } catch (error) {
             console.error('Error fetching kelurahan data:', error);
           }
@@ -253,53 +271,51 @@ type Pelanggan = {
       }
       fetchKelurahanData();
     }, [kecamatan]);
-    
+  
     useEffect(() => {
-      const selectedKelurahan = kelurahanType.find(item => item.id.toString() === id_kelurahan);
+      const selectedKelurahan = kelurahanType.find(item => item.id.toString() === kelurahan);
       setKelurahanName(selectedKelurahan ? selectedKelurahan.name : "");
-      setIdKelurahan(id_kelurahan);
+      setIdKelurahan(kelurahan); // Set the id_kelurahan state
     }, [kelurahan]);
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Edit Data {pelanggan.nama}</h1>
           <br />
           <form onSubmit={handelUpdatePelanggan} className="w-full max-w-lg">
-          <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nama Pelanggan
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
                     value={nama}
                     onChange={e=>setNama(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Email
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Email..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Email..." 
                      value={email}
                      onChange={e=>setEmail(e.target.value)}
                      />
-                    <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nomor Whatsapp
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor..." 
                      value={no_wa}
                      onChange={e=>setNo_wa(Number(e.target.value))}
                      />
-                    <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
                   </div>
                 </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3 mb-6 md:mb-0">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Jenis Kelamin
@@ -318,7 +334,7 @@ type Pelanggan = {
                 </div>
             </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3 mb-6 md:mb-0">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Agama
@@ -341,17 +357,17 @@ type Pelanggan = {
                 </div>
             </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Tanggal Lahir
                 </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal lahir..." 
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal lahir..." 
                  value={moment(tgl_lahir).format('YYYY-MM-DD')}
                  onChange={e=>setTgl_lahir(e.target.value)}/>
               </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
                   <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kabupaten
@@ -360,10 +376,10 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={id_kabupaten}
-                        onChange={e => setIdKabupaten(e.target.value)}
+                        value={kabupaten}
+                        onChange={e => setKabupaten(e.target.value)}
                       >
-                        <option disabled>Pilih Kabupaten</option>
+                        <option value="">Pilih Kabupaten</option>
                         {kabupatenType.map((region) => (
                           <option key={region.id} value={region.id}>{region.name}</option>
                         ))}
@@ -374,7 +390,7 @@ type Pelanggan = {
                     </div>
                   </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="flex flex-wrap -mx-3 mb-3">
                   <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kecamatan
@@ -383,10 +399,10 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={id_kecamatan}
-                        onChange={e => setIdKecamatan(e.target.value)}
+                        value={kecamatan}
+                        onChange={e => setKecamatan(e.target.value)}
                       >
-                        <option disabled >Pilih Kecamatan</option>
+                         <option value="">Pilih Kecamatan</option>
                         {kecamatanType.map((region) => (
                           <option key={region.id} value={region.id}>{region.name}</option>
                         ))}
@@ -397,7 +413,7 @@ type Pelanggan = {
                     </div>
                   </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="flex flex-wrap -mx-3 mb-3">
                   <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kelurahan
@@ -406,10 +422,10 @@ type Pelanggan = {
                     <select
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
-                        value={id_kelurahan}
-                        onChange={e => setIdKelurahan(e.target.value)}
+                        value={kelurahan}
+                        onChange={e => setKelurahan(e.target.value)}
                       >
-                        <option disabled>Pilih Kelurahan</option>
+                        <option value="">Pilih Kelurahan</option>
                         {kelurahanType.map((region) => (
                           <option key={region.id} value={region.id}>{region.name}</option>
                         ))}
@@ -421,7 +437,7 @@ type Pelanggan = {
                   </div>
                   </div>
           
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Pekerjaan
@@ -450,7 +466,7 @@ type Pelanggan = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdatePelanggan}
+           content={modalContent} formSubmitEdt={handelUpdatePelanggan} onClose={resetForm}
           ></BtnEditData>
         </>
     )

@@ -59,17 +59,19 @@ export default function Pekerjaan() {
 
   const tableData = {
     headers: ['No', 'Nama Pekerjaan', 'Action'],
-    rows: pekerjaanType.map((pekerjaan, index) => [
-      index + 1,
-      pekerjaan.nama_pekerjaan,
-    
-      <div key={`aksi-${index}`} className="container mx-auto">
-        <Aksi> 
-          <UpdatePekerjaan pekerjaan={pekerjaan} reloadTable={reloadTable} />
-          <DeletePekerjaan pekerjaan={pekerjaan} reloadTable={reloadTable} />
-        </Aksi>
-      </div>
-    ]),
+    rows: pekerjaanType.map((pekerjaan, index) => ({
+      id: pekerjaan.id.toString(),
+      values: [
+        index + 1,
+        pekerjaan.nama_pekerjaan,
+        <div key={`aksi-${index}`} className="mx-auto">
+          <Aksi> 
+            <UpdatePekerjaan pekerjaan={pekerjaan} reloadTable={reloadTable} />
+            <DeletePekerjaan pekerjaan={pekerjaan} reloadTable={reloadTable} />
+          </Aksi>
+        </div>
+      ]
+    })),
   };
 
   return (

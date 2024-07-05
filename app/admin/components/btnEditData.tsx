@@ -4,11 +4,14 @@ import { IoPencil } from "react-icons/io5";
 import ModalEdit from "../components/mdlEdit";
 
 
-const BtnEditData: React.FC<{ children: React.ReactNode; } & any> = ({ content, formSubmitEdt }) => {
+const BtnEditData: React.FC<{ children: React.ReactNode; } & any> = ({ content, formSubmitEdt, onClose }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = () => setIsOpen(true);
-    const handleCloseModal = () => setIsOpen(false);
+    const handleCloseModal = () => {
+      setIsOpen(false);
+      onClose(); // Reset the form when the modal is closed
+  };
 
     const handleformSubmitEdt = async (data: any) => {
       try {

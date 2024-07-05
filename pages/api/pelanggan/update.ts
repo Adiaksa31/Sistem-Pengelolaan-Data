@@ -11,14 +11,14 @@ const schema = yup.object().shape({
     email: yup.string().email().required(),
     tgl_lahir: yup.string().required(),
     agama: yup.string().required(),
-    id_pekerjaan: yup.number().required(),
-    jenis_kelamin: yup.string().required(),
-    id_kelurahan: yup.number().required(),
-    id_kecamatan: yup.number().required(),
-    id_kabupaten: yup.number().required(),
-    kelurahan: yup.string().required(),
-    kecamatan: yup.string().required(),
-    kabupaten: yup.string().required(),
+    id_pekerjaan: yup.number().nullable(),
+    jenis_kelamin: yup.string().nullable(),
+    id_kelurahan: yup.number().nullable(),
+    id_kecamatan: yup.number().nullable(),
+    id_kabupaten: yup.number().nullable(),
+    kelurahan: yup.string().nullable(),
+    kecamatan: yup.string().nullable(),
+    kabupaten: yup.string().nullable(),
 })
 
 export default async function handler(

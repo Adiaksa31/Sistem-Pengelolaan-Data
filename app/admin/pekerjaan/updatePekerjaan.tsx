@@ -18,6 +18,12 @@ type Pekerjaan = {
     const [id, setId] = useState(pekerjaan.id);
     const [nama, setNama] = useState(pekerjaan.nama_pekerjaan);
     const [error, setError] = useState<string | null>(null); 
+
+    const resetForm = () => {
+      setId(pekerjaan.id);
+      setNama(pekerjaan.nama_pekerjaan);
+      setError("");
+    };
   
     async function handelUpdatePekerjaan(e: SyntheticEvent) {
       e.preventDefault();
@@ -60,13 +66,14 @@ type Pekerjaan = {
           <form onSubmit={handelUpdatePekerjaan} className="w-full max-w-lg">
                 {/* hidden id */}
                 <input type="hidden" name="id" value={id} />
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nama
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
                     value={nama}
+                    autoComplete="off"
                     onChange={e=>setNama(e.target.value)}
                     />
                   </div>
@@ -77,7 +84,7 @@ type Pekerjaan = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdatePekerjaan}
+           content={modalContent} formSubmitEdt={handelUpdatePekerjaan} onClose={resetForm}
           ></BtnEditData>
         </>
     )

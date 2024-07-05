@@ -55,6 +55,29 @@ type Pesanan = {
     const [tujuan_user, setTujuan_user] = useState(pesanan.tujuan_user.id);
     const [status_kontak, setStatus_kontak] = useState(pesanan.status_kontak);
     const [error, setError] = useState<string | null>(null); 
+
+    const resetForm = () => {
+      setId(pesanan.id);
+      setKategori_id(pesanan.kategori.id);
+      setCustomer_id(pesanan.costumer.id);
+      setSumber(pesanan.sumber);
+      setType_motor(pesanan.type_motor);
+      setWarna_motor(pesanan.warna_motor);
+      setModel_motor(pesanan.model_motor);
+      setJenis_pembayaran(pesanan.jenis_pembayaran);
+      setJenis_service(pesanan.jenis_service);
+      setJadwal_service(pesanan.jadwal_service);
+      setJenis_sparepart(pesanan.jenis_sparepart);
+      setNama_sparepart(pesanan.nama_sparepart);
+      setJenis_keluhan(pesanan.jenis_keluhan);
+      setJenis_informasi(pesanan.jenis_informasi);
+      setKeterangan(pesanan.keterangan);
+      setCabang_id(pesanan.cabang.id);
+      setCrm_id(pesanan.crm.id);
+      setTujuan_user(pesanan.tujuan_user.id);
+      setStatus_kontak(pesanan.status_kontak);
+      setError("");
+    };
   
     async function handelUpdatePesan(e: SyntheticEvent) {
       e.preventDefault();
@@ -203,7 +226,7 @@ type Pesanan = {
           <h1 className="text-center font-bold text-xl">Edit Data Pesan/Kontak {pesanan.costumer.nama}</h1>
           <br />
           <form onSubmit={handelUpdatePesan} className="w-full max-w-lg">
-          <div className="flex-wrap -mx-3 mb-6 hidden">
+          <div className="flex-wrap -mx-3 mb-3 hidden">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       
@@ -214,7 +237,7 @@ type Pesanan = {
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                   <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Sumber Pesan/Kontak
@@ -240,35 +263,13 @@ type Pesanan = {
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Keterangan
                     </label>
-                    <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" placeholder="Masukkan Nomor..." 
+                    <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" placeholder="Masukkan Nomor..." 
                      value={keterangan}
                      onChange={e=>setKeterangan(e.target.value)}
                      />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Cabang
-                    </label>
-                    <div className="relative">
-                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
-                       value={cabang_id}
-                       onChange={e=>setCabang_id(e.target.value)} >
-                      <option selected disabled>-- Pilih Cabang --</option>
-                      {cabangType.map(cabang => (
-                          <option key={cabang.id} value={cabang.id}>
-                            {cabang.nama_cabang}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Kategori
@@ -499,7 +500,7 @@ type Pesanan = {
                   </div>
                 )}
                 </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Admin CRM
@@ -521,7 +522,29 @@ type Pesanan = {
                 </div>
             </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
+                  <div className="w-full px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Cabang
+                    </label>
+                    <div className="relative">
+                      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
+                       value={cabang_id}
+                       onChange={e=>setCabang_id(e.target.value)} >
+                      <option selected disabled>-- Pilih Cabang --</option>
+                      {cabangType.map(cabang => (
+                          <option key={cabang.id} value={cabang.id}>
+                            {cabang.nama_cabang}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Tujuan User
@@ -543,7 +566,7 @@ type Pesanan = {
                 </div>
             </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Status
@@ -570,7 +593,7 @@ type Pesanan = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdatePesan}
+           content={modalContent} formSubmitEdt={handelUpdatePesan} onClose={resetForm}
           ></BtnEditData>
         </>
     )

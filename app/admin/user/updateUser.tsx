@@ -29,6 +29,18 @@ type User = {
     const [cabang_id, setCabang_id] = useState(user.cabang.id);
     const [status, setStatus] = useState(user.status);
     const [error, setError] = useState<string | null>(null); 
+
+    const resetForm = () => {
+      setId(user.id);
+      setNama(user.nama);
+      setEmail(user.email);
+      setNomor(user.nomor);
+      setPassword(user.password);
+      setPosisi_id(user.posisi.id);
+      setCabang_id(user.cabang.id);
+      setStatus(user.status);
+      setError("");
+    };
   
     async function handelUpdateUser(e: SyntheticEvent) {
       e.preventDefault();
@@ -139,55 +151,52 @@ type User = {
           <form onSubmit={handelUpdateUser} className="w-full max-w-lg">
                 {/* hidden id */}
                 <input type="hidden" name="id" value={id} />
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nama
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
                     value={nama}
                     onChange={e=>setNama(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Email
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Email..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Email..." 
                      value={email}
                      onChange={e=>setEmail(e.target.value)}
                      />
-                    <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nomor
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor..." 
                      value={nomor}
                      onChange={e=>setNomor(Number(e.target.value))}
                      />
-                    <p className="text-red-500 text-xs italic">Username sudah digunakan.</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                   <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                       Password
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" 
                      value={password}
                      onChange={e=>setPassword(e.target.value)}
                     />
-                    <p className="text-gray-600 text-xs italic">Buat Password yang unik dan mudah diingat.</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Posisi
                     </label>
@@ -208,7 +217,7 @@ type User = {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cabang
                     </label>
@@ -228,7 +237,9 @@ type User = {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Status
                     </label>
@@ -245,14 +256,14 @@ type User = {
                       </div>
                     </div>
                     </div>
-                </div>
+                    </div>
           </form>
         </div>
       );
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdateUser}
+           content={modalContent} formSubmitEdt={handelUpdateUser} onClose={resetForm}
           ></BtnEditData>
         </>
     )

@@ -114,63 +114,63 @@ const ShowPesan: React.FC<ShowPesanProps> = ({ pesanan }) => {
 
   const modalContent = (
     <div className="p-4">
-      <h1 className="text-center font-bold text-xl">Data Pesanan {pesanan.nama}</h1>
-      <br />
-      <ul className="list-none">
-  {pesanan.nama && (
-    <li className="mb-2">Nama Pelanggan: {pesanan.nama}</li>
-  )}
-  {pesanan.sumber && (
-    <li className="mb-2">Sumber Pesanan: {pesanan.sumber}</li>
-  )}
-  {pesanan.kategori && (
-    <li className="mb-2">Kategori Pesanan: {pesanan.kategori}</li>
-  )}
-  {pesanan.type_motor && (
-    <li className="mb-2">Type Motor: {pesanan.type_motor}</li>
-  )}
-  {pesanan.warna_motor && (
-    <li className="mb-2">Warna Motor: {pesanan.warna_motor}</li>
-  )}
-  {pesanan.model_motor && (
-    <li className="mb-2">Model Motor: {pesanan.model_motor}</li>
-  )}
-  {pesanan.jenis_pembayaran && (
-    <li className="mb-2">Jenis Pembayaran: {pesanan.jenis_pembayaran}</li>
-  )}
-  {pesanan.jenis_service && (
-    <li className="mb-2">Jenis Service: {pesanan.jenis_service}</li>
-  )}
-  {pesanan.jadwal_service && (
-    <li className="mb-2">Jadwal Service: {formattedJadwalService}</li>
-  )}
-  {pesanan.jenis_sparepart && (
-    <li className="mb-2">Jenis Sparepart: {pesanan.jenis_sparepart}</li>
-  )}
-  {pesanan.nama_sparepart && (
-    <li className="mb-2">Nama Sparepart: {pesanan.nama_sparepart}</li>
-  )}
-  {pesanan.jenis_keluhan && (
-    <li className="mb-2">Jenis Keluhan: {pesanan.jenis_keluhan}</li>
-  )}
-  {pesanan.jenis_informasi && (
-    <li className="mb-2">Jenis Informasi: {pesanan.jenis_informasi}</li>
-  )}
-  {pesanan.keterangan && (
-    <li className="mb-2">Keterangan: {pesanan.keterangan}</li>
-  )}
-  {pesanan.cabang && (
-    <li className="mb-2">Cabang: {pesanan.cabang}</li>
-  )}
-  {pesanan.crm && (
-    <li className="mb-2">CRM: {pesanan.crm}</li>
-  )}
-  {pesanan.tujuan_user && (
-    <li className="mb-2">Tujuan User: {pesanan.tujuan_user}</li>
-  )}
-  {pesanan.status && (
-    <li className="mb-2">Status Kontak: {pesanan.status}</li>
-  )}
+        <h1 className="text-center font-bold text-xl text-gray-500">Data Pesanan {pesanan.nama}</h1>
+        <br />
+        <ul className="list-none">
+            {pesanan.nama && (
+                <li className="mb-2 text-gray-500"><strong>Nama Pelanggan:</strong> {pesanan.nama}</li>
+            )}
+            {pesanan.sumber && (
+                <li className="mb-2 text-gray-500"><strong>Sumber Pesanan:</strong> {pesanan.sumber}</li>
+            )}
+            {pesanan.kategori && (
+                <li className="mb-2 text-gray-500"><strong>Kategori Pesanan:</strong> {pesanan.kategori}</li>
+            )}
+            {pesanan.type_motor && (
+                <li className="mb-2 text-gray-500"><strong>Type Motor:</strong> {pesanan.type_motor}</li>
+            )}
+            {pesanan.warna_motor && (
+                <li className="mb-2 text-gray-500"><strong>Warna Motor:</strong> {pesanan.warna_motor}</li>
+            )}
+            {pesanan.model_motor && (
+                <li className="mb-2 text-gray-500"><strong>Model Motor:</strong> {pesanan.model_motor}</li>
+            )}
+            {pesanan.jenis_pembayaran && (
+                <li className="mb-2 text-gray-500"><strong>Jenis Pembayaran:</strong> {pesanan.jenis_pembayaran}</li>
+            )}
+            {pesanan.jenis_service && (
+                <li className="mb-2 text-gray-500"><strong>Jenis Service:</strong> {pesanan.jenis_service}</li>
+            )}
+            {pesanan.jadwal_service && (
+                <li className="mb-2 text-gray-500"><strong>Jadwal Service:</strong> {formattedJadwalService}</li>
+            )}
+            {pesanan.jenis_sparepart && (
+                <li className="mb-2 text-gray-500"><strong>Jenis Sparepart:</strong> {pesanan.jenis_sparepart}</li>
+            )}
+            {pesanan.nama_sparepart && (
+                <li className="mb-2 text-gray-500"><strong>Nama Sparepart:</strong> {pesanan.nama_sparepart}</li>
+            )}
+            {pesanan.jenis_keluhan && (
+                <li className="mb-2 text-gray-500"><strong>Jenis Keluhan:</strong> {pesanan.jenis_keluhan}</li>
+            )}
+            {pesanan.jenis_informasi && (
+                <li className="mb-2 text-gray-500"><strong>Jenis Informasi:</strong> {pesanan.jenis_informasi}</li>
+            )}
+            {pesanan.keterangan && (
+                <li className="mb-2 text-gray-500"><strong>Keterangan:</strong> {pesanan.keterangan}</li>
+            )}
+            {pesanan.cabang && (
+                <li className="mb-2 text-gray-500"><strong>Cabang:</strong> {pesanan.cabang}</li>
+            )}
+            {pesanan.crm && (
+                <li className="mb-2 text-gray-500"><strong>CRM:</strong> {pesanan.crm}</li>
+            )}
+            {pesanan.tujuan_user && (
+                <li className="mb-2 text-gray-500"><strong>Tujuan User:</strong> {pesanan.tujuan_user}</li>
+            )}
+            {pesanan.status && (
+                <li className="mb-2 text-gray-500"><strong>Status Kontak:</strong> {pesanan.status}</li>
+            )}
 </ul>
 
     </div>

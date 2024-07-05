@@ -82,7 +82,9 @@ export default function Pesan() {
 
   const tableData = {
     headers: ['No', 'Nama Pelanggan', 'Keterangan', 'Kategori', 'Cabang', 'Admin CRM', 'Tujuan Staf', 'Status', 'Action'],
-      rows: pesananType.map((pesanan, index) => [
+      rows: pesananType.map((pesanan, index) => ({
+        id: pesanan.id.toString(),
+        values: [
         index + 1,
         pesanan.costumer.nama,
         pesanan.keterangan,
@@ -94,7 +96,8 @@ export default function Pesan() {
         <div key={`aksi-${index}`} className="mx-auto">
           <Aksi><ShowPesan pesanan={pesanan}/><UpdatePesan pesanan={pesanan} reloadTable={reloadTable}/> <DeletePesan pesanan={pesanan} reloadTable={reloadTable}/> </Aksi>
         </div>
-      ]),
+    ]
+  })),
     };
   return (
   <>

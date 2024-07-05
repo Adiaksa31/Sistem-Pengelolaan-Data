@@ -67,7 +67,9 @@ export default function User() {
 
   const tableData = {
     headers: ['No', 'Nama', 'Email', 'Nomor', 'Jabatan', 'Cabang', 'Status', 'Action'],
-    rows: users.map((user, index) => [
+    rows: users.map((user, index) => ({
+      id: user.id.toString(),
+      values: [
       index + 1,
       user.nama,
       user.email,
@@ -75,13 +77,14 @@ export default function User() {
       user.posisi.nama_posisi,
       user.cabang.nama_cabang,
       user.status,
-      <div key={`aksi-${index}`} className="container mx-auto">
+      <div key={`aksi-${index}`} className="mx-auto">
         <Aksi>
           <UpdateUser user={user} reloadTable={reloadTable}/>
           <DeleteUser user={user} reloadTable={reloadTable}/>
         </Aksi>
       </div>
-    ]),
+    ]
+  })),
   };
 
   return (

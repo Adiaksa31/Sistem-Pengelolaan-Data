@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 interface Pesanan {
-  customer?: { nama: string };
+  costumer?: { nama: string };
   sumber?: string;
   kategori?: { nama: string };
   type_motor?: string;

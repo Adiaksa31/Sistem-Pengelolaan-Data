@@ -39,6 +39,9 @@ const DownloadExcel: FC<DownloadExcelProps> = ({ data, headers, fileName }) => {
   const [filterAgama, setFilterAgama] = useState<string | null>(null);
   const [filterJenisKelamin, setFilterJenisKelamin] = useState<string | null>(null);
   const [filterPekerjaan, setFilterPekerjaan] = useState<string | null>(null);
+  const [filterKabupaten, setFilterKabupaten] = useState<string | null>(null);
+  const [filterKecamatan, setFilterKecamatan] = useState<string | null>(null);
+  const [filterKelurahan, setFilterKelurahan] = useState<string | null>(null);
 
   const applyFilter = () => {
     let filteredData = data;
@@ -53,6 +56,18 @@ const DownloadExcel: FC<DownloadExcelProps> = ({ data, headers, fileName }) => {
 
     if (filterPekerjaan) {
       filteredData = filteredData.filter(pelanggan => pelanggan.pekerjaan.nama_pekerjaan === filterPekerjaan);
+    }
+
+    if (filterKabupaten) {
+      filteredData = filteredData.filter(pelanggan => pelanggan.kabupaten === filterKabupaten);
+    }
+
+    if (filterKecamatan) {
+      filteredData = filteredData.filter(pelanggan => pelanggan.kecamatan === filterKecamatan);
+    }
+
+    if (filterKelurahan) {
+      filteredData = filteredData.filter(pelanggan => pelanggan.kelurahan === filterKelurahan);
     }
 
     return filteredData;
@@ -86,6 +101,9 @@ const DownloadExcel: FC<DownloadExcelProps> = ({ data, headers, fileName }) => {
     saveAs(dataBlob, `${fileName}.xlsx`);
   };
 
+  function capitalizeFirstLetter(text: string) {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
   return (
     <div className="flex space-x-1 items-center">
       <DropdownMenu>
@@ -103,6 +121,7 @@ const DownloadExcel: FC<DownloadExcelProps> = ({ data, headers, fileName }) => {
         <DropdownMenuLabel>Filter Data</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className='px-2 py-2'>
+
    {/* Filter untuk Agama */}
    <select
         value={filterAgama || ''}
@@ -116,6 +135,7 @@ const DownloadExcel: FC<DownloadExcelProps> = ({ data, headers, fileName }) => {
       </select>
         </div>
         <div className='px-2 py-2'>
+
   {/* Filter untuk Jenis Kelamin */}
   <select
         value={filterJenisKelamin || ''}
@@ -128,7 +148,8 @@ const DownloadExcel: FC<DownloadExcelProps> = ({ data, headers, fileName }) => {
         ))}
       </select>
         </div>
-        <div className='px-2 py-2'>
+
+        <div className='px-2 py-2'>     
   {/* Filter untuk Pekerjaan */}
       <select
         value={filterPekerjaan || ''}
@@ -141,6 +162,49 @@ const DownloadExcel: FC<DownloadExcelProps> = ({ data, headers, fileName }) => {
         ))}
       </select>
         </div>
+
+        <div className='px-2 py-2'>     
+        {/* Filter untuk Kabupaten */}
+      <select
+        value={filterKabupaten || ''}
+        onChange={(e) => setFilterKabupaten(e.target.value || null)}
+        className="px-2 w-full py-2 border border-gray-300 rounded-md"
+      >
+        <option value="">Semua Kabupaten</option>
+        {Array.from(new Set(data.map(pelanggan => pelanggan.kabupaten))).map(kabupaten => (
+          <option key={kabupaten} value={kabupaten}>{capitalizeFirstLetter(kabupaten)}</option>
+        ))}
+      </select>
+        </div>
+
+        <div className='px-2 py-2'>     
+        {/* Filter untuk Kecamatan */}
+      <select
+        value={filterKecamatan || ''}
+        onChange={(e) => setFilterKecamatan(e.target.value || null)}
+        className="px-2 w-full py-2 border border-gray-300 rounded-md"
+      >
+        <option value="">Semua Kecamatan</option>
+        {Array.from(new Set(data.map(pelanggan => pelanggan.kecamatan))).map(kecamatan => (
+          <option key={kecamatan} value={kecamatan}>{capitalizeFirstLetter(kecamatan)}</option>
+        ))}
+      </select>
+        </div>
+
+        <div className='px-2 py-2'>     
+        {/* Filter untuk Kelurahan */}
+      <select
+        value={filterKelurahan || ''}
+        onChange={(e) => setFilterKelurahan(e.target.value || null)}
+        className="px-2 w-full py-2 border border-gray-300 rounded-md"
+      >
+        <option value="">Semua Kelurahan</option>
+        {Array.from(new Set(data.map(pelanggan => pelanggan.kelurahan))).map(kelurahan => (
+          <option key={kelurahan} value={kelurahan}>{capitalizeFirstLetter(kelurahan)}</option>
+        ))}
+      </select>
+        </div>
+
 
         <div className='px-2 py-2'>
         <button

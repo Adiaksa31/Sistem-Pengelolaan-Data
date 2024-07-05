@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import Modal from "../components/modal";
 
 
-const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content, formSubmit }) => {
+const BtnData: React.FC<{ children: React.ReactNode; } & any> = ({ content, formSubmit, onClose }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = () => setIsOpen(true);
-    const handleCloseModal = () => setIsOpen(false);
+    const handleCloseModal = () => {
+      setIsOpen(false);
+      onClose(); 
+  };
 
     const handleformSubmit = async (data: any) => {
       try {

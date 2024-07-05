@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { HiOutlineExternalLink } from "react-icons/hi";
 import ModalShow from "./mdlShow";
 
 
@@ -13,7 +13,7 @@ const BtnShowData: React.FC<{ children: React.ReactNode; } & any> = ({ content }
   return (
     <>
     <button onClick={handleOpenModal} className='rounded p-2 text-black'>
-    <FaExternalLinkAlt size={12}/>
+    <HiOutlineExternalLink size={18}/>
     </button>
       <ModalShow isOpen={isOpen} onClose={handleCloseModal}>
         {content}

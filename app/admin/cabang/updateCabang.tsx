@@ -23,6 +23,15 @@ type Cabang = {
     const [nomor, setNomor] = useState(cabang.nomor);
     const [status_cabang, setStatusCabang] = useState(cabang.status_cabang);
     const [error, setError] = useState<string | null>(null); 
+
+    const resetForm = () => {
+      setId(cabang.id);
+      setNamaCabang(cabang.nama_cabang);
+      setAlamatCabang(cabang.alamat_cabang);
+      setNomor(cabang.nomor);
+      setStatusCabang(cabang.status_cabang);
+      setError("");
+    };
   
     async function handelUpdateCabang(e: SyntheticEvent) {
       e.preventDefault();
@@ -69,40 +78,43 @@ type Cabang = {
           <form onSubmit={handelUpdateCabang} className="w-full max-w-lg">
                 {/* hidden id */}
                 <input type="hidden" name="id" value={id} />
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nama Cabang
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
                     value={nama_cabang}
+                    autoComplete="off"
                     onChange={e=>setNamaCabang(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Alamat Cabang
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
                     value={alamat_cabang}
+                    autoComplete="off"
                     onChange={e=>setAlamatCabang(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nomor
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nama..." 
                     value={nomor}
+                    autoComplete="off"
                     onChange={e=>setNomor(Number(e.target.value))}
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Status
@@ -127,7 +139,7 @@ type Cabang = {
     return (
         <>
         <BtnEditData
-           content={modalContent} formSubmitEdt={handelUpdateCabang}
+           content={modalContent} formSubmitEdt={handelUpdateCabang} onClose={resetForm}
           ></BtnEditData>
         </>
     )
