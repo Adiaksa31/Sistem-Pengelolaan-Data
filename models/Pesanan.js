@@ -252,7 +252,7 @@ class Pesanan {
     );
 
     return await excuteQuery({
-      query: `SELECT km.*, kk.*, dcc.*, cd.*, u1.nama_user as crm_name, u1.user_id as crm_id, u2.nama_user as tujuan_user, u2.user_id as tujuan_id FROM kontak_masuk km JOIN kategori_kontak kk ON kk.kategori_id = km.kategori_id JOIN data_calon_customer dcc ON dcc.customer_id = km.customer_id JOIN cabang_dealer cd ON cd.cabang_id = km.cabang_id JOIN user u1 ON u1.user_id = km.crm_id JOIN user u2 ON u2.user_id = km.tujuan_user ${where} ORDER BY kontak_masuk_id DESC ${pagination}`,
+      query: `SELECT km.*, km.created_at as km_created, km.updated_at as km_updated, kk.*, dcc.*, cd.*, u1.nama_user as crm_name, u1.user_id as crm_id, u2.nama_user as tujuan_user, u2.user_id as tujuan_id FROM kontak_masuk km JOIN kategori_kontak kk ON kk.kategori_id = km.kategori_id JOIN data_calon_customer dcc ON dcc.customer_id = km.customer_id JOIN cabang_dealer cd ON cd.cabang_id = km.cabang_id JOIN user u1 ON u1.user_id = km.crm_id JOIN user u2 ON u2.user_id = km.tujuan_user ${where} ORDER BY kontak_masuk_id DESC ${pagination}`,
     })
       .then((result) => {
         if (result.length) {
@@ -292,8 +292,8 @@ class Pesanan {
                 nama: kategori.tujuan_user,
               },
               status_kontak: kategori.status_kontak,
-              created_at: kategori.created_at,
-              updated_at: kategori.updated_at,
+              created_at: kategori.km_created,
+              updated_at: kategori.km_updated,
             };
           });
         } else {

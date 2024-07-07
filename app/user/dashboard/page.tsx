@@ -90,6 +90,15 @@ const DashboardSPV: React.FC = () => {
           orderData = orders.filter(order => order.kategori_id === 3);
         }
 
+        // check request from url parameter, show only data from specific category id if exist
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryId = urlParams
+          ? parseInt(urlParams.get('id') as string)
+          : null;
+        if (categoryId) {
+          orderData = orderData.filter(order => order.kategori_id === categoryId);
+        }
+
         orderData = orderData.filter(order => order.cabang_id === user?.cabang.id);
         setInitialOrders(orderData);
       }
