@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 import token from "../components/token";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { HiFilter } from 'react-icons/hi';
+
+type Kategori = {
+  nama: string;
+};
 
 type Pesanan = {
   id: number;
-  kategori: {
-    nama: string;
-  };
+  kategori: Kategori;
   kategori_id: any;
   created_at: string;
 };
 
-async function getPesanans() {
+async function getPesanans(): Promise<Pesanan[]> {
   const res = await fetch('http://localhost:3000/api/pesanan/get', {
     cache: "no-store",
     method: 'POST',
@@ -39,24 +43,33 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF69B4'
 
 const Pesan: React.FC = () => {
   const [pesanans, setPesanans] = useState<Pesanan[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<string>(''); // State untuk bulan yang dipilih
-
-  useEffect(() => {
-    // Inisialisasi nilai default bulan saat komponen dimuat
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // Bulan dimulai dari 0
-    setSelectedMonth(currentMonth.toString());
-  }, []);
+  const [selectedMonth, setSelectedMonth] = useState<string>('all');
+  const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString());
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const pesananData = await getPesanans();
+
+        // Extract unique categories
+        const uniqueCategories = Array.from(new Set(pesananData.map((pesanan: Pesanan) => pesanan.kategori.nama)));
+        setCategories(uniqueCategories);
+
         const filteredData = pesananData.filter((pesanan: Pesanan) => {
           const pesananDate = new Date(pesanan.created_at);
-          const pesananMonth = pesananDate.getMonth() + 1; // Bulan dimulai dari 0
-          return pesananMonth.toString() === selectedMonth;
+          const pesananMonth = pesananDate.getMonth() + 1;
+          const pesananYear = pesananDate.getFullYear().toString();
+          const pesananCategory = pesanan.kategori.nama;
+
+          const isMonthMatch = selectedMonth === 'all' || pesananMonth.toString() === selectedMonth;
+          const isYearMatch = pesananYear === selectedYear;
+          const isCategoryMatch = selectedCategory === 'all' || pesananCategory === selectedCategory;
+
+          return isMonthMatch && isYearMatch && isCategoryMatch;
         });
+
         setPesanans(filteredData);
 
         console.log('Data yang didapatkan:', filteredData); // Tampilkan data yang didapatkan di console
@@ -64,12 +77,21 @@ const Pesan: React.FC = () => {
         console.error('Error fetching data:', error);
       }
     }
-    if (selectedMonth !== '') {
-      fetchData();
-    }
-  }, [selectedMonth]);
+    fetchData();
+  }, [selectedMonth, selectedYear, selectedCategory]);
 
-  // Menghitung jumlah pesanan berdasarkan kategori
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear(e.target.value);
+  };
+
+  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedMonth(e.target.value);
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+
   const countByCategory = pesanans.reduce((acc: { [key: string]: number }, pesanan: Pesanan) => {
     const { kategori } = pesanan;
     if (kategori && kategori.nama) {
@@ -79,13 +101,19 @@ const Pesan: React.FC = () => {
     return acc;
   }, {});
 
-  // Mengonversi objek menjadi array dan menentukan warna untuk setiap kategori
   const data = Object.keys(countByCategory).map((category, index) => ({
     name: category,
     value: countByCategory[category],
     color: COLORS[index % COLORS.length]
   }));
 
+  const yearOptions = Array.from({ length: 5 }, (_, i) => {
+    const year = new Date().getFullYear() - i;
+    return <option key={year} value={year}>{year}</option>;
+  });
+
+  const filterText = `${selectedMonth === 'all' ? 'Semua' : selectedMonth} ${selectedYear}`;
+  // const filterText = `${selectedMonth === 'all' ? 'Semua' : selectedMonth} ${selectedYear} ${selectedCategory === 'all' ? 'Semua' : selectedCategory}`;
   return (
     <>
       <div className="px-3 pt-3 flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white">
@@ -93,25 +121,47 @@ const Pesan: React.FC = () => {
           <h1 className="font-bold text-2xl">Pesan/Kontak</h1>
         </div>
         <div className="flex items-center space-x-3">
-          <div className="flex space-x-1 items-center font-bold text-xs">
-            <p>bulan </p>
-
-            <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
-              <option value="">Pilih Bulan</option>
-              <option value="1">Januari</option>
-              <option value="2">Februari</option>
-              <option value="3">Maret</option>
-              <option value="4">April</option>
-              <option value="5">Mei</option>
-              <option value="6">Juni</option>
-              <option value="7">Juli</option>
-              <option value="8">Agustus</option>
-              <option value="9">September</option>
-              <option value="10">Oktober</option>
-              <option value="11">November</option>
-              <option value="12">Desember</option>
-            </select>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <button className="flex items-center font-bold text-xs px-4 md:px-5 py-1.5 text-black">
+                {filterText} <HiFilter size={30} className='pl-2' />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Filter Data</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <div className='px-2 py-2'>
+                <select value={selectedYear} onChange={handleYearChange} className="px-2 w-full py-2 border border-gray-300 rounded-md">
+                  {yearOptions}
+                </select>
+              </div>
+              <div className='px-2 py-2'>
+                <select value={selectedMonth} onChange={handleMonthChange} className="px-2 w-full py-2 border border-gray-300 rounded-md">
+                  <option value="all">Semua Bulan</option>
+                  <option value="1">Januari</option>
+                  <option value="2">Februari</option>
+                  <option value="3">Maret</option>
+                  <option value="4">April</option>
+                  <option value="5">Mei</option>
+                  <option value="6">Juni</option>
+                  <option value="7">Juli</option>
+                  <option value="8">Agustus</option>
+                  <option value="9">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">November</option>
+                  <option value="12">Desember</option>
+                </select>
+              </div>
+              <div className='px-2 py-2'>
+                <select value={selectedCategory} onChange={handleCategoryChange} className="px-2 w-full py-2 border border-gray-300 rounded-md">
+                  <option value="all">Semua Kategori</option>
+                  {categories.map((category, index) => (
+                    <option key={index} value={category}>{category}</option>
+                  ))}
+                </select>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center justify-center">
