@@ -10,7 +10,7 @@ type NavLink = {
 
 const navigationLinks: NavLink[] = [ 
   { icon: <IoGrid size={20} />, label: 'Dashboard', href: '/crm/dashboard' },
-  { icon: <IoMail size={20} />, label: 'Pesan/kontak', href: '/crm/pesan' },
+  { icon: <IoMail size={20} />, label: 'Pesan/Kontak', href: '/crm/pesan' },
   { icon: <IoPersonSharp size={20} />, label: 'Pelanggan', href: '/crm/pelanggan' },
 ];
 

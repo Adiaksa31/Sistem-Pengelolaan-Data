@@ -52,10 +52,10 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
   const moveOrder = (dragIndex: number, hoverIndex: number, targetStatus: string) => {
     const dragOrder = items[dragIndex];
     const newItems = [...items];
-    const updatedOrder = { ...dragOrder, status: targetStatus }; // Update only the status
+    const updatedOrder = { ...dragOrder, status: targetStatus };
     newItems.splice(dragIndex, 1, updatedOrder);
     setItems(newItems);
-    updateOrderStatus(dragOrder.id, targetStatus); // Update the order status in the backend
+    updateOrderStatus(dragOrder.id, targetStatus); 
   };
 
   const OrderComponent: React.FC<{ order: Order, index: number }> = ({ order, index }) => {
@@ -74,14 +74,16 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
     });
 
     return (
-      <div ref={drag} className={`bg-white p-3 shadow rounded-lg mb-2 ${isDragging ? 'opacity-50' : ''}`}>
-       <div className="flex justify-between items-center">
-          <p className="font-bold text-sm">{order.nama}</p>
+      <div ref={drag} className={`bg-white p-3 shadow rounded mb-2 ${isDragging ? 'opacity-50' : ''}`}> 
+        <div className='bg-slate-200 w-full rounded'>
+        <p className="text-sm px-2 p-1"><strong>Nama:</strong> {order.nama}</p> 
+        <p className="text-sm px-2 "><strong>Kategori:</strong> {order.kategori}</p>
+        <p className="text-sm px-2 py-1"><strong>Keterangan:</strong> {order.keterangan}</p>
+        </div>
+        <div className="flex justify-between items-center pt-2">
+        <p className="text-xs">{formattedOrderTanggal}</p>
           <ShowPesan pesanan={order}/>
         </div>
-        <p className="text-xs text-gray-500">Keterangan: {order.keterangan}</p>
-        <p className="text-xs text-gray-500">Tanggal: {formattedOrderTanggal}</p>
-        <p className="text-xs text-gray-500">Status: {order.status}</p>
       </div>
     );
   };
@@ -97,7 +99,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
     });
 
     return (
-      <div ref={drop} className="flex flex-col w-full p-3 bg-gray-100 shadow rounded">
+      <div ref={drop} className="flex flex-col w-full p-3 bg-gray-200 shadow rounded">
         <h1 className="text-lg font-bold pb-3">{status} ({items.filter(order => order.status === status).length})</h1>
         {items.map((order, index) => {
           if (order.status === status) {
@@ -112,7 +114,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="kanban px-10">
-      <p className="pb-2 flex items-center text-gray-600 text-xs italic"><HiExclamationCircle /> Geser untuk merubah status pesan/kontak.</p>
+      <p className="p-2 flex items-center text-gray-600 text-xs italic"><HiExclamationCircle /> Geser untuk merubah status pesan/kontak.</p>
         <div className="flex gap-x-2 md:gap-x-0 w-full space-x-2">
           <Column status="pending" />
           <Column status="proses" />

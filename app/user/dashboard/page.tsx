@@ -117,7 +117,7 @@ const DashboardSPV: React.FC = () => {
     <>
       <NavAdmAts />
       <NavAdmBwh currentPath="/user/dashboard" />
-      <TabKategori />
+      {/* <TabKategori /> */}
       {user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 5 ? (
         <Report initialOrders={initialOrders} />
       ) : null}
