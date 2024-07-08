@@ -49,7 +49,7 @@ const fetchOrders = async (token: string | null): Promise<Order[]> => {
         jenis_keluhan: order.jenis_keluhan,
         jenis_informasi: order.jenis_informasi,
         crm: order.crm.nama,
-        tujuan_user: order.tujuan_user.nama,
+        tujuan_user: order.tujuan_user,
       }));
       return orderData as Order[];
     }
@@ -91,13 +91,19 @@ const DashboardSPV: React.FC = () => {
         }
 
         // check request from url parameter, show only data from specific category id if exist
-        const urlParams = new URLSearchParams(window.location.search);
-        const categoryId = urlParams
-          ? parseInt(urlParams.get('id') as string)
-          : null;
-        if (categoryId) {
-          orderData = orderData.filter(order => order.kategori_id === categoryId);
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const categoryId = urlParams
+        //   ? parseInt(urlParams.get('id') as string)
+        //   : null;
+        // if (categoryId) {
+        //   orderData = orderData.filter(order => order.kategori_id === categoryId);
+        // }
+
+        if (!(user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 5)) {
+          orderData = orderData.filter(order => order.tujuan_user.id === user?.id);
         }
+
+        // get all data for tujuan_user the same as user
 
         orderData = orderData.filter(order => order.cabang_id === user?.cabang.id);
         setInitialOrders(orderData);
@@ -105,7 +111,7 @@ const DashboardSPV: React.FC = () => {
     };
 
     loadOrders();
-  }, [user?.posisi.id, token, user?.cabang.id]);
+  }, [user?.posisi.id, token, user?.cabang.id, user?.id]);
 
   return (
     <>
