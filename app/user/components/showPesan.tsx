@@ -166,7 +166,7 @@ const ShowPesan: React.FC<ShowPesanProps> = ({ pesanan }) => {
                 <li className="mb-2 text-gray-700"><strong>CRM:</strong> {pesanan.crm}</li>
             )}
             {pesanan.tujuan_user && (
-                <li className="mb-2 text-gray-700"><strong>Tujuan User:</strong> {pesanan.tujuan_user}</li>
+                <li className="mb-2 text-gray-700"><strong>Tujuan User:</strong> {pesanan.tujuan_user.nama}</li>
             )}
             {pesanan.status && (
                 <li className="mb-2 text-gray-700"><strong>Status Kontak:</strong> {pesanan.status}</li>
