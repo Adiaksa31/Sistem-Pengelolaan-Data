@@ -83,11 +83,11 @@ const DashboardSPV: React.FC = () => {
         let orderData: Order[] = [];
 
         if (user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 8) {
-          orderData = orders.filter(order => order.kategori_id === 2);
+          orderData = orders.filter(order => order.kategori_id === 2 || order.kategori_id === 4);
         } else if (user?.posisi.id === 5 || user?.posisi.id === 7) {
-          orderData = orders.filter(order => order.kategori_id === 1);
+          orderData = orders.filter(order => order.kategori_id === 1 || order.kategori_id === 4);
         } else if (user?.posisi.id === 5 || user?.posisi.id === 6) {
-          orderData = orders.filter(order => order.kategori_id === 3);
+          orderData = orders.filter(order => order.kategori_id === 3 || order.kategori_id === 4);
         }
 
         // check request from url parameter, show only data from specific category id if exist
