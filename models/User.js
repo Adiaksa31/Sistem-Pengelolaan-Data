@@ -47,7 +47,7 @@ class User {
         bcryptPassword,
         posisi_id,
         cabang_id,
-        status_user ?? "no",
+        status_user ?? "yes",
         created_at ?? new Date(),
         updated_at ?? new Date(),
       ],

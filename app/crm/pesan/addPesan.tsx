@@ -434,17 +434,17 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                 </div>
                 </div>
                   )}
-                     {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Sperpart' && (
+                     {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Sparepart' && (
                       <div className="flex flex-wrap -mx-3">
                     <div className="w-full px-10 mt-3">
                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                       Jenis Sperpart
+                       Jenis Sparepart
                      </label>
                      <div className="relative">
                    <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
                     value={jenis_sparepart}
                     onChange={e=>setJenis_sparepart(e.target.value)}>
-                   <option selected value="" disabled >-- Pilih Jenis Sperpart --</option>
+                   <option selected value="" disabled >-- Pilih Jenis Sparepart --</option>
                      <option>Body Motor</option>
                      <option>Ban</option>
                    </select>
@@ -514,7 +514,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                       </div>
                     </div>
                     </div>
-                    <div className="w-full px-10 mt-3 hidden">
+                    {/* <div className="w-full px-10 mt-3 hidden">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cc Motor
                     </label>
@@ -532,7 +532,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                   </div>
                 </div>
-                  </div>
+                  </div> */}
                   <div className="w-full px-10 mt-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Jenis Pembayaran
@@ -593,7 +593,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                   </div>
                 </div>
                   </div>
-                  <div className="w-full px-10 mt-3 hidden">
+                  {/* <div className="w-full px-10 mt-3 hidden">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cc Motor
                     </label>
@@ -611,13 +611,13 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                   </div>
                 </div>
-                  </div>
+                  </div> */}
                   <div className="w-full px-10 mt-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Jadwal Service
                     </label>
                     <div className="relative">
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal lahir..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal service..." 
                  value={jadwal_service}
                  onChange={e=>setJadwal_service(e.target.value)}/>
                 </div>

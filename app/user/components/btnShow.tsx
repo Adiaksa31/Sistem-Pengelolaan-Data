@@ -12,8 +12,8 @@ const BtnShowData: React.FC<{ children: React.ReactNode; } & any> = ({ content }
 
   return (
     <>
-    <button onClick={handleOpenModal} className='font-bold text-xs px-4 md:px-5 py-1 text-white rounded bg-green-600'>
-    Lihat Detail Data
+    <button onClick={handleOpenModal} className='font-bold text-xs px-4 md:px-5 py-2 text-white rounded bg-D32124'>
+    Lihat Detail
     </button>
       <ModalShow isOpen={isOpen} onClose={handleCloseModal}>
         {content}

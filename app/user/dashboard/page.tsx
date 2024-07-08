@@ -94,20 +94,9 @@ const DashboardSPV: React.FC = () => {
           orderData = orders.filter(order => order.kategori_id === 3 || order.kategori_id === 4);
         }
 
-        // check request from url parameter, show only data from specific category id if exist
-        // const urlParams = new URLSearchParams(window.location.search);
-        // const categoryId = urlParams
-        //   ? parseInt(urlParams.get('id') as string)
-        //   : null;
-        // if (categoryId) {
-        //   orderData = orderData.filter(order => order.kategori_id === categoryId);
-        // }
-
         if (!(user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 5)) {
           orderData = orderData.filter(order => order.tujuan_user.id === user?.id);
         }
-
-        // get all data for tujuan_user the same as user
 
         orderData = orderData.filter(order => order.cabang_id === user?.cabang.id);
         setInitialOrders(orderData);
@@ -115,13 +104,18 @@ const DashboardSPV: React.FC = () => {
     };
 
     loadOrders();
+    
+    const intervalId = setInterval(() => {
+      loadOrders();
+    }, 3000);
+
+    return () => clearInterval(intervalId);
   }, [user?.posisi.id, token, user?.cabang.id, user?.id]);
 
   return (
     <>
       <NavAdmAts />
       <NavAdmBwh currentPath="/user/dashboard" />
-      {/* <TabKategori /> */}
       {user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 5 ? (
         <Report initialOrders={initialOrders} />
       ) : null}

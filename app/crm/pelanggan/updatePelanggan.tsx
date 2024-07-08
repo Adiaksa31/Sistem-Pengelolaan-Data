@@ -10,7 +10,7 @@ type Pelanggan = {
     id: number;
     nama: string;
     email: string;
-    no_wa: number;
+    no_wa: any;
     tgl_lahir: any;
     agama: string;
     pekerjaan: any;
@@ -311,7 +311,7 @@ type Pelanggan = {
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor..." 
                      value={no_wa}
-                     onChange={e=>setNo_wa(Number(e.target.value))}
+                     onChange={e=>setNo_wa(e.target.value)}
                      />
                   </div>
                 </div>

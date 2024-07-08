@@ -39,7 +39,7 @@ async function getPesanans(): Promise<Pesanan[]> {
   return res;
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF69B4'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF69B4']; // Warna default
 
 const Pesan: React.FC = () => {
   const [pesanans, setPesanans] = useState<Pesanan[]>([]);
@@ -47,6 +47,7 @@ const Pesan: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString());
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [categories, setCategories] = useState<string[]>([]);
+  const [categoryColors, setCategoryColors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     async function fetchData() {
@@ -57,12 +58,21 @@ const Pesan: React.FC = () => {
         const uniqueCategories = Array.from(new Set(pesananData.map((pesanan: Pesanan) => pesanan.kategori.nama)));
         setCategories(uniqueCategories);
 
+        // Set colors for each category
+        const newCategoryColors: { [key: string]: string } = {};
+        uniqueCategories.forEach((category, index) => {
+          newCategoryColors[category] = COLORS[index % COLORS.length];
+        });
+        setCategoryColors(newCategoryColors);
+
+        // Filter data based on selected filters
         const filteredData = pesananData.filter((pesanan: Pesanan) => {
           const pesananDate = new Date(pesanan.created_at);
           const pesananMonth = pesananDate.getMonth() + 1;
           const pesananYear = pesananDate.getFullYear().toString();
           const pesananCategory = pesanan.kategori.nama;
 
+          // Check if all months are selected or specific month is selected
           const isMonthMatch = selectedMonth === 'all' || pesananMonth.toString() === selectedMonth;
           const isYearMatch = pesananYear === selectedYear;
           const isCategoryMatch = selectedCategory === 'all' || pesananCategory === selectedCategory;
@@ -77,6 +87,7 @@ const Pesan: React.FC = () => {
         console.error('Error fetching data:', error);
       }
     }
+
     fetchData();
   }, [selectedMonth, selectedYear, selectedCategory]);
 
@@ -104,7 +115,7 @@ const Pesan: React.FC = () => {
   const data = Object.keys(countByCategory).map((category, index) => ({
     name: category,
     value: countByCategory[category],
-    color: COLORS[index % COLORS.length]
+    color: categoryColors[category] || COLORS[index % COLORS.length] // Menggunakan warna dari kategori jika tersedia, jika tidak, gunakan warna default
   }));
 
   const yearOptions = Array.from({ length: 5 }, (_, i) => {
@@ -112,8 +123,15 @@ const Pesan: React.FC = () => {
     return <option key={year} value={year}>{year}</option>;
   });
 
-  const filterText = `${selectedMonth === 'all' ? 'Semua' : selectedMonth} ${selectedYear}`;
-  // const filterText = `${selectedMonth === 'all' ? 'Semua' : selectedMonth} ${selectedYear} ${selectedCategory === 'all' ? 'Semua' : selectedCategory}`;
+  const filterText = `${selectedMonth === 'all' ? 'Semua Bulan' : getMonthName(selectedMonth)} ${selectedYear}`;
+
+  // Function to get month name based on number
+  function getMonthName(month: string) {
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    const monthIndex = parseInt(month) - 1;
+    return monthNames[monthIndex];
+  }
+
   return (
     <>
       <div className="px-3 pt-3 flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white">
