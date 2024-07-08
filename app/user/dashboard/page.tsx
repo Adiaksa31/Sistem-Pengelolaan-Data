@@ -85,7 +85,11 @@ const DashboardSPV: React.FC = () => {
         if (user?.posisi.id === 3 || user?.posisi.id === 4 || user?.posisi.id === 8) {
           orderData = orders.filter(order => order.kategori_id === 2 || order.kategori_id === 4);
         } else if (user?.posisi.id === 5 || user?.posisi.id === 7) {
-          orderData = orders.filter(order => order.kategori_id === 1 || order.kategori_id === 4);
+          if (user?.posisi.id === 5){
+            orderData = orders.filter(order => order.kategori_id === 1 || order.kategori_id === 4 || order.kategori_id === 3);
+          } else {
+            orderData = orders.filter(order => order.kategori_id === 1 || order.kategori_id === 4);
+          }
         } else if (user?.posisi.id === 5 || user?.posisi.id === 6) {
           orderData = orders.filter(order => order.kategori_id === 3 || order.kategori_id === 4);
         }
