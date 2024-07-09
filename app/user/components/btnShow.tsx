@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import { HiOutlineExternalLink } from "react-icons/hi";
 import ModalShow from "./mdlShow";
 
 

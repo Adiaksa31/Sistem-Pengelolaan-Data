@@ -107,7 +107,7 @@ const DashboardSPV: React.FC = () => {
     
     const intervalId = setInterval(() => {
       loadOrders();
-    }, 3000);
+    }, 30000);
 
     return () => clearInterval(intervalId);
   }, [user?.posisi.id, token, user?.cabang.id, user?.id]);
