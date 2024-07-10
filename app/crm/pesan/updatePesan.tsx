@@ -556,7 +556,7 @@ type Pesanan = {
                   <option selected  disabled >-- Pilih Tujuan User --</option>
                   {userType.map(user => (
                           <option key={user.id} value={user.id}>
-                            {user.nama}
+                            {user.nama} - {user.posisi.nama_posisi} - {user.cabang.nama_cabang}
                           </option>
                         ))}
                   </select>

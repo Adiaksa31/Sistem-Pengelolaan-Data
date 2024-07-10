@@ -45,6 +45,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       else{
         const orderName = items.find(item => item.id === orderId)?.nama || 'Pesanan';
         toast({ title: `Status pesan ${orderName} diupdate menjadi "${status_kontak}"`, variant: 'berhasil' });
+        console.log(data);
       }
     } catch (err) {
       console.error('Error updating order status:', err);
