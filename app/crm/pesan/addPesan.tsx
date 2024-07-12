@@ -297,6 +297,11 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
       setErrorCustomerId("Nomor Pelanggan hanya boleh berisi angka");
     }
   };
+
+  useEffect(() => {
+    setTujuan_user("");
+  }, [cabang_id]);
+
     const modalContent = (
         <div className="p-4">
           <h1 className="text-center font-bold text-xl">Tambah Data Pelanggan</h1>
@@ -434,17 +439,17 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                 </div>
                 </div>
                   )}
-                     {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Sperpart' && (
+                     {kategori_id && kategoriType.find(k => k.id === parseInt(kategori_id))?.nama_kategori === 'Sparepart' && (
                       <div className="flex flex-wrap -mx-3">
                     <div className="w-full px-10 mt-3">
                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                       Jenis Sperpart
+                       Jenis Sparepart
                      </label>
                      <div className="relative">
                    <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state"
                     value={jenis_sparepart}
                     onChange={e=>setJenis_sparepart(e.target.value)}>
-                   <option selected value="" disabled >-- Pilih Jenis Sperpart --</option>
+                   <option selected value="" disabled >-- Pilih Jenis Sparepart --</option>
                      <option>Body Motor</option>
                      <option>Ban</option>
                    </select>
@@ -514,7 +519,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                       </div>
                     </div>
                     </div>
-                    <div className="w-full px-10 mt-3 hidden">
+                    {/* <div className="w-full px-10 mt-3 hidden">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cc Motor
                     </label>
@@ -532,7 +537,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                   </div>
                 </div>
-                  </div>
+                  </div> */}
                   <div className="w-full px-10 mt-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Jenis Pembayaran
@@ -593,7 +598,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                   </div>
                 </div>
                   </div>
-                  <div className="w-full px-10 mt-3 hidden">
+                  {/* <div className="w-full px-10 mt-3 hidden">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cc Motor
                     </label>
@@ -611,13 +616,13 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                   </div>
                 </div>
-                  </div>
+                  </div> */}
                   <div className="w-full px-10 mt-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Jadwal Service
                     </label>
                     <div className="relative">
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal lahir..." 
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="date" placeholder="Tanggal service..." 
                  value={jadwal_service}
                  onChange={e=>setJadwal_service(e.target.value)}/>
                 </div>
@@ -649,54 +654,88 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
             </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-3">
-                  <div className="w-full px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Cabang
-                    </label>
-                    <div className="relative">
-                      <select className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorCabangId ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-state"
-                       value={cabang_id}
-                       onChange={e=>setCabang_id(e.target.value)} >
-                      <option selected value="" disabled>-- Pilih Cabang --</option>
-                      {cabangType.map(cabang => (
-                          <option key={cabang.id} value={cabang.id}>
-                            {cabang.nama_cabang}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                      </div>
-                    </div>
-                    {errorCabangId && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorCabangId}</p>}
-                  </div>
-                </div>
-            <div className="flex flex-wrap -mx-3 mb-3">
             <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Tujuan User
-                </label>
-                <div className="relative">
-                  <select className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorTujuanUser ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} id="grid-state"
-                  value={tujuan_user}
-                  onChange={e=>setTujuan_user(e.target.value)}>
-                  <option selected value="" disabled >-- Pilih Tujuan User --</option>
-                  {userType
-                      .filter(user => user.posisi.nama_posisi !== 'Administrator')
-                      .map(user => (
-                        <option key={user.id} value={user.id}>
-                          {user.nama} - {user.posisi.nama_posisi} - {user.cabang.nama_cabang}
-                        </option>
-                      ))
-                    }
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
-                {errorTujuanUser && <p className="flex items-center text-red-500 text-xs italic"><HiExclamationCircle/>{errorTujuanUser}</p>}
-            </div>
-            </div>
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="cabang_id">
+              Cabang
+            </label>
+            <select
+              className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorCabangId ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white`}
+              id="cabang_id"
+              value={cabang_id}
+              onChange={(e) => setCabang_id(e.target.value)}
+            >
+              <option value="" disabled >--Pilih Cabang--</option>
+              {cabangType.map((cabang) => (
+                <option key={cabang.id} value={cabang.id}>{cabang.nama_cabang}</option>
+              ))}
+            </select>
+            {errorCabangId && (
+              <p className="text-red-500 text-xs italic">{errorCabangId}</p>
+            )}
+          </div>
+          </div>
+          <div className="flex flex-wrap -mx-3 mb-3">
+          <div className="w-full px-3">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="tujuan_user">
+              Tujuan User
+            </label>
+            <select
+              className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errorTujuanUser ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white`}
+              id="tujuan_user"
+              value={tujuan_user}
+              onChange={(e) => setTujuan_user(e.target.value)}
+              disabled={!cabang_id}
+            >
+              <option value="" disabled >--Pilih Tujuan User--</option>
+              {(() => {
+        switch (kategori_id) {
+          case "1":
+            return userType
+              .filter(user => [5, 7].includes(user.posisi.id) && user.cabang.id === parseInt(cabang_id) && user.posisi.nama_posisi !== 'Administrator')
+              .map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.nama} - {user.posisi.nama_posisi}
+                </option>
+              ));
+          case "3":
+            return userType
+              .filter(user => [5, 6].includes(user.posisi.id) && user.cabang.id === parseInt(cabang_id) && user.posisi.nama_posisi !== 'Administrator')
+              .map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.nama} - {user.posisi.nama_posisi}
+                </option>
+              ));
+          case "2":
+            return userType
+              .filter(user => [3, 4, 8].includes(user.posisi.id) && user.cabang.id === parseInt(cabang_id) && user.posisi.nama_posisi !== 'Administrator')
+              .map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.nama} - {user.posisi.nama_posisi}
+                </option>
+              ));
+          case "5":
+            return userType
+              .filter(user => user.posisi.id === 2 && user.cabang.id === parseInt(cabang_id) && user.posisi.nama_posisi !== 'Administrator')
+              .map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.nama} - {user.posisi.nama_posisi}
+                </option>
+              ));
+          default:
+            return userType.filter(user =>  user.cabang.id === parseInt(cabang_id) && user.posisi.nama_posisi !== 'Administrator').map(user => (
+              <option key={user.id} value={user.id}>
+                {user.nama} - {user.posisi.nama_posisi}
+              </option>
+            ));
+        }
+      })()}
+            </select>
+            {errorTujuanUser && (
+              <p className="text-red-500 text-xs italic">{errorTujuanUser}</p>
+            )}
+          </div>
+          </div>
+       
          </form>
         </div>
       );

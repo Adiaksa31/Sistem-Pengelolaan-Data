@@ -7,6 +7,8 @@ import { toast } from "@/components/ui/use-toast";
 import { getToken } from "../components/TokenComponent";
 import ShowPesan from "./showPesan";
 import { HiExclamationCircle } from "react-icons/hi";
+import { HiUser } from "react-icons/hi";
+import { HiCalendar } from "react-icons/hi";
 
 const ItemTypes = {
   ORDER: 'order',
@@ -43,6 +45,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       else{
         const orderName = items.find(item => item.id === orderId)?.nama || 'Pesanan';
         toast({ title: `Status pesan ${orderName} diupdate menjadi "${status_kontak}"`, variant: 'berhasil' });
+        console.log(data);
       }
     } catch (err) {
       console.error('Error updating order status:', err);
@@ -73,15 +76,19 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       year: 'numeric',
     });
 
+    
     return (
       <div ref={drag} className={`bg-white p-3 shadow rounded mb-2 ${isDragging ? 'opacity-50' : ''}`}> 
-        <div className='bg-slate-200 w-full rounded'>
+        <div className='bg-gray-200 w-auto rounded'>
         <p className="text-sm px-2 p-1"><strong>Nama:</strong> {order.nama}</p> 
         <p className="text-sm px-2 "><strong>Kategori:</strong> {order.kategori}</p>
-        <p className="text-sm px-2 py-1"><strong>Keterangan:</strong> {order.keterangan}</p>
+        <p className="text-sm px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap md:overflow-visible md:text-normal md:whitespace-normal lg:text-normal lg:whitespace-normal xl:text-normal xl:whitespace-normal"><strong>Keterangan:</strong> {order.keterangan}</p>
         </div>
         <div className="flex justify-between items-center pt-2">
-        <p className="text-xs">{formattedOrderTanggal}</p>
+          <div>
+            <p className="flex items-center gap-1 text-sm"><strong><HiUser className='text-D32124' /></strong>{order.tujuan_user.nama}</p>
+            <p className="flex items-center gap-1 text-sm"><strong><HiCalendar className='text-D32124' /></strong>{formattedOrderTanggal}</p>
+          </div>
           <ShowPesan pesanan={order}/>
         </div>
       </div>
@@ -116,10 +123,10 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       <div className="kanban px-10">
       <p className="p-2 flex items-center text-gray-600 text-xs italic"><HiExclamationCircle /> Geser untuk merubah status pesan/kontak.</p>
         <div className="flex gap-x-2 md:gap-x-0 w-full space-x-2">
-          <Column status="pending" />
-          <Column status="proses" />
-          <Column status="selesai" />
-          <Column status="batal" />
+          <Column status="Pending" />
+          <Column status="Proses" />
+          <Column status="Selesai" />
+          <Column status="Batal" />
         </div>
       </div>
     </DndProvider>

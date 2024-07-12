@@ -93,8 +93,8 @@
         width: 100%;
         height: 100%;
         outline: none;
-        border: 1px solid black;
-        border-radius: 10px;
+        border: 1px solid rgb(116, 114, 114);
+        border-radius: 5px;
         padding: 20px 45px 20px 20px;
       }
       .input-box input::placeholder{
@@ -107,4 +107,14 @@
         transform: translateY(-50%);
         font-size: 16px;
       }
+      .toggle-password {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      
+      .toggle-password.active {
+        transform: scale(1.1);
+      }
+  
+      
   }

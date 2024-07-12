@@ -10,7 +10,7 @@ type Pelanggan = {
     id: number;
     nama: string;
     email: string;
-    no_wa: number;
+    no_wa: any;
     tgl_lahir: any;
     agama: string;
     pekerjaan: any;
@@ -228,12 +228,26 @@ type Pelanggan = {
           const kabupatenData = await getKabupaten();
           setKabupatens(kabupatenData);
   
-        } catch (error) {
-          console.error('Error fetching data:', error);
+         if (pelanggan.id_kabupaten) {
+          const kecamatanData = await getKecamatan(pelanggan.id_kabupaten);
+          setKecamatans(kecamatanData);
+
+          if (pelanggan.id_kecamatan) {
+            const kelurahanData = await getKelurahan(pelanggan.id_kecamatan);
+            setKelurahans(kelurahanData);
+          }
         }
+
+        setKabupaten(pelanggan.id_kabupaten);
+        setKecamatan(pelanggan.id_kecamatan);
+        setKelurahan(pelanggan.id_kelurahan);
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-      fetchData();
-    }, []);
+    }
+    fetchData();
+  }, [pelanggan.id_kabupaten, pelanggan.id_kecamatan, pelanggan.id_kelurahan]);
+
     useEffect(() => {
       async function fetchKecamatanData() {
         if (kabupaten) {
@@ -311,7 +325,7 @@ type Pelanggan = {
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Masukkan Nomor..." 
                      value={no_wa}
-                     onChange={e=>setNo_wa(Number(e.target.value))}
+                     onChange={e=>setNo_wa(e.target.value)}
                      />
                   </div>
                 </div>
@@ -377,7 +391,14 @@ type Pelanggan = {
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
                         value={kabupaten}
-                        onChange={e => setKabupaten(e.target.value)}
+                        onChange={async (e) => {
+                                          setKabupaten(e.target.value);
+                                          const kecamatanData = await getKecamatan(e.target.value);
+                                          setKecamatans(kecamatanData);
+                                          setKelurahans([]); 
+                                          setIdKecamatan(""); 
+                                          setIdKelurahan(""); 
+                                        }}
                       >
                         <option value="">Pilih Kabupaten</option>
                         {kabupatenType.map((region) => (
@@ -400,7 +421,12 @@ type Pelanggan = {
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
                         value={kecamatan}
-                        onChange={e => setKecamatan(e.target.value)}
+                        onChange={async (e) => {
+                                                    setKecamatan(e.target.value);
+                                                    const kelurahanData = await getKelurahan(e.target.value);
+                                                    setKelurahans(kelurahanData);
+                                                    setIdKelurahan(""); 
+                                                  }}
                       >
                          <option value="">Pilih Kecamatan</option>
                         {kecamatanType.map((region) => (

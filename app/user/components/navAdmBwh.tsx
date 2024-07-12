@@ -20,7 +20,7 @@ const NavAdmBwh = ({ currentPath }: { currentPath: string }) => {
         {navigationLinks.map((link) => (
           <div key={link.href}>
             <Link href={link.href}
-            className={`md:text-sm me-1 flex items-center text-xs px-2 md:px-5 py-1 text-white rounded hover:text-B23030 hover:bg-white ${
+            className={`md:text-sm me-1 flex items-center gap-1  text-xs px-2 md:px-5 py-1 text-white rounded hover:text-B23030 hover:bg-white ${
               currentPath === link.href ? 'actives' : ''
             }`}> {link.icon} {link.label}
             </Link>

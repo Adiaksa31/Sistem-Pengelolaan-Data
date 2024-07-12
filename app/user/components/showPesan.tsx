@@ -62,8 +62,7 @@ interface ShowPesanProps {
 
 const ShowPesan: React.FC<ShowPesanProps> = ({ pesanan }) => {
   const [error, setError] = useState<string | null>(null);
-  const [fetchedData, setFetchedData] = useState<Pesanan | null>(null); // Gunakan state untuk menyimpan data yang di-fetch
-
+  const [fetchedData, setFetchedData] = useState<Pesanan | null>(null); 
   useEffect(() => {
     async function fetchPesanan() {
       try {
@@ -82,24 +81,22 @@ const ShowPesan: React.FC<ShowPesanProps> = ({ pesanan }) => {
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
-
         const fetchedData: Pesanan = await response.json();
-        setFetchedData(fetchedData); // Simpan data yang di-fetch ke dalam state
+        setFetchedData(fetchedData); 
       } catch (error: any) {
         setError(error.message || 'Unknown error occurred');
       }
     }
 
-    // Panggil fungsi fetchPesanan saat komponen mount
     fetchPesanan();
     console.log(fetchPesanan());
-  }, [pesanan.id]); // Jadikan pesanan.id sebagai dependency agar fetchPesanan dipanggil ketika id berubah
+  }, [pesanan.id]);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  // Gunakan destructuring assignment untuk mengambil nilai yang diperlukan dari fetchedData
+
   const { costumer, kategori, kategori_id, sumber, type_motor, warna_motor, model_motor, jenis_pembayaran, jenis_service, jadwal_service, jenis_sparepart, nama_sparepart, jenis_keluhan, jenis_informasi, keterangan, cabang, cabang_id, crm, crm_id, tujuan_user, status } = fetchedData || {};
   
   const formattedJadwalService = new Date(pesanan.jadwal_service).toLocaleDateString('id-ID', {
