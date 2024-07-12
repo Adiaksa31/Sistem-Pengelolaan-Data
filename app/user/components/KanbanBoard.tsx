@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Order } from '../../../types/Order';
@@ -41,8 +41,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       const data = await res.json();
       if (data.status === 'error') {
         console.error('Failed to update order status:', data.message);
-      }
-      else{
+      } else {
         const orderName = items.find(item => item.id === orderId)?.nama || 'Pesanan';
         toast({ title: `Status pesan ${orderName} diupdate menjadi "${status_kontak}"`, variant: 'berhasil' });
         console.log(data);
@@ -58,11 +57,11 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
     const updatedOrder = { ...dragOrder, status: targetStatus };
     newItems.splice(dragIndex, 1, updatedOrder);
     setItems(newItems);
-    updateOrderStatus(dragOrder.id, targetStatus); 
+    updateOrderStatus(dragOrder.id, targetStatus);
   };
 
   const OrderComponent: React.FC<{ order: Order, index: number }> = ({ order, index }) => {
-    console.log('Order data:', order); 
+    const ref = useRef<HTMLDivElement>(null);
     const [{ isDragging }, drag] = useDrag({
       type: ItemTypes.ORDER,
       item: { type: ItemTypes.ORDER, id: order.id, index },
@@ -70,32 +69,34 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
         isDragging: monitor.isDragging(),
       }),
     });
+    drag(ref); // Attach drag ref
+
     const formattedOrderTanggal = new Date(order.tanggal).toLocaleDateString('id-ID', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
     });
 
-    
     return (
-      <div ref={drag} className={`bg-white p-3 shadow rounded mb-2 ${isDragging ? 'opacity-50' : ''}`}> 
+      <div ref={ref} className={`bg-white p-3 shadow rounded mb-2 ${isDragging ? 'opacity-50' : ''}`}>
         <div className='bg-gray-200 w-auto rounded'>
-        <p className="text-sm px-2 p-1"><strong>Nama:</strong> {order.nama}</p> 
-        <p className="text-sm px-2 "><strong>Kategori:</strong> {order.kategori}</p>
-        <p className="text-sm px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap md:overflow-visible md:text-normal md:whitespace-normal lg:text-normal lg:whitespace-normal xl:text-normal xl:whitespace-normal"><strong>Keterangan:</strong> {order.keterangan}</p>
+          <p className="text-sm px-2 p-1"><strong>Nama:</strong> {order.nama}</p>
+          <p className="text-sm px-2 "><strong>Kategori:</strong> {order.kategori}</p>
+          <p className="text-sm px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap md:overflow-visible md:text-normal md:whitespace-normal lg:text-normal lg:whitespace-normal xl:text-normal xl:whitespace-normal"><strong>Keterangan:</strong> {order.keterangan}</p>
         </div>
         <div className="flex justify-between items-center pt-2">
           <div>
             <p className="flex items-center gap-1 text-sm"><strong><HiUser className='text-D32124' /></strong>{order.tujuan_user.nama}</p>
             <p className="flex items-center gap-1 text-sm"><strong><HiCalendar className='text-D32124' /></strong>{formattedOrderTanggal}</p>
           </div>
-          <ShowPesan pesanan={order}/>
+          <ShowPesan pesanan={order} />
         </div>
       </div>
     );
   };
 
   const Column: React.FC<{ status: string }> = ({ status }) => {
+    const ref = useRef<HTMLDivElement>(null);
     const [, drop] = useDrop({
       accept: ItemTypes.ORDER,
       drop(item: { index: number; id: number }) {
@@ -104,9 +105,10 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
         moveOrder(dragIndex, hoverIndex, status);
       },
     });
+    drop(ref); // Attach drop ref
 
     return (
-      <div ref={drop} className="flex flex-col w-full p-3 bg-gray-200 shadow rounded">
+      <div ref={ref} className="flex flex-col w-full p-3 bg-gray-200 shadow rounded">
         <h1 className="text-lg font-bold pb-3">{status} ({items.filter(order => order.status === status).length})</h1>
         {items.map((order, index) => {
           if (order.status === status) {
@@ -121,7 +123,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="kanban px-10">
-      <p className="p-2 flex items-center text-gray-600 text-xs italic"><HiExclamationCircle /> Geser untuk merubah status pesan/kontak.</p>
+        <p className="p-2 flex items-center text-gray-600 text-xs italic"><HiExclamationCircle /> Geser untuk merubah status pesan/kontak.</p>
         <div className="flex gap-x-2 md:gap-x-0 w-full space-x-2">
           <Column status="Pending" />
           <Column status="Proses" />
