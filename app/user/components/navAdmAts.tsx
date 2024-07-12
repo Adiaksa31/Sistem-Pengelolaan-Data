@@ -1,45 +1,33 @@
 'use client';
+
+import React, { useEffect, useState } from 'react';
 import "./dashboard.css";
 import Image from "next/image";
-import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { User } from '../../../types/User';
 
-interface User {
-  nama: string;
-  posisi: {
-    id: number;
-    nama: string;
-  };
-  cabang: {
-    nama: string;
-  };
-}
-
-
-const NavAdmAts = () => {
-  const [user, setUser] =  useState<User | null>(null);
+const NavAdmAts: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('user');
-      if (user) {
-        const userData = JSON.parse(user);
-        setUser(userData);
-        
-        const url = window.location.href;
-        const urlSplit = url.split('/');
-        
-        if (userData.posisi.id == 1 && urlSplit[3] !== 'admin') {
-          window.location.href = '/admin/dashboard';
-        } else if (userData.posisi.id == 2 && urlSplit[3] !== 'crm') {
-          window.location.href = '/crm/dashboard';
-        } else if (userData.posisi.id >= 3 && urlSplit[3] !== 'user') {
-          window.location.href = '/user/dashboard';
-        }
-      } else {
-        localStorage.removeItem('token');
-        window.location.href = '/';
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+
+      const userData = JSON.parse(storedUser);
+      const url = window.location.href;
+      const urlSplit = url.split('/');
+
+      if (userData.posisi.id === 1 && urlSplit[3] !== 'admin') {
+        window.location.href = '/admin/dashboard';
+      } else if (userData.posisi.id === 2 && urlSplit[3] !== 'crm') {
+        window.location.href = '/crm/dashboard';
+      } else if (userData.posisi.id >= 3 && urlSplit[3] !== 'user') {
+        window.location.href = '/user/dashboard';
       }
+    } else {
+      localStorage.removeItem('token');
+      window.location.href = '/';
     }
   }, []);
 

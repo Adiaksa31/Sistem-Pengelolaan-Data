@@ -37,12 +37,11 @@ export default function Home() {
 
       const data = payload.data;
       
-      if (typeof window !== 'undefined') {
-        // Save token to local storage
-        localStorage.setItem('token', data.token);
-  
-        // Save some user information to local storage
-        localStorage.setItem('user', JSON.stringify(data.user));
+      // Save token to local storage
+      localStorage.setItem('token', data.token);
+
+      // save some user informatio to local storage
+      localStorage.setItem('user', JSON.stringify(data.user));
 
       if (data.user.posisi.id == 1) { // Admin
         console.log('Admin');
@@ -54,7 +53,6 @@ export default function Home() {
         console.log('SPV');
         window.location.href = '/user/dashboard';
       }
-    }
       toast({ title: 'Berhasil Login', variant: 'berhasil' });
     } catch (error) {
       console.error('Error:', error as Error);

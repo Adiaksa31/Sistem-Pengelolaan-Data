@@ -1,4 +1,3 @@
-'use client'
 const token = localStorage.getItem('token');
 
 // check if valid token
