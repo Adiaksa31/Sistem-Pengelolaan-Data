@@ -106,7 +106,7 @@ class Pesanan {
   static async findById(id) {
     return await excuteQuery({
       query:
-        "SELECT km.*, kk.*, dcc.*, cd.*, u1.nama_user as crm_name, u1.user_id as crm_id, u2.nama_user as tujuan_user, u2.user_id as tujuan_id FROM kontak_masuk km JOIN kategori_kontak kk ON kk.kategori_id = km.kategori_id JOIN data_calon_customer dcc ON dcc.customer_id = km.customer_id JOIN cabang_dealer cd ON cd.cabang_id = km.cabang_id JOIN user u1 ON u1.user_id = km.crm_id JOIN user u2 ON u2.user_id = km.tujuan_user WHERE km.kontak_masuk_id = ?",
+        "SELECT km.*, kk.*, dcc.*, cd.*, km.created_at as km_created, km.updated_at as km_updated, u1.nama_user as crm_name, u1.user_id as crm_id, u2.nama_user as tujuan_user, u2.user_id as tujuan_id FROM kontak_masuk km JOIN kategori_kontak kk ON kk.kategori_id = km.kategori_id JOIN data_calon_customer dcc ON dcc.customer_id = km.customer_id JOIN cabang_dealer cd ON cd.cabang_id = km.cabang_id JOIN user u1 ON u1.user_id = km.crm_id JOIN user u2 ON u2.user_id = km.tujuan_user WHERE km.kontak_masuk_id = ?",
       values: [id],
     })
       .then((result) => {
@@ -150,8 +150,8 @@ class Pesanan {
             nama: kategori.tujuan_user,
           },
           status_kontak: kategori.status_kontak,
-          created_at: kategori.created_at,
-          updated_at: kategori.updated_at,
+          created_at: kategori.km_created,
+          updated_at: kategori.km_updated,
         };
       })
       .catch((error) => {
