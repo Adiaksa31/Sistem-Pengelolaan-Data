@@ -124,6 +124,7 @@ class Pesanan {
           costumer: {
             id: kategori.customer_id,
             nama: kategori.nama,
+            no_wa: kategori.no_wa,
           },
           sumber: kategori.sumber,
           type_motor: kategori.type_motor,
@@ -266,6 +267,7 @@ class Pesanan {
               costumer: {
                 id: kategori.customer_id,
                 nama: kategori.nama,
+                no_wa: kategori.no_wa,
               },
               sumber: kategori.sumber,
               type_motor: kategori.type_motor,

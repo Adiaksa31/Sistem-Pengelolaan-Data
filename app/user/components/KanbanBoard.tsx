@@ -81,6 +81,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       <div ref={ref} className={`bg-white p-3 shadow rounded mb-2 ${isDragging ? 'opacity-50' : ''}`}>
         <div className='bg-gray-200 w-auto rounded'>
           <p className="text-sm px-2 p-1"><strong>Nama:</strong> {order.nama}</p>
+          <p className="text-sm px-2 p-1"><strong>No Wa:</strong> {order.no_wa}</p>
           <p className="text-sm px-2 "><strong>Kategori:</strong> {order.kategori}</p>
           <p className="text-sm px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap md:overflow-visible md:text-normal md:whitespace-normal lg:text-normal lg:whitespace-normal xl:text-normal xl:whitespace-normal"><strong>Keterangan:</strong> {order.keterangan}</p>
         </div>

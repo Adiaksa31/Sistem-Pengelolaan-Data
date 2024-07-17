@@ -74,9 +74,10 @@ export default function Home() {
         <input
           type="email"
           name="email"
-          placeholder="Username"
+          placeholder="Masukkan Email..."
           required
           value={email}
+          autoComplete="off"
           onChange={(e) => setUsername(e.target.value)}
         />
         <svg
@@ -97,7 +98,7 @@ export default function Home() {
       <input
         type={showPassword ? "text" : "password"} 
         name="password"
-        placeholder="Password"
+        placeholder="Masukkan Password..."
         required
         value={password}
         onChange={(e) => setPassword(e.target.value)}

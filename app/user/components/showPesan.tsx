@@ -8,6 +8,7 @@ type Order = {
   kategori: any;
   kategori_id: any;
   costumer: any;
+  no_wa: any;
   costumer_id: any;
   sumber: string;
   type_motor: string;
@@ -35,6 +36,7 @@ type Pesanan = {
   kategori: any;
   kategori_id: any;
   costumer: any;
+  no_wa: any;
   costumer_id: any;
   sumber: string;
   type_motor: string;
@@ -116,6 +118,9 @@ const ShowPesan: React.FC<ShowPesanProps> = ({ pesanan }) => {
         <ul className="list-none">
             {pesanan.nama && (
                 <li className="mb-2 text-gray-700"><strong>Nama Pelanggan:</strong> {pesanan.nama}</li>
+            )}
+             {pesanan.no_wa && (
+                <li className="mb-2 text-gray-700"><strong>Nomor WA:</strong> {pesanan.no_wa}</li>
             )}
             {pesanan.sumber && (
                 <li className="mb-2 text-gray-700"><strong>Sumber Pesanan:</strong> {pesanan.sumber}</li>

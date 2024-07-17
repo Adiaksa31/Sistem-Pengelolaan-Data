@@ -6,6 +6,7 @@ export interface Order {
     status: string;
     kategori: any;
     costumer: any;
+    no_wa: any;
     costumer_id: any;
     sumber: string;
     type_motor: string;

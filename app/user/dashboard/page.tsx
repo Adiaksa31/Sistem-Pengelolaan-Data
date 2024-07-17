@@ -34,6 +34,7 @@ const fetchOrders = async (token: string | null): Promise<Order[]> => {
         cabang: order.cabang.nama,
         cabang_id: order.cabang.id,
         nama: order.costumer.nama,
+        no_wa: order.costumer.no_wa,
         sumber: order.sumber,
         keterangan: order.keterangan,
         tanggal: order.created_at,
