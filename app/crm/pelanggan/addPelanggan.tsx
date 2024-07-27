@@ -138,7 +138,7 @@ if (!kecamatan) {
         kabupaten: kabupatenName,
       };
 
-      const response = await fetch('http://localhost:3000/api/pelanggan/store', {
+      const response = await fetch('http://103.84.207.76:3000/api/pelanggan/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ if (!kecamatan) {
   }
 
   async function getPekerjaans() {
-    const res = await fetch('http://localhost:3000/api/pekerjaan/get', {
+    const res = await fetch('http://103.84.207.76:3000/api/pekerjaan/get', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token,

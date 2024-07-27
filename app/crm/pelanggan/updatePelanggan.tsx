@@ -85,7 +85,7 @@ type Pelanggan = {
           kabupaten: kabupatenName,
       };
 
-        const response = await fetch('http://localhost:3000/api/pelanggan/update', {
+        const response = await fetch('http://103.84.207.76:3000/api/pelanggan/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ type Pelanggan = {
       }
     }
     async function getPekerjaans() {
-      const res = await fetch('http://localhost:3000/api/pekerjaan/get',{
+      const res = await fetch('http://103.84.207.76:3000/api/pekerjaan/get',{
         method: 'POST',
         headers:{
           'Authorization': 'Bearer ' + token,

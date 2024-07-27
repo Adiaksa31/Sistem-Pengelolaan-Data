@@ -26,7 +26,7 @@ type PelangganData = {
 
 async function getPelanggans() {
   try {
-    const res = await fetch('http://localhost:3000/api/pelanggan/get', {
+    const res = await fetch('http://103.84.207.76:3000/api/pelanggan/get', {
       cache: "no-store",
       method: 'POST',
       headers: {

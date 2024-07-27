@@ -36,7 +36,7 @@ type Posisi = {
         const params = new URLSearchParams();
         params.append('id', posisiId.toString());
 
-        const response = await fetch('http://localhost:3000/api/jabatan/delete', {
+        const response = await fetch('http://103.84.207.76:3000/api/jabatan/delete', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

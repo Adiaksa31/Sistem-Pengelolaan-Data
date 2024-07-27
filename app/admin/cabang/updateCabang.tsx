@@ -44,7 +44,7 @@ type Cabang = {
           status_cabang,
         };
 
-        const response = await fetch('http://localhost:3000/api/cabang/update', {
+        const response = await fetch('http://103.84.207.76:3000/api/cabang/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

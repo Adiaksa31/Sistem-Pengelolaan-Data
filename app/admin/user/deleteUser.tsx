@@ -38,7 +38,7 @@ export default function DeleteUser({ user, reloadTable }: DeleteUserProps) {
       const params = new URLSearchParams();
       params.append('id', userId.toString());
 
-      const response = await fetch('http://localhost:3000/api/user/delete', {
+      const response = await fetch('http://103.84.207.76:3000/api/user/delete', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

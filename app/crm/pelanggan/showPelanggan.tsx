@@ -31,7 +31,7 @@ const ShowPelanggan: React.FC<ShowPelangganProps> = ({ pelanggan }) => {
         const params = new URLSearchParams();
         params.append('id', pelanggan.id.toString());
 
-        const response = await fetch('http://localhost:3000/api/pelanggan/detail', {
+        const response = await fetch('http://103.84.207.76:3000/api/pelanggan/detail', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

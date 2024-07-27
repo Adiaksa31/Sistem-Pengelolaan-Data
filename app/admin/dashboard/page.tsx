@@ -38,15 +38,15 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchDataForDashboard() {
       try {
-        const posisiData = await fetchData('http://localhost:3000/api/jabatan/get');
+        const posisiData = await fetchData('http://103.84.207.76:3000/api/jabatan/get');
         setPosisis(posisiData);
-        const userData = await fetchData('http://localhost:3000/api/user/get');
+        const userData = await fetchData('http://103.84.207.76:3000/api/user/get');
         setUsers(userData);
-        const kategoriData = await fetchData('http://localhost:3000/api/kategori/get');
+        const kategoriData = await fetchData('http://103.84.207.76:3000/api/kategori/get');
         setKategoris(kategoriData);
-        const cabangData = await fetchData('http://localhost:3000/api/cabang/get');
+        const cabangData = await fetchData('http://103.84.207.76:3000/api/cabang/get');
         setCabangs(cabangData);
-        const pekerjaanData = await fetchData('http://localhost:3000/api/pekerjaan/get');
+        const pekerjaanData = await fetchData('http://103.84.207.76:3000/api/pekerjaan/get');
         setPekerjaans(pekerjaanData);
       } catch (error) {
       

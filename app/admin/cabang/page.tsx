@@ -11,7 +11,7 @@ import token from "../components/token";
 import { useState, useEffect } from 'react';
 
 async function getCabangs() {
-  const res = await fetch('http://localhost:3000/api/cabang/get',{
+  const res = await fetch('http://103.84.207.76:3000/api/cabang/get',{
     cache: "no-store",
     method: 'POST',
     headers:{

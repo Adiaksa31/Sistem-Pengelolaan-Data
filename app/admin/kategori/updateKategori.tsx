@@ -38,7 +38,7 @@ type Kategori = {
           status,
         };
 
-        const response = await fetch('http://localhost:3000/api/kategori/update', {
+        const response = await fetch('http://103.84.207.76:3000/api/kategori/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

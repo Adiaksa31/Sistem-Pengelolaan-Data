@@ -78,7 +78,7 @@ export default function AddUser({ reloadTable }: AddUserProps) {
         posisi_id,
         cabang_id,
       };
-      const response = await fetch('http://localhost:3000/api/user/store', {
+      const response = await fetch('http://103.84.207.76:3000/api/user/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export default function AddUser({ reloadTable }: AddUserProps) {
 
 
   async function getPosisis() {
-    const res = await fetch('http://localhost:3000/api/jabatan/get',{
+    const res = await fetch('http://103.84.207.76:3000/api/jabatan/get',{
       method: 'POST',
       headers:{
         'Authorization': 'Bearer ' + token,
@@ -125,7 +125,7 @@ export default function AddUser({ reloadTable }: AddUserProps) {
     return res;
   }
   async function getCabangs() {
-    const res = await fetch('http://localhost:3000/api/cabang/get',{
+    const res = await fetch('http://103.84.207.76:3000/api/cabang/get',{
       method: 'POST',
       headers:{
         'Authorization': 'Bearer ' + token,

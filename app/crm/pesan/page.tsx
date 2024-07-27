@@ -13,7 +13,7 @@ import token from "../components/token";
 import DownloadExcel from "./downloadExcelPesan";
 
 async function getPesanans() {
-  const res = await fetch('http://localhost:3000/api/pesanan/get',{
+  const res = await fetch('http://103.84.207.76:3000/api/pesanan/get',{
     cache: "no-store",
     method: 'POST',
     headers:{
