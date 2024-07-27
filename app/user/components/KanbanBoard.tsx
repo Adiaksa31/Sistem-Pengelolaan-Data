@@ -76,7 +76,12 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
       month: 'long',
       year: 'numeric',
     });
-
+    const formattedOrderUpdate = new Date(order.update).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+    const duration = Math.floor((new Date(order.update).getTime() - new Date(order.tanggal).getTime()) / (1000 * 60 * 60 * 24));
     return (
       <div ref={ref} className={`bg-white p-3 shadow rounded mb-2 ${isDragging ? 'opacity-50' : ''}`}>
         <div className='bg-gray-200 w-auto rounded'>
@@ -89,6 +94,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
           <div>
             <p className="flex items-center gap-1 text-sm"><strong><HiUser className='text-D32124' /></strong>{order.tujuan_user.nama}</p>
             <p className="flex items-center gap-1 text-sm"><strong><HiCalendar className='text-D32124' /></strong>{formattedOrderTanggal}</p>
+            {/* <p className="flex items-center gap-1 text-sm"><strong><HiCalendar className='text-D32124' /></strong>{formattedOrderUpdate}</p>
+            <p className="text-sm"><strong>Rentan Proses:</strong> {(duration + 1)} Hari</p> */}
           </div>
           <ShowPesan pesanan={order} />
         </div>

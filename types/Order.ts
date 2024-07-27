@@ -3,6 +3,7 @@ export interface Order {
     kategori_id: number;
     nama: string;
     tanggal: string;
+    update: any;
     status: string;
     kategori: any;
     costumer: any;
@@ -26,4 +27,5 @@ export interface Order {
     crm_id: any;
     tujuan_user: any;
     status_kontak: string;
+    created_at: any;
   }

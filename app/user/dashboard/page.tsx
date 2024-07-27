@@ -38,6 +38,7 @@ const fetchOrders = async (token: string | null): Promise<Order[]> => {
         sumber: order.sumber,
         keterangan: order.keterangan,
         tanggal: order.created_at,
+        update: order.updated_at,
         status: order.status_kontak,
         type_motor: order.type_motor,
         warna_motor: order.warna_motor,

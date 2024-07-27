@@ -78,7 +78,6 @@ export default function AddUser({ reloadTable }: AddUserProps) {
         posisi_id,
         cabang_id,
       };
-  
       const response = await fetch('http://localhost:3000/api/user/store', {
         method: 'POST',
         headers: {
