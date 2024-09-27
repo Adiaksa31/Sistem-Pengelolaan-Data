@@ -33,7 +33,7 @@ export default function AddPekerjaan({ reloadTable }: AddPekerjaanProps) {
         nama,
       };
 
-      const response = await fetch('http://103.84.207.76:3000/api/pekerjaan/store', {
+      const response = await fetch('http://localhost:3000/api/pekerjaan/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

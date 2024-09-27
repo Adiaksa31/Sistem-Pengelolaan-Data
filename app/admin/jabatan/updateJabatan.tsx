@@ -38,7 +38,7 @@ type Posisi = {
           status,
         };
 
-        const response = await fetch('http://103.84.207.76:3000/api/jabatan/update', {
+        const response = await fetch('http://localhost:3000/api/jabatan/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

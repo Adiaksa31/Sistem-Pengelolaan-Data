@@ -33,7 +33,7 @@ export default function AddJabatan({ reloadTable }: AddJabatanProps) {
         nama,
       };
   
-      const response = await fetch('http://103.84.207.76:3000/api/jabatan/store', {
+      const response = await fetch('http://localhost:3000/api/jabatan/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

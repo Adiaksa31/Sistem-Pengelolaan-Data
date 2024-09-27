@@ -129,7 +129,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
         status_kontak,
       };
   
-      const response = await fetch('http://103.84.207.76:3000/api/pesanan/store', {
+      const response = await fetch('http://localhost:3000/api/pesanan/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
   }  
 
   async function getPelanggans() {
-    const res = await fetch('http://103.84.207.76:3000/api/pelanggan/get',{
+    const res = await fetch('http://localhost:3000/api/pelanggan/get',{
       method: 'POST',
       headers:{
         'Authorization': 'Bearer ' + token,
@@ -169,7 +169,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
     return res;
   }
   async function getUsers() {
-    const res = await fetch('http://103.84.207.76:3000/api/user/get',{
+    const res = await fetch('http://localhost:3000/api/user/get',{
       method: 'POST',
       headers:{
         'Authorization': 'Bearer ' + token,
@@ -185,7 +185,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
     return res;
   }
   async function getKategoris() {
-    const res = await fetch('http://103.84.207.76:3000/api/kategori/get',{
+    const res = await fetch('http://localhost:3000/api/kategori/get',{
       method: 'POST',
       headers:{
         'Authorization': 'Bearer ' + token,
@@ -201,7 +201,7 @@ export default function AddPesan({ reloadTable }: AddPesanProps) {
     return res;
   }
   async function getCabangs() {
-    const res = await fetch('http://103.84.207.76:3000/api/cabang/get',{
+    const res = await fetch('http://localhost:3000/api/cabang/get',{
       method: 'POST',
       headers:{
         'Authorization': 'Bearer ' + token,

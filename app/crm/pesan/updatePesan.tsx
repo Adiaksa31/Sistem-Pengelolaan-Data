@@ -104,7 +104,7 @@ type Pesanan = {
           status_kontak,
         };
 
-        const response = await fetch('http://103.84.207.76:3000/api/pesanan/update', {
+        const response = await fetch('http://localhost:3000/api/pesanan/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ type Pesanan = {
       }
     }
     async function getUsers() {
-      const res = await fetch('http://103.84.207.76:3000/api/user/get',{
+      const res = await fetch('http://localhost:3000/api/user/get',{
         method: 'POST',
         headers:{
           'Authorization': 'Bearer ' + token,
@@ -146,7 +146,7 @@ type Pesanan = {
       return res;
     }
     async function getKategoris() {
-      const res = await fetch('http://103.84.207.76:3000/api/kategori/get',{
+      const res = await fetch('http://localhost:3000/api/kategori/get',{
         method: 'POST',
         headers:{
           'Authorization': 'Bearer ' + token,
@@ -161,7 +161,7 @@ type Pesanan = {
       return res;
     }
     async function getCabangs() {
-      const res = await fetch('http://103.84.207.76:3000/api/cabang/get',{
+      const res = await fetch('http://localhost:3000/api/cabang/get',{
         method: 'POST',
         headers:{
           'Authorization': 'Bearer ' + token,

@@ -57,7 +57,7 @@ export default function AddCabang({ reloadTable }: AddCabangProps) {
         nomor,
       };
   
-      const response = await fetch('http://103.84.207.76:3000/api/cabang/store', {
+      const response = await fetch('http://localhost:3000/api/cabang/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

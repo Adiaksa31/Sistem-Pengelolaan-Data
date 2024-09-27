@@ -7,7 +7,7 @@ import Chart from "../components/chart";
 import PieCharts from "../components/pieCharts";
 
 async function getPelanggans() {
-  const res = await fetch('http://103.84.207.76:3000/api/pelanggan/get',{
+  const res = await fetch('http://localhost:3000/api/pelanggan/get',{
   cache: "no-store",  
   method: 'POST',
     headers:{
@@ -24,7 +24,7 @@ async function getPelanggans() {
   return res;
 }
 async function getPesanans() {
-  const res = await fetch('http://103.84.207.76:3000/api/pesanan/get',{
+  const res = await fetch('http://localhost:3000/api/pesanan/get',{
     cache: "no-store",
     method: 'POST',
     headers:{

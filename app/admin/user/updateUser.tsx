@@ -56,7 +56,7 @@ type User = {
           status,
         };
 
-        const response = await fetch('http://103.84.207.76:3000/api/user/update', {
+        const response = await fetch('http://localhost:3000/api/user/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ type User = {
       }
     }
     async function getPosisis() {
-      const res = await fetch('http://103.84.207.76:3000/api/jabatan/get',{
+      const res = await fetch('http://localhost:3000/api/jabatan/get',{
         method: 'POST',
         headers:{
           'Authorization': 'Bearer ' + token,
@@ -99,7 +99,7 @@ type User = {
       return res;
     }
     async function getCabangs() {
-      const res = await fetch('http://103.84.207.76:3000/api/cabang/get',{
+      const res = await fetch('http://localhost:3000/api/cabang/get',{
         method: 'POST',
         headers:{
           'Authorization': 'Bearer ' + token,

@@ -30,7 +30,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ initialOrders }) => {
 
   const updateOrderStatus = async (orderId: number, status_kontak: string) => {
     try {
-      const res = await fetch(`http://103.84.207.76:3000/api/pesanan/update`, {
+      const res = await fetch(`http://localhost:3000/api/pesanan/update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -42,7 +42,7 @@ const ShowPesan: React.FC<ShowPesanProps> = ({ pesanan }) => {
         const params = new URLSearchParams();
         params.append('id', pesanan.id.toString());
 
-        const response = await fetch('http://103.84.207.76:3000/api/pesanan/detail', {
+        const response = await fetch('http://localhost:3000/api/pesanan/detail', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

@@ -33,7 +33,7 @@ type Pekerjaan = {
           nama,
         };
 
-        const response = await fetch('http://103.84.207.76:3000/api/pekerjaan/update', {
+        const response = await fetch('http://localhost:3000/api/pekerjaan/update', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ import token from "../components/token";
 
 async function getUsers() {
   try {
-    const res = await fetch('http://103.84.207.76:3000/api/user/get', {
+    const res = await fetch('http://localhost:3000/api/user/get', {
       cache: "no-store",
       method: 'POST',
       headers: {

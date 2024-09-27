@@ -16,7 +16,7 @@ const NavAdmAts = () => {
         // check the url is correct
         const url = window.location.href;
         const urlSplit = url.split('/');
-        // url is http://103.84.207.76:3000/admin/dashboard search for admin in url
+        // url is http://localhost:3000/admin/dashboard search for admin in url
         if (urlSplit[3] !== 'admin') {
             window.location.href = '/admin/dashboard';
         }
@@ -24,7 +24,7 @@ const NavAdmAts = () => {
         // check the url is correct
         const url = window.location.href;
         const urlSplit = url.split('/');
-        // url is http://103.84.207.76:3000/crm/dashboard search for crm in url
+        // url is http://localhost:3000/crm/dashboard search for crm in url
         if (urlSplit[3] !== 'crm') {
             window.location.href = '/crm/dashboard';
         }
@@ -32,7 +32,7 @@ const NavAdmAts = () => {
         // check the url is correct
         const url = window.location.href;
         const urlSplit = url.split('/');
-        // url is http://103.84.207.76:3000/spv/dashboard search for spv in url
+        // url is http://localhost:3000/spv/dashboard search for spv in url
         if (urlSplit[3] !== 'user') {
             window.location.href = '/user/dashboard';
         }

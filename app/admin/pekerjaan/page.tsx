@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import token from "../components/token";
 
 async function getPekerjaans() {
-  const res = await fetch('http://103.84.207.76:3000/api/pekerjaan/get',{
+  const res = await fetch('http://localhost:3000/api/pekerjaan/get',{
     cache: "no-store",
     method: 'POST',
     headers:{
